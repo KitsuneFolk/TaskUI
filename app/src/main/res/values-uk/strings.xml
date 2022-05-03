@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="menu_main_tasks">Головнi задачi</string>
+    <string name="menu_completed_tasks">Виконанi задачi</string>
+    <string name="menu_deleted_tasks">Видаленi задачi</string>
+    <string name="menu_settings">Налаштування</string>
+    <string name="menu_share">Поширити</string>
+
+    <!-- Preference Titles -->
+    <string name="settings_design">Зовнiшний вигляд</string>
+    <string name="Language_text">Мова</string>
+    <string name="Theme_text">Тема</string>
+    <string name="version">Версія</string>
+
+    <string name="settings_theme_summary">Синя</string>
+    <string name="settings_theme_default_value">blue</string>
+    <string name="settings_language_default_value">uk</string>
+    <string name="settings_language_summary">Українська</string>
+
+    <!--  Share views  -->
+    <string name="share_thanks">Дякую що поширили наш додаток!</string>
+    <string name="settings_another">Iнше</string>
+
+</resources>

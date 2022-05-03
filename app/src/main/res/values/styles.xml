@@ -1,13 +1,13 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme. -->
-    <style name="BlueTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+    <style name="BlueTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="android:colorBackground">@color/BlueTheme_Background</item>
         <item name="colorPrimary">@color/BlueTheme_colorPrimary</item>
         <item name="colorPrimaryDark">@color/BlueTheme_colorPrimaryDark</item>
-        <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
+        <item name="colorAccent">@color/BlueTheme_colorAccent</item>
         <item name="android:textColor">@color/TextColor</item>
+        <item name="android:navigationBarColor">@color/BlueTheme_colorPrimary</item>
 
         <item name="buttonStyle">@style/BlueTheme_Button</item>
         <item name="editTextStyle">@style/BlueTheme_EditText</item>
@@ -16,7 +16,6 @@
         <item name="drawerArrowStyle">@style/BlueTheme_DrawerArrowToggle</item>
 
     </style>
-
     <style name="BlueTheme_Button" parent="Widget.AppCompat.Button">
         <item name="android:background">@color/BlueTheme_ButtonColor</item>
         <item name="android:textColor">@color/TextColor</item>
@@ -26,7 +25,7 @@
         <item name="android:textColorHint">@color/TextColor</item>
     </style>
     <style name="BlueTheme_Toolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:textColor">@color/TextColor</item>
+        <item name="android:colorPrimary">@color/TextColor</item>
         <item name="android:background">@color/BlueTheme_colorPrimaryDark</item>
     </style>
     <style name="BlueTheme_DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
@@ -43,14 +42,100 @@
 
     </style>
 
+    <style name="DarkTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
 
-    <style name="BlueTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+        <item name="android:colorBackground">@color/DarkTheme_Background</item>
+        <item name="colorPrimary">@color/DarkTheme_colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/DarkTheme_colorPrimaryDark</item>
+        <item name="colorAccent">@color/DarkTheme_colorAccent</item>
+        <item name="android:textColor">@color/DarkTheme_TextColor</item>
+        <item name="android:textColorSecondary">@color/DarkTheme_textColorSecondary</item>
+        <item name="android:textColorHint">@color/DarkTheme_TextColor</item>
+        <item name="android:navigationBarColor">@color/DarkTheme_colorPrimary</item>
+
+        <item name="buttonStyle">@style/DarkTheme_Button</item>
+        <item name="editTextStyle">@style/DarkTheme_EditText</item>
+        <item name="toolbarStyle">@style/DarkTheme_Toolbar</item>
+        <item name="drawerArrowStyle">@style/DarkTheme_DrawerArrowToggle</item>
+        <item name="alertDialogTheme">@style/DarkTheme_AlertDialog</item>
+
+
+    </style>
+    <style name="DarkTheme_Button" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/DarkTheme_ButtonColor</item>
+    </style>
+    <style name="DarkTheme_EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColorHint">@color/DarkTheme_TextColor</item>
+        <item name="android:textColor">@color/DarkTheme_TextColor</item>
+        <item name="android:textColorHighlight">@color/DarkTheme_TextColor</item>
+    </style>
+    <style name="DarkTheme_Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColor">@color/DarkTheme_TextColor</item>
+        <item name="android:background">@color/DarkTheme_colorPrimaryDark</item>
+        <item name="actionMenuTextColor">@color/TextColor</item>
+
+    </style>
+    <style name="DarkTheme_DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/DarkTheme_TextColor</item>
+
+    </style>
+    <style name="DarkTheme_AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <!--  This theme needs for ListPreference background  -->
+        <item name="android:colorBackground">@color/DarkTheme_Background</item>
+        <item name="android:textColorSecondary">#FFFFFF</item>
+        <item name="textColorAlertDialogListItem">@color/DarkTheme_TextColor</item>
+        <item name="color">@color/DarkTheme_Background</item>
+    </style>
+
+    <style name="RedTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+        <item name="android:colorBackground">@color/RedTheme_Background</item>
+        <item name="colorPrimary">@color/RedTheme_colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/RedTheme_colorPrimaryDark</item>
+        <item name="colorAccent">@color/RedTheme_colorAccent</item>
+        <item name="android:textColor">@color/TextColor</item>
+        <item name="android:textColorSecondary">@color/RedTheme_textColorSecondary</item>
+        <item name="android:textColorHint">@color/TextColor</item>
+        <item name="android:navigationBarColor">@color/RedTheme_colorPrimary</item>
+
+        <item name="buttonStyle">@style/RedTheme_Button</item>
+        <item name="editTextStyle">@style/RedTheme_EditText</item>
+        <item name="drawerArrowStyle">@style/RedTheme_DrawerArrowToggle</item>
+        <item name="alertDialogTheme">@style/RedTheme_AlertDialog</item>
+
+    </style>
+    <style name="RedTheme_Button" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/RedTheme_ButtonColor</item>
+    </style>
+    <style name="RedTheme_EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColorHint">@color/TextColor</item>
+        <item name="android:textColor">@color/TextColor</item>
+        <item name="android:textColorHighlight">@color/TextColor</item>
+    </style>
+    <style name="RedTheme_DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="android:background">@color/TextColor</item>
+        <item name="color">@color/TextColor</item>
+
+    </style>
+    <style name="RedTheme_Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColor">@color/TextColor</item>
+        <item name="android:background">@color/RedTheme_colorPrimaryDark</item>
+    </style>
+    <style name="RedTheme_AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--  This theme needs for ListPreference background  -->
+        <item name="android:colorBackground">@color/RedTheme_Background</item>
+        <item name="android:textColorSecondary">#FFFFFF</item>
+        <item name="textColorAlertDialogListItem">@color/TextColor</item>
+        <item name="color">@color/RedTheme_Background</item>
     </style>
 
     <style name="BlueTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="BlueTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
-    <style name="BlueTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="DarkTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="DarkTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="RedTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="RedTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

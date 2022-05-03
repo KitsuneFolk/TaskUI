@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="menu_main_tasks">Главные задачи</string>
+    <string name="menu_completed_tasks">Завершённые задачи</string>
+    <string name="menu_deleted_tasks">Удалённые задачи</string>
+    <string name="menu_settings">Настройки</string>
+    <string name="menu_share">Поделиться</string>
+
+    <!-- Preference Titles -->
+    <string name="settings_design">Внешний вид</string>
+    <string name="Language_text">Язык</string>
+    <string name="Theme_text">Тема</string>
+    <string name="version">Версия</string>
+
+
+    <string name="settings_theme_summary">Синяя</string>
+    <string name="settings_theme_default_value">blue</string>
+    <string name="settings_language_default_value">ru</string>
+    <string name="settings_language_summary">Русский</string>
+
+    <!--  Share views  -->
+    <string name="share_thanks">Спасибо что поделились нашим приложением!</string>
+    <string name="settings_another">Другое</string>
+
+</resources>
