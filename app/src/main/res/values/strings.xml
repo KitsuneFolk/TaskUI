@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TasksUI</string>
+
+    <string name="menu_main_tasks">Main tasks</string>
+    <string name="menu_completed_tasks">Completed tasks</string>
+    <string name="menu_deleted_tasks">Deleted tasks</string>
+    <string name="menu_settings">Settings</string>
+    <string name="menu_share">Share</string>
+</resources>

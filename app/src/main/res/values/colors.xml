@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="BlueTheme_colorPrimary">#4B68FF</color>
+    <color name="BlueTheme_colorPrimaryDark">#4B68FF</color>
+    <color name="BlueTheme_Background">#82B1FF</color>
+    <color name="BlueTheme_ButtonColor">#64AAFF</color>
+    <color name="BlueTheme_textColorSecondary">#BF5052E7</color>
+
+    <color name="TextColor">#FFF</color>
+</resources>

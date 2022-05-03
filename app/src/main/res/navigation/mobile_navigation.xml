@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_main_tasks">
+
+    <fragment
+        android:id="@+id/nav_main_tasks"
+        android:name="com.pandacorp.taskui.ui.main_tasks.MainTasksFragment"
+        android:label="@string/menu_main_tasks"
+        tools:layout="@layout/fragment_main_tasks" />
+
+    <fragment
+        android:id="@+id/nav_completed_tasks"
+        android:name="com.pandacorp.taskui.ui.completed_tasks.CompletedTasksFragment"
+        android:label="@string/menu_completed_tasks"
+        tools:layout="@layout/fragment_completed_tasks" />
+
+    <fragment
+        android:id="@+id/nav_deleted_tasks"
+        android:name="com.pandacorp.taskui.ui.deleted_tasks.DeletedTasksFragment"
+        android:label="@string/menu_deleted_tasks"
+        tools:layout="@layout/fragment_deleted_tasks" />
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.pandacorp.taskui.ui.settings.SettingsFragment"
+        android:label="@string/menu_settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_share"
+        android:name="com.pandacorp.taskui.ui.share.ShareFragment"
+        android:label="@string/menu_share"
+        tools:layout="@layout/fragment_share" />
+
+</navigation>

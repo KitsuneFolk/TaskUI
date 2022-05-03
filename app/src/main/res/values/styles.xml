@@ -1,0 +1,56 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="BlueTheme" parent="Theme.AppCompat.DayNight.DarkActionBar">
+
+        <item name="android:colorBackground">@color/BlueTheme_Background</item>
+        <item name="colorPrimary">@color/BlueTheme_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/BlueTheme_colorPrimaryDark</item>
+        <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
+        <item name="android:textColor">@color/TextColor</item>
+
+        <item name="buttonStyle">@style/BlueTheme_Button</item>
+        <item name="editTextStyle">@style/BlueTheme_EditText</item>
+        <item name="toolbarStyle">@style/BlueTheme_Toolbar</item>
+        <item name="alertDialogTheme">@style/BlueTheme_AlertDialog</item>
+        <item name="drawerArrowStyle">@style/BlueTheme_DrawerArrowToggle</item>
+
+    </style>
+
+    <style name="BlueTheme_Button" parent="Widget.AppCompat.Button">
+        <item name="android:background">@color/BlueTheme_ButtonColor</item>
+        <item name="android:textColor">@color/TextColor</item>
+    </style>
+    <style name="BlueTheme_EditText" parent="Widget.AppCompat.EditText">
+        <item name="android:textColor">@color/TextColor</item>
+        <item name="android:textColorHint">@color/TextColor</item>
+    </style>
+    <style name="BlueTheme_Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:textColor">@color/TextColor</item>
+        <item name="android:background">@color/BlueTheme_colorPrimaryDark</item>
+    </style>
+    <style name="BlueTheme_DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="android:background">@color/TextColor</item>
+        <item name="color">@color/TextColor</item>
+
+    </style>
+    <style name="BlueTheme_AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
+        <!--  This theme needs for ListPreference background  -->
+        <item name="android:colorBackground">@color/BlueTheme_Background</item>
+        <item name="android:textColorSecondary">#448AFF</item>
+        <item name="textColorAlertDialogListItem">@color/TextColor</item>
+        <item name="color">@color/BlueTheme_Background</item>
+
+    </style>
+
+
+    <style name="BlueTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="BlueTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="BlueTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>
