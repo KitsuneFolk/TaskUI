@@ -30,7 +30,8 @@
             android:layout_height="56dp"
             android:layout_gravity="center"
             android:backgroundTint="?android:attr/colorPrimary"
-            android:src="@drawable/ic_add_black_24dp" />
+            android:src="@drawable/ic_add_black_24dp"
+            tools:src="@drawable/ic_add_black_24dp"/>
 
     </FrameLayout>
 

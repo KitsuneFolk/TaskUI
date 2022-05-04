@@ -8,6 +8,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.pandacorp.taskui.ui.MySettings;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -21,6 +22,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MySettings mySettings = new MySettings(this);
+        mySettings.load();
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -29,8 +33,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_main_tasks, R.id.nav_completed_tasks, R.id.nav_deleted_tasks,
-                R.id.nav_settings, R.id.nav_share)
+                R.id.nav_main_tasks, R.id.nav_completed_tasks, R.id.nav_deleted_tasks, R.id.nav_share)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

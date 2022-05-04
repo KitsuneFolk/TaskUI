@@ -22,4 +22,10 @@
     <string name="share_thanks">Дякую що поширили наш додаток!</string>
     <string name="settings_another">Iнше</string>
 
+    <!--  show_layout  -->
+    <string name="show_layout_task">Задача</string>
+    <string name="show_layout_title">Введiть задачу</string>
+    <string name="show_layout_accept">Приняти</string>
+    <string name="show_layout_back">Назад</string>
+
 </resources>

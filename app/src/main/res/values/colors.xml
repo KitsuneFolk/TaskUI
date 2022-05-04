@@ -33,6 +33,7 @@
 
     <!--  Another  -->
     <color name="TextColor">#FFFFFF</color>
+    <color name="Red">#FF0000</color>
 
 
 </resources>

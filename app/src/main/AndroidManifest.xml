@@ -10,11 +10,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BlueTheme"
+        android:requestLegacyExternalStorage="true"
         tools:ignore="GoogleAppIndexingWarning"
-        android:screenOrientation="portrait">
+        tools:targetApi="q">
+        <activity android:name=".ui.SetTaskActivity"></activity>
         <activity
-            android:name="com.pandacorp.taskui.MainActivity"
-            android:label="@string/app_name">
+            android:name=".ui.settings.SettingsActivity"
+            android:label="@string/menu_settings"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

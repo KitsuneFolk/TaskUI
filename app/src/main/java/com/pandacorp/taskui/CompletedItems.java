@@ -1,5 +1,7 @@
 package com.pandacorp.taskui;
 
+import com.pandacorp.taskui.ui.Adapter.ListItem;
+
 import java.util.ArrayList;
 
 public class CompletedItems {

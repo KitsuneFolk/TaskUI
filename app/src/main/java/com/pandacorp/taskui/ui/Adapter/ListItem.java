@@ -1,4 +1,4 @@
-package com.pandacorp.taskui;
+package com.pandacorp.taskui.ui.Adapter;
 
 public class ListItem {
     private String mainText;

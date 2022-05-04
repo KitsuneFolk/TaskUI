@@ -14,22 +14,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.taskui.CompletedItems;
-import com.pandacorp.taskui.CustomAdapter;
-import com.pandacorp.taskui.ListItem;
+import com.pandacorp.taskui.ui.Adapter.CustomAdapter;
+import com.pandacorp.taskui.ui.Adapter.ListItem;
 import com.pandacorp.taskui.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class CompletedTasksFragment extends Fragment {
-
-    private final String TAG = "MyLogs";
-    private final String ALERT_DIALOG_TITLE = "Продукты";
-    private final String ALERT_DIALOG_MESSAGE = "Введите название";
-    private final String ALERT_DIALOG_POSITIVE = "Принять";
-    private final String ALERT_DIALOG_NEGATIVE = "Назад";
-
-    private String value;
 
     private RecyclerView recyclerView;
     private CustomAdapter adapter;

@@ -1,4 +1,4 @@
-package com.pandacorp.taskui;
+package com.pandacorp.taskui.ui.Adapter;
 
 import android.app.Activity;
 import android.util.Log;
@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.pandacorp.taskui.CompletedItems;
+import com.pandacorp.taskui.R;
 
 import java.util.List;
 
@@ -40,26 +42,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        delete_cb_init(holder, position);
+
+    }
+    private void delete_cb_init(final ViewHolder holder, final int position){
+        Log.d(TAG, "CustomAdapter.onBindViewHolder.onClick: position = " + position);
         final ListItem listItem = listItems.get(position);
-        holder.bindData(listItem);
         Log.d(TAG, "onBindViewHolder: " + listItem.toString());
+        holder.bindData(listItem);
         holder.delete_cb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "CustomAdapter.onBindViewHolder.onClick: position = " + position);
                 removeItem(position);
-                try {
-                    CompletedItems.addCompletedItem(listItems.get(position));
-                } catch (Exception e) {
-                    CompletedItems.addCompletedItem(listItems.get(position - 1));
-                    //Если нажимаем на последний элемент, то этот код не даст выскочить ошибке.
-                }
-                Log.d(TAG, "onClick: after setCompleteItem");
                 Snackbar snackbar = Snackbar.make(activity.getWindow().getDecorView().getRootView(), " Task is completed!", Snackbar.LENGTH_LONG);
                 snackbar.setAction("UNDO", new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
                         restoreItem(listItem, position);
                         holder.delete_cb.setChecked(false);
                         //Убирает галочку на чекбоксе, когда элемент возвращается.
@@ -68,9 +66,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
                     }
                 });
                 snackbar.show();
-
             }
         });
+
     }
 
     @Override
@@ -104,7 +102,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         public void bindData(final ListItem listItem) {
             main_tv.setText(listItem.getMainText());
-            Log.d(TAG, "bindData: " + i);
             i++;
         }
 

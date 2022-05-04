@@ -19,7 +19,7 @@
 
     </group>
 
-    <item android:title="Tools">
+    <item android:title="@string/settings_another">
         <menu>
             <item
                 android:id="@+id/nav_settings"

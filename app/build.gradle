@@ -10,7 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        setProperty("archivesBaseName", "TaskUI-"+versionName)
+        setProperty("archivesBaseName", "TaskUI-" + versionName)
     }
     buildTypes {
         release {
@@ -37,5 +37,6 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.google.android.material:material:1.6.0-alpha02'
-}
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.1'
 
+}

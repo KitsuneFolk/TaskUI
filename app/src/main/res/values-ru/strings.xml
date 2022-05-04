@@ -23,4 +23,10 @@
     <string name="share_thanks">Спасибо что поделились нашим приложением!</string>
     <string name="settings_another">Другое</string>
 
+    <!--  show_layout  -->
+    <string name="show_layout_task">Задача</string>
+    <string name="show_layout_title">Введите задачу</string>
+    <string name="show_layout_accept">Принять</string>
+    <string name="show_layout_back">Назад</string>
+
 </resources>

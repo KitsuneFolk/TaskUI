@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
+    android:background="?background"
     app:startDestination="@+id/nav_main_tasks">
 
     <fragment
@@ -25,7 +26,7 @@
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.pandacorp.taskui.ui.settings.SettingsFragment"
+        android:name="com.pandacorp.taskui.ui.settings.SettingsActivity$SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
 

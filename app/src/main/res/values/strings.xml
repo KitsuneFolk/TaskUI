@@ -21,4 +21,11 @@
     <!--  Share views  -->
     <string name="share_thanks">Thanks for sharing the app!</string>
     <string name="settings_another">Another</string>
+
+    <!--  show_layout  -->
+    <string name="show_layout_task">Task</string>
+    <string name="show_layout_title">Enter the task</string>
+    <string name="show_layout_accept">Accept</string>
+    <string name="show_layout_back">Back</string>
+
 </resources>
