@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- BlueTheme -->
-    <color name="BlueTheme_colorPrimary">#4B68FF</color>
-    <color name="BlueTheme_colorPrimaryDark">#0B67CF</color>
-    <color name="BlueTheme_colorAccent">#7E57C2</color>
-    <color name="BlueTheme_Background">#82B1FF</color>
+    <color name="BlueTheme_colorPrimary">#3232FF</color>
+    <color name="BlueTheme_colorPrimaryDark">#3232FF</color>
+    <color name="BlueTheme_colorAccent">#FF1FF4</color>
+    <color name="BlueTheme_Background">#4B68FF</color>
     <color name="BlueTheme_ButtonColor">#2196F3</color>
-    <color name="BlueTheme_textColorSecondary">#BF5052E7</color>
+    <color name="BlueTheme_textColorSecondary">#BFD1D1FF</color>
     <color name="BlueTheme_NavigationBar">#90CAF9</color>
 
     <!--  DarkTheme  -->
@@ -22,7 +22,7 @@
 
     <!--  RedTheme  -->
     <color name="RedTheme_colorPrimary">#F50000</color>
-    <color name="RedTheme_colorPrimaryDark">#FF2020</color>
+    <color name="RedTheme_colorPrimaryDark">#F50000</color>
     <color name="RedTheme_colorAccent">#FCA727</color>
     <color name="RedTheme_Background">#FF3C3C</color>
     <color name="RedTheme_ActionBar">#E57373</color>

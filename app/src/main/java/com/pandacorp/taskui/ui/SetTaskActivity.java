@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.widget.EditText;
 
 import com.pandacorp.taskui.DBHelper;
 import com.pandacorp.taskui.R;
+import com.pandacorp.taskui.ui.main_tasks.MainTasksFragment;
 
 public class SetTaskActivity extends AppCompatActivity implements View.OnClickListener {
     private Button set_task_accept_btn;
@@ -40,10 +42,10 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.set_task_accept_btn:
-                Log.d("MyLogs", "onClick: set_task_accept_btn was clicked");
 
                 if (String.valueOf(set_task_editText.getText()) != ""){
                     String task_text = String.valueOf(set_task_editText.getText());
+                    Log.d("MyLogs", "onClick: task_text = " + task_text);
                     SQLiteDatabase database = dbHelper.getWritableDatabase();
 
                     ContentValues contentValues = new ContentValues();
@@ -53,7 +55,8 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
                     database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
                     dbHelper.close();
                     setResult(RESULT_OK);
-                    finish();
+
+                    this.finish();
 
                 }
             break;

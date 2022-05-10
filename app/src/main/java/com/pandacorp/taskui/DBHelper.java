@@ -25,11 +25,17 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + MAIN_TASKS_TABLE_NAME + "(" + KEY_ID
                 + " integer primary key," + KEY_TASK_TEXT + " text" + ")");
+        db.execSQL("create table " + COMPLETED_TASKS_TABLE_NAME + "(" + KEY_ID
+                + " integer primary key," + KEY_TASK_TEXT + " text" + ")");
+        db.execSQL("create table " + DELETED_TASKS_TABLE_NAME + "(" + KEY_ID
+                + " integer primary key," + KEY_TASK_TEXT + " text" + ")");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("drop table if exists " + MAIN_TASKS_TABLE_NAME);
+        db.execSQL("drop table if exists " + COMPLETED_TASKS_TABLE_NAME);
+        db.execSQL("drop table if exists " + DELETED_TASKS_TABLE_NAME);
 
         onCreate(db);
     }

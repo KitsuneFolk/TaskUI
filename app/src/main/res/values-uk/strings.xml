@@ -27,5 +27,11 @@
     <string name="show_layout_title">Введiть задачу</string>
     <string name="show_layout_accept">Приняти</string>
     <string name="show_layout_back">Назад</string>
+    <string name="speed_dial">Швидкий набiр</string>
+    <string name="snackbar_undo">Вiдмiнити</string>
+    <string name="snackbar_removed">Задача видалена!</string>
+    <string name="snackbar_completed">Задача виконана!</string>
+
+
 
 </resources>

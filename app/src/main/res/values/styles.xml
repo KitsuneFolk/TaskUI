@@ -4,16 +4,19 @@
 
         <item name="android:colorBackground">@color/BlueTheme_Background</item>
         <item name="colorPrimary">@color/BlueTheme_colorPrimary</item>
-        <item name="colorPrimaryDark">@color/BlueTheme_colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/BlueTheme_colorPrimary</item>
         <item name="colorAccent">@color/BlueTheme_colorAccent</item>
         <item name="android:textColor">@color/TextColor</item>
         <item name="android:navigationBarColor">@color/BlueTheme_colorPrimary</item>
+        <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
+
 
         <item name="buttonStyle">@style/BlueTheme_Button</item>
         <item name="editTextStyle">@style/BlueTheme_EditText</item>
         <item name="toolbarStyle">@style/BlueTheme_Toolbar</item>
         <item name="alertDialogTheme">@style/BlueTheme_AlertDialog</item>
         <item name="drawerArrowStyle">@style/BlueTheme_DrawerArrowToggle</item>
+        <item name="snackbarStyle">@style/BlueTheme_SnackBar</item>
 
     </style>
     <style name="BlueTheme_Button" parent="Widget.AppCompat.Button">
@@ -41,6 +44,9 @@
         <item name="color">@color/BlueTheme_Background</item>
 
     </style>
+    <style name="BlueTheme_SnackBar" parent="Widget.Design.Snackbar">
+        <item name="backgroundTint">@color/BlueTheme_colorPrimary</item>
+    </style>
 
     <style name="DarkTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
 
@@ -58,6 +64,7 @@
         <item name="toolbarStyle">@style/DarkTheme_Toolbar</item>
         <item name="drawerArrowStyle">@style/DarkTheme_DrawerArrowToggle</item>
         <item name="alertDialogTheme">@style/DarkTheme_AlertDialog</item>
+        <item name="snackbarStyle">@style/DarkTheme_SnackBar</item>
 
 
     </style>
@@ -86,6 +93,9 @@
         <item name="textColorAlertDialogListItem">@color/DarkTheme_TextColor</item>
         <item name="color">@color/DarkTheme_Background</item>
     </style>
+    <style name="DarkTheme_SnackBar" parent="Widget.Design.Snackbar">
+        <item name="backgroundTint">@color/DarkTheme_ButtonColor</item>
+    </style>
 
     <style name="RedTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
@@ -102,6 +112,8 @@
         <item name="editTextStyle">@style/RedTheme_EditText</item>
         <item name="drawerArrowStyle">@style/RedTheme_DrawerArrowToggle</item>
         <item name="alertDialogTheme">@style/RedTheme_AlertDialog</item>
+        <item name="snackbarStyle">@style/RedTheme_SnackBar</item>
+
 
     </style>
     <style name="RedTheme_Button" parent="Widget.AppCompat.Button">
@@ -127,6 +139,9 @@
         <item name="android:textColorSecondary">#FFFFFF</item>
         <item name="textColorAlertDialogListItem">@color/TextColor</item>
         <item name="color">@color/RedTheme_Background</item>
+    </style>
+    <style name="RedTheme_SnackBar" parent="Widget.Design.Snackbar">
+        <item name="backgroundTint">@color/RedTheme_ButtonColor</item>
     </style>
 
     <style name="BlueTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
