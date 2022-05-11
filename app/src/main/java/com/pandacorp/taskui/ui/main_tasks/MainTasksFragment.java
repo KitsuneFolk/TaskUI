@@ -72,7 +72,8 @@ public class MainTasksFragment extends Fragment {
 
         return root;
     }
-    private void initViews(){
+
+    private void initViews() {
         dbHelper = new DBHelper(getContext());
         database = dbHelper.getWritableDatabase();
         cursor = database.query(DBHelper.MAIN_TASKS_TABLE_NAME, null, null, null, null, null, null);
@@ -85,7 +86,7 @@ public class MainTasksFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String text = String.valueOf(speed_dial_editText.getText());
-                if (!text.isEmpty()){
+                if (!text.isEmpty()) {
                     Log.d(TAG, "onClick: not empty");
 
                     ContentValues contentValues = new ContentValues();
@@ -130,14 +131,14 @@ public class MainTasksFragment extends Fragment {
             }
         });
     }
-    private void setDeletedTasksValues(){
+
+    private void setDeletedTasksValues() {
         //Setting values of contentValue to set it to DELETED_TASKS_DATABASE when clicking clear_fab
         ContentValues contentValues = new ContentValues();
-        for(int i = 0; i<itemList.size(); i++){
+        for (int i = 0; i < itemList.size(); i++) {
             contentValues.put(DBHelper.KEY_TASK_TEXT, itemList.get(i));
             database.insert(DBHelper.DELETED_TASKS_TABLE_NAME, null, contentValues);
         }
-
 
 
     }
@@ -208,7 +209,7 @@ public class MainTasksFragment extends Fragment {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
+                final int position = viewHolder.getAdapterPosition();
                 final ListItem deletedModel = arrayItemList.get(position);
                 final int deletedPosition = position;
                 adapter.removeItem(position);
@@ -216,10 +217,11 @@ public class MainTasksFragment extends Fragment {
                 final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
                 WritableDatabase.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
                 ContentValues contentValues = new ContentValues();
-                contentValues.put(DBHelper.KEY_TASK_TEXT, (String) itemList.get(position));
-                Log.d(TAG, "setCompletedTasksValues: viewHolder.main_tv.getText() = " + itemList.get(position));
+                contentValues.put(DBHelper.KEY_TASK_TEXT, (String) deletedModel.getMainText());
+                Log.d(TAG, "setCompletedTasksValues: viewHolder.main_tv.getText() = " + deletedModel.getMainText());
                 database.insert(DBHelper.DELETED_TASKS_TABLE_NAME, null, contentValues);
-             // showing snack bar with Undo option
+                adapter.notifyItemRemoved(position);
+                // showing snack bar with Undo option
                 Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
                 snackbar.setAnchorView(R.id.speed_dial_linearLayout);
                 snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
@@ -228,12 +230,14 @@ public class MainTasksFragment extends Fragment {
                     public void onClick(View view) {
                         // undo is selected, restore the deleted item
                         adapter.restoreItem(deletedModel, deletedPosition);
-                        ContentValues contentValues = new ContentValues();
-                     contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-                        database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
+
+
+
                     }
                 });
+                Log.d(TAG, "onSwiped: 6");
                 snackbar.show();
+                Log.d(TAG, "onSwiped: 7");
             }
 
             @Override

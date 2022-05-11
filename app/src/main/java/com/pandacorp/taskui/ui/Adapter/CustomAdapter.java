@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,6 +38,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         this.activity = activity;
     }
 
+
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -52,26 +54,28 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         delete_cb_init(holder, position);
 
+
     }
     private void delete_cb_init(final ViewHolder holder, final int position){
         final ListItem listItem = listItems.get(position);
         holder.bindData(listItem);
-        holder.delete_cb.setOnClickListener(new View.OnClickListener() {
+        holder.delete_cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 removeItem(position);
-                setCompletedTaskValue();
+                setCompletedTaskValue(listItem);
                 Snackbar snackbar = Snackbar.make(activity.getWindow().getDecorView().getRootView(), view.getResources().getString(R.string.snackbar_completed), Snackbar.LENGTH_LONG);
-//                snackbar.setAnchorView(R.id.fabs_constraintLayout_completed);
-                //TODO: Пофиксить баг с setAnchorView. Проблема может быть из-за constraint layout
+                snackbar.setAnchorView(R.id.speed_dial_linearLayout);
                 snackbar.setAction(view.getResources().getString(R.string.snackbar_undo), new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         restoreItem(listItem, position);
-                        holder.delete_cb.setChecked(false);
-                        //Убирает галочку на чекбоксе, когда элемент возвращается.
                         //TODO: Сделать отмену.
-                        database.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT, new String[(int) database.getMaximumSize()-1]);
+                        database.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=" + listItem.getMainText(), null);
+//                        database.execSQL("DELETE FROM CompletedTasks WHERE id = (SELECT MAX(id) FROM CompletedTasks)");
+                        //Убирает галочку на чекбоксе, когда элемент возвращается.
+                        holder.delete_cb.setChecked(false);
+
 
                     }
                 });
@@ -80,19 +84,21 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         });
 
     }
-    private void setCompletedTaskValue(){
+    private void setCompletedTaskValue(ListItem listItem){
         //Setting values of contentValue to set it to COMPLETED_TASKS_DATABASE when clicking CheckBox.
         ContentValues contentValues = new ContentValues();
-        contentValues.put(DBHelper.KEY_TASK_TEXT, (String) viewHolder.main_tv.getText());
-        Log.d(TAG, "setCompletedTasksValues: viewHolder.main_tv.getText() = " + viewHolder.main_tv.getText());
+        contentValues.put(DBHelper.KEY_TASK_TEXT, listItem.getMainText());
+        Log.d(TAG, "setCompletedTasksValues: listItems.get(position).getMainText() = " + listItem.getMainText());
         database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);
+        database.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{listItem.getMainText()});
+
     }
 
 
 
     @Override
     public int getItemCount() {
-        return listItems.size();
+         return listItems.size();
     }
 
     public void removeItem(int position) {
@@ -101,10 +107,24 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         notifyItemRangeChanged(position, listItems.size());
     }
 
-    public void restoreItem(ListItem ListItem, int position) {
-        listItems.add(position, ListItem);
+//    public void restoreItem(ListItem ListItem, int position) {
+//        ContentValues contentValues = new ContentValues();
+//        contentValues.put(DBHelper.KEY_TASK_TEXT, ListItem.getMainText());
+//        database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);
+//
+//        // notify item added by position
+//        int prevSize = listItems.size();
+//        notifyItemRangeInserted(prevSize, listItems.size() -prevSize);
+//
+//    }
+    public void restoreItem (ListItem listItem, int position) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(DBHelper.KEY_TASK_TEXT, listItem.getMainText());
+        database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
+
         // notify item added by position
         notifyItemInserted(position);
+
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

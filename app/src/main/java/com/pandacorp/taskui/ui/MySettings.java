@@ -12,7 +12,7 @@ import java.util.Locale;
 
 public class MySettings {
     final private String TAG = "MyLogs";
-    Context context;
+    private Context context;
 
     private String theme;
     private String language;

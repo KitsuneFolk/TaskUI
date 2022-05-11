@@ -34,7 +34,7 @@ public class DeletedTasksFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private CustomAdapter adapter;
-    private ArrayList<String> itemList = new ArrayList<>();
+    private ArrayList<String> itemList= new ArrayList<>();
     private ArrayList<ListItem> arrayItemList = new ArrayList<>();
 
     private FloatingActionButton clear_fab_deleted;
@@ -47,12 +47,13 @@ public class DeletedTasksFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_deleted_tasks, container, false);
+        root = inflater.inflate(R.layout.fragment_deleted_tasks, container, false);
 
         initViews();
 
         return root;
     }
+
     private void initViews() {
         itemList = new ArrayList();
 
@@ -61,7 +62,6 @@ public class DeletedTasksFragment extends Fragment {
         cursor = database.query(DBHelper.DELETED_TASKS_TABLE_NAME, null, null, null, null, null, null);
 
         clear_fab_deleted = root.findViewById(R.id.clear_fab_deleted);
-        //TODO: Продолжить исправление кода идентичного с CompletedTasksFragment.
         clear_fab_deleted.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,10 +79,11 @@ public class DeletedTasksFragment extends Fragment {
         setRecyclerView();
 
     }
-    private void setDeletedTasksValues(){
+
+    private void setDeletedTasksValues() {
         //Setting values of contentValue to set it to DELETED_TASKS_DATABASE when clicking clear_fab
         ContentValues contentValues = new ContentValues();
-        for(int i = 0; i<itemList.size(); i++){
+        for (int i = 0; i < itemList.size(); i++) {
             contentValues.put(DBHelper.KEY_TASK_TEXT, itemList.get(i));
             database.insert(DBHelper.DELETED_TASKS_TABLE_NAME, null, contentValues);
         }
@@ -95,7 +96,7 @@ public class DeletedTasksFragment extends Fragment {
         fillArrayItemList();
 
         adapter = new CustomAdapter(arrayItemList, getActivity());
-        recyclerView = root.findViewById(R.id.completed_rv);
+        recyclerView = root.findViewById(R.id.deleted_rv);
         recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -110,7 +111,7 @@ public class DeletedTasksFragment extends Fragment {
         //from user.
         dbHelper = new DBHelper(getContext());
         database = dbHelper.getWritableDatabase();
-        cursor = database.query(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, null, null, null, null, null);
+        cursor = database.query(DBHelper.DELETED_TASKS_TABLE_NAME, null, null, null, null, null, null);
 
         if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
@@ -145,55 +146,28 @@ public class DeletedTasksFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                if (direction == ItemTouchHelper.LEFT) {
-                    final ListItem deletedModel = arrayItemList.get(position);
-                    final int deletedPosition = position;
-                    adapter.removeItem(position);
-                    // deleting database item
-                    final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
-                    WritableDatabase.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
-                    // showing snack bar with Undo option
-                    Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
-                    snackbar.setAnchorView(R.id.speed_dial_linearLayout);
-                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                    ContentValues contentValues = new ContentValues();
-                    snackbar.setAction(getResources().getText(R.string.snackbar_undo), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // undo is selected, restore the deleted item
-                            adapter.restoreItem(deletedModel, deletedPosition);
-                            ContentValues contentValues = new ContentValues();
+                final ListItem deletedModel = arrayItemList.get(position);
+                final int deletedPosition = position;
+                // deleting database item
+                final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
+                WritableDatabase.delete(DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
+                // showing snack bar with Undo option
+                Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
+                snackbar.setAnchorView(R.id.fabs_constraintLayout_deleted);
+                snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                snackbar.setAction(getResources().getText(R.string.snackbar_undo), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // undo is selected, restore the deleted item
+                        adapter.restoreItem(deletedModel, deletedPosition);
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
+                        database.insert(DBHelper.DELETED_TASKS_TABLE_NAME, null, contentValues);
+                    }
+                });
+                snackbar.show();
 
-                            contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-                            database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
-                        }
-                    });
-                    snackbar.show();
-                } else {
-                    final ListItem deletedModel = arrayItemList.get(position);
-                    final int deletedPosition = position;
-                    adapter.removeItem(position);
-                    // deleting database item
-                    SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
-                    WritableDatabase.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
-                    // showing snack bar with Undo option
-                    Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
-                    snackbar.setAnchorView(R.id.fabs_constraintLayout_completed);
-                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                    snackbar.setAction(getResources().getText(R.string.snackbar_undo), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // undo is selected, restore the deleted item
-                            adapter.restoreItem(deletedModel, deletedPosition);
-                            ContentValues contentValues = new ContentValues();
 
-                            contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-                            database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
-                        }
-                    });
-                    snackbar.show();
-
-                }
             }
 
             @Override

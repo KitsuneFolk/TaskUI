@@ -149,55 +149,35 @@ public class CompletedTasksFragment extends Fragment {
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
                 int position = viewHolder.getAdapterPosition();
-                if (direction == ItemTouchHelper.LEFT) {
-                    final ListItem deletedModel = arrayItemList.get(position);
-                    final int deletedPosition = position;
-                    adapter.removeItem(position);
-                    // deleting database item
-                    final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
-                    WritableDatabase.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
-                    // showing snack bar with Undo option
-                    Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
-                    snackbar.setAnchorView(R.id.speed_dial_linearLayout);
-                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                    ContentValues contentValues = new ContentValues();
-                    snackbar.setAction(getResources().getText(R.string.snackbar_undo), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // undo is selected, restore the deleted item
-                            adapter.restoreItem(deletedModel, deletedPosition);
-                            ContentValues contentValues = new ContentValues();
+                final ListItem deletedModel = arrayItemList.get(position);
+                final int deletedPosition = position;
+                adapter.removeItem(position);
+                // deleting database item
+                final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
+                 //TODO: new String[]{deletedModel.getMainText()} может провоцировать баг с повторным отправлением в датабазу одного и того Task;
+                WritableDatabase.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
 
-                            contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-                            database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
-                        }
-                    });
-                    snackbar.show();
-                } else {
-                    final ListItem deletedModel = arrayItemList.get(position);
-                    final int deletedPosition = position;
-                    adapter.removeItem(position);
-                    // deleting database item
-                    SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
-                    WritableDatabase.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
-                    // showing snack bar with Undo option
-                    Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
-                    snackbar.setAnchorView(R.id.fabs_constraintLayout_completed);
-                    snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                    snackbar.setAction(getResources().getText(R.string.snackbar_undo), new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            // undo is selected, restore the deleted item
-                            adapter.restoreItem(deletedModel, deletedPosition);
-                            ContentValues contentValues = new ContentValues();
+                // set DELETED_DATABASE task
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
+                WritableDatabase.insert(DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", contentValues);
 
-                            contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-                            database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
-                        }
-                    });
-                    snackbar.show();
+                // showing snack bar with Undo option
+                Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
+                snackbar.setAnchorView(R.id.fabs_constraintLayout_completed);
+                snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+                snackbar.setAction(getResources().getText(R.string.snackbar_undo), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        // undo is selected, restore the deleted item
+                        adapter.restoreItem(deletedModel, deletedPosition);
+                        ContentValues contentValues = new ContentValues();
+                        contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
+                        database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);
+                    }
+                });
+                snackbar.show();
 
-                }
             }
 
             @Override
