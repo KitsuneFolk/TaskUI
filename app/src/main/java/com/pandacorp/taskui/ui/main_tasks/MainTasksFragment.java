@@ -230,6 +230,7 @@ public class MainTasksFragment extends Fragment {
                     public void onClick(View view) {
                         // undo is selected, restore the deleted item
                         adapter.restoreItem(deletedModel, deletedPosition);
+                        fillArrayItemList();
 
 
 

@@ -107,22 +107,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         notifyItemRangeChanged(position, listItems.size());
     }
 
-//    public void restoreItem(ListItem ListItem, int position) {
-//        ContentValues contentValues = new ContentValues();
-//        contentValues.put(DBHelper.KEY_TASK_TEXT, ListItem.getMainText());
-//        database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);
-//
-//        // notify item added by position
-//        int prevSize = listItems.size();
-//        notifyItemRangeInserted(prevSize, listItems.size() -prevSize);
-//
-//    }
     public void restoreItem (ListItem listItem, int position) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBHelper.KEY_TASK_TEXT, listItem.getMainText());
         database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
 
         // notify item added by position
+        notifyItemRangeChanged(position, listItems.size());
         notifyItemInserted(position);
 
     }
