@@ -33,6 +33,11 @@
     <string name="snackbar_removed">Задача удалена!</string>
     <string name="snackbar_completed">Задача выполнена!</string>
 
+    <!--  fragment_main_tasks  -->
+    <string name="delete">Удалить</string>
+    <string name="add">Добавить</string>
+    <string name="delete_forever">Удалить навсегда</string>
+
 
 
 </resources>

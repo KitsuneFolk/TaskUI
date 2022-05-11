@@ -10,6 +10,7 @@
         android:id="@+id/main_rv_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
         app:layout_constraintBottom_toTopOf="@+id/speed_dial_linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -62,7 +63,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fabs_constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/speed_dial_linearLayout"
         app:layout_constraintHorizontal_bias="1.0"
@@ -70,12 +71,12 @@
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/clear_fab"
+            android:id="@+id/delete_fab"
             android:layout_width="56dp"
             android:layout_height="56dp"
 
             android:backgroundTint="?android:attr/colorPrimary"
-            android:src="@drawable/ic_clear_black_24dp"
+            android:src="@drawable/ic_delete_black_24dp"
             app:layout_constraintBottom_toBottomOf="@+id/add_fab"
             app:layout_constraintEnd_toStartOf="@+id/add_fab"
             app:layout_constraintStart_toStartOf="parent"
@@ -86,13 +87,56 @@
             android:layout_width="56dp"
             android:layout_height="56dp"
 
+            android:layout_marginTop="8dp"
             android:backgroundTint="?android:attr/colorPrimary"
             android:src="@drawable/ic_add_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/ic_add_black_24dp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/delete_forever_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:backgroundTint="?android:attr/colorPrimary"
+            android:src="@drawable/ic_delete_forever"
+            app:layout_constraintBottom_toBottomOf="@+id/add_fab"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/add_fab"
+            app:layout_constraintTop_toTopOf="@+id/add_fab"
+            tools:srcCompat="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/delete_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/delete_fab"
+            app:layout_constraintStart_toStartOf="@+id/delete_fab"
+            app:layout_constraintTop_toBottomOf="@+id/delete_fab" />
+
+        <TextView
+            android:id="@+id/add_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/add_fab"
+            app:layout_constraintStart_toStartOf="@+id/add_fab"
+            app:layout_constraintTop_toBottomOf="@+id/add_fab" />
+
+        <TextView
+            android:id="@+id/delete_forever_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_forever"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/delete_forever_fab"
+            app:layout_constraintStart_toStartOf="@+id/delete_forever_fab"
+            app:layout_constraintTop_toBottomOf="@+id/delete_forever_fab" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

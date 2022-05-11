@@ -5,7 +5,7 @@
     <color name="BlueTheme_colorPrimaryDark">#3232FF</color>
     <color name="BlueTheme_colorAccent">#FF1FF4</color>
     <color name="BlueTheme_Background">#4B68FF</color>
-    <color name="BlueTheme_ButtonColor">#2196F3</color>
+    <color name="BlueTheme_ButtonColor">#3232FF</color>
     <color name="BlueTheme_textColorSecondary">#BFD1D1FF</color>
     <color name="BlueTheme_NavigationBar">#90CAF9</color>
 

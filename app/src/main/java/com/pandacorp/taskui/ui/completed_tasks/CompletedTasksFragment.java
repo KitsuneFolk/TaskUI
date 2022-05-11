@@ -29,7 +29,7 @@ import java.util.ArrayList;
 
 import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
-public class CompletedTasksFragment extends Fragment {
+public class CompletedTasksFragment extends Fragment implements View.OnClickListener {
     private final String TAG = "MyLogs";
 
     private RecyclerView recyclerView;
@@ -37,7 +37,8 @@ public class CompletedTasksFragment extends Fragment {
     private ArrayList<String> itemList = new ArrayList<>();
     private ArrayList<ListItem> arrayItemList = new ArrayList<>();
 
-    private FloatingActionButton clear_fab_completed;
+    private FloatingActionButton delete_fab_completed;
+    private FloatingActionButton delete_forever_fab_completed;
 
     private View root;
 
@@ -64,10 +65,19 @@ public class CompletedTasksFragment extends Fragment {
         database = dbHelper.getWritableDatabase();
         cursor = database.query(DBHelper.MAIN_TASKS_TABLE_NAME, null, null, null, null, null, null);
 
-        clear_fab_completed = root.findViewById(R.id.clear_fab_completed);
-        clear_fab_completed.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        delete_fab_completed = root.findViewById(R.id.delete_fab_completed);
+        delete_forever_fab_completed = root.findViewById(R.id.delete_forever_fab_completed);
+        delete_fab_completed.setOnClickListener(this);
+        delete_forever_fab_completed.setOnClickListener(this);
+
+        setRecyclerView();
+
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.delete_fab_completed:
                 dbHelper = new DBHelper(getContext());
                 database = dbHelper.getWritableDatabase();
                 setDeletedTasksValues();
@@ -75,13 +85,18 @@ public class CompletedTasksFragment extends Fragment {
                 databaseGetTasks();
                 fillArrayItemList();
                 adapter.notifyDataSetChanged();
-                //Очистка текста.
-            }
-        });
-
-        setRecyclerView();
-
+                break;
+            case R.id.delete_forever_fab_completed:
+                dbHelper = new DBHelper(getContext());
+                database = dbHelper.getWritableDatabase();
+                database.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, null);
+                databaseGetTasks();
+                fillArrayItemList();
+                adapter.notifyDataSetChanged();
+                break;
+        }
     }
+
     private void setDeletedTasksValues(){
         //Setting values of contentValue to set it to DELETED_TASKS_DATABASE when clicking clear_fab
         ContentValues contentValues = new ContentValues();

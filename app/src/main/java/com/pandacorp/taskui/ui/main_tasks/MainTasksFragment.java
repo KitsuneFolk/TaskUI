@@ -36,7 +36,7 @@ import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator
 
 import static android.app.Activity.RESULT_OK;
 
-public class MainTasksFragment extends Fragment {
+public class MainTasksFragment extends Fragment implements View.OnClickListener {
     //Variable needed for ActivityOnResult to understand where data came from.
     private final int REQUEST_CODE_SET_TASK = 0;
 
@@ -52,7 +52,8 @@ public class MainTasksFragment extends Fragment {
     private Button speed_dial_button;
 
     private FloatingActionButton add_fab;
-    private FloatingActionButton clear_fab;
+    private FloatingActionButton delete_fab;
+    private FloatingActionButton delete_forever_fab;
 
     private View root;
 
@@ -64,7 +65,6 @@ public class MainTasksFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_main_tasks, container, false);
-        Log.d(TAG, "onSwiped: theme = " + getActivity().getTheme().toString());
 
 
         initViews();
@@ -87,7 +87,6 @@ public class MainTasksFragment extends Fragment {
             public void onClick(View v) {
                 String text = String.valueOf(speed_dial_editText.getText());
                 if (!text.isEmpty()) {
-                    Log.d(TAG, "onClick: not empty");
 
                     ContentValues contentValues = new ContentValues();
 
@@ -100,40 +99,55 @@ public class MainTasksFragment extends Fragment {
                     adapter.notifyDataSetChanged();
                     speed_dial_editText.setText("");
                 }
-                Log.d(TAG, "onClick: empty");
 
             }
         });
 
         add_fab = root.findViewById(R.id.add_fab);
-        clear_fab = root.findViewById(R.id.clear_fab);
+        delete_fab = root.findViewById(R.id.delete_fab);
+        delete_forever_fab = root.findViewById(R.id.delete_forever_fab);
 
-        add_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        add_fab.setOnClickListener(this);
+        delete_fab.setOnClickListener(this);
+        delete_forever_fab.setOnClickListener(this);
+
+    }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.add_fab:
                 Intent intent = new Intent(getActivity(), SetTaskActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_SET_TASK);
                 adapter.notifyDataSetChanged();
-            }
-        });
-        clear_fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.delete_fab:
                 dbHelper = new DBHelper(getContext());
                 database = dbHelper.getWritableDatabase();
                 setDeletedTasksValues();
                 database.delete(DBHelper.MAIN_TASKS_TABLE_NAME, null, null);
+
                 databaseGetTasks();
                 fillArrayItemList();
                 adapter.notifyDataSetChanged();
                 //Очистка текста.
                 speed_dial_editText.setText("");
-            }
-        });
+                break;
+            case R.id.delete_forever_fab:
+                dbHelper = new DBHelper(getContext());
+                database = dbHelper.getWritableDatabase();
+                database.delete(DBHelper.MAIN_TASKS_TABLE_NAME, null, null);
+
+                databaseGetTasks();
+                fillArrayItemList();
+                adapter.notifyDataSetChanged();
+                //Очистка текста.
+                speed_dial_editText.setText("");
+                break;
+        }
     }
 
     private void setDeletedTasksValues() {
-        //Setting values of contentValue to set it to DELETED_TASKS_DATABASE when clicking clear_fab
+        //Setting values of contentValue to set it to DELETED_TASKS_DATABASE when clicking delete_fab
         ContentValues contentValues = new ContentValues();
         for (int i = 0; i < itemList.size(); i++) {
             contentValues.put(DBHelper.KEY_TASK_TEXT, itemList.get(i));
@@ -147,7 +161,6 @@ public class MainTasksFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            Log.d(TAG, "MainTaskFragment.onActivityResult: RESULT_OK");
             //Updating the data for the RecyclerView and the RecyclerView.
             databaseGetTasks();
             fillArrayItemList();
@@ -218,7 +231,6 @@ public class MainTasksFragment extends Fragment {
                 WritableDatabase.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
                 ContentValues contentValues = new ContentValues();
                 contentValues.put(DBHelper.KEY_TASK_TEXT, (String) deletedModel.getMainText());
-                Log.d(TAG, "setCompletedTasksValues: viewHolder.main_tv.getText() = " + deletedModel.getMainText());
                 database.insert(DBHelper.DELETED_TASKS_TABLE_NAME, null, contentValues);
                 adapter.notifyItemRemoved(position);
                 // showing snack bar with Undo option
@@ -236,9 +248,7 @@ public class MainTasksFragment extends Fragment {
 
                     }
                 });
-                Log.d(TAG, "onSwiped: 6");
                 snackbar.show();
-                Log.d(TAG, "onSwiped: 7");
             }
 
             @Override

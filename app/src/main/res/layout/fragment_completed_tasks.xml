@@ -21,23 +21,60 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/fabs_constraintLayout_completed"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="90dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/completed_rv"
         app:layout_constraintStart_toStartOf="@+id/completed_rv">
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/clear_fab_completed"
+            android:id="@+id/delete_forever_fab_completed"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+
+            android:layout_marginTop="8dp"
+            android:backgroundTint="?android:attr/colorPrimary"
+            android:src="@drawable/ic_delete_forever"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.8"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/delete_fab_completed"
             android:layout_width="56dp"
             android:layout_height="56dp"
 
             android:backgroundTint="?android:attr/colorPrimary"
-            android:src="@drawable/ic_clear_black_24dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_delete_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/delete_forever_fab_completed"
+            app:layout_constraintEnd_toStartOf="@+id/delete_forever_fab_completed"
+            app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/delete_forever_fab_completed"
+            app:layout_constraintVertical_bias="0.5" />
+
+        <TextView
+            android:id="@+id/delete_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/delete_fab_completed"
+            app:layout_constraintStart_toStartOf="@+id/delete_fab_completed"
+            app:layout_constraintTop_toBottomOf="@+id/delete_fab_completed" />
+
+        <TextView
+            android:id="@+id/delete_forever_tv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete_forever"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/delete_forever_fab_completed"
+            app:layout_constraintStart_toStartOf="@+id/delete_forever_fab_completed"
+            app:layout_constraintTop_toBottomOf="@+id/delete_forever_fab_completed" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
