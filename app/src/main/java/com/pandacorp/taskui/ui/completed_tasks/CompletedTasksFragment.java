@@ -3,7 +3,6 @@ package com.pandacorp.taskui.ui.completed_tasks;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,16 +23,15 @@ import com.pandacorp.taskui.DBHelper;
 import com.pandacorp.taskui.R;
 import com.pandacorp.taskui.ui.Adapter.CustomAdapter;
 import com.pandacorp.taskui.ui.Adapter.ListItem;
+import com.pandacorp.taskui.ui.Adapter.RecyclerItemTouchHelper;
 
 import java.util.ArrayList;
 
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
-
-public class CompletedTasksFragment extends Fragment implements View.OnClickListener {
+public class CompletedTasksFragment extends Fragment implements View.OnClickListener, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     private final String TAG = "MyLogs";
 
     private RecyclerView recyclerView;
-    private CustomAdapter adapter;
+    public CustomAdapter adapter;
     private ArrayList<String> itemList = new ArrayList<>();
     private ArrayList<ListItem> arrayItemList = new ArrayList<>();
 
@@ -52,7 +50,6 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
         root = inflater.inflate(R.layout.fragment_completed_tasks, container, false);
 
         initViews();
-
 
 
         return root;
@@ -76,7 +73,7 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.delete_fab_completed:
                 dbHelper = new DBHelper(getContext());
                 database = dbHelper.getWritableDatabase();
@@ -97,14 +94,13 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
         }
     }
 
-    private void setDeletedTasksValues(){
+    private void setDeletedTasksValues() {
         //Setting values of contentValue to set it to DELETED_TASKS_DATABASE when clicking clear_fab
         ContentValues contentValues = new ContentValues();
-        for(int i = 0; i<itemList.size(); i++){
+        for (int i = 0; i < itemList.size(); i++) {
             contentValues.put(DBHelper.KEY_TASK_TEXT, itemList.get(i));
             database.insert(DBHelper.DELETED_TASKS_TABLE_NAME, null, contentValues);
         }
-
 
 
     }
@@ -118,6 +114,7 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
         recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         enableSwipe();
         registerForContextMenu(recyclerView);
 
@@ -155,70 +152,47 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
     }
 
     private void enableSwipe() {
-        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
+        //Attached the ItemTouchHelper
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                int position = viewHolder.getAdapterPosition();
-                final ListItem deletedModel = arrayItemList.get(position);
-                final int deletedPosition = position;
-                adapter.removeItem(position);
-                // deleting database item
-                final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
-                 //TODO: new String[]{deletedModel.getMainText()} может провоцировать баг с повторным отправлением в датабазу одного и того Task;
-                WritableDatabase.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
-
-                // set DELETED_DATABASE task
-                ContentValues contentValues = new ContentValues();
-                contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-                WritableDatabase.insert(DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", contentValues);
-
-                // showing snack bar with Undo option
-                Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
-                snackbar.setAnchorView(R.id.fabs_constraintLayout_completed);
-                snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
-                snackbar.setAction(getResources().getText(R.string.snackbar_undo), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // undo is selected, restore the deleted item
-                        adapter.restoreItem(deletedModel, deletedPosition);
-                        ContentValues contentValues = new ContentValues();
-                        contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-                        database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);
-                    }
-                });
-                snackbar.show();
-
-            }
-
-            @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
-                new RecyclerViewSwipeDecorator.Builder(getContext(), c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
-                        .addBackgroundColor(ContextCompat.getColor(getContext(), R.color.Red))
-                        .addActionIcon(R.drawable.ic_recyclerview_delete)
-                        .create()
-                        .decorate();
-
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-
-                super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
-            }
-
-
-        };
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
-        itemTouchHelper.attachToRecyclerView(recyclerView);
+        //Attached the ItemTouchHelper
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        cursor.close();
-        database.close();
-    }
+    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+        Log.d(TAG, "onSwiped: onSwiped");
+        if (viewHolder instanceof CustomAdapter.ViewHolder) {
+            final ListItem deletedModel = arrayItemList.get(position);
+            final int deletedPosition = position;
+            adapter.removeItem(position, deletedModel, DBHelper.COMPLETED_TASKS_TABLE_NAME);
+            // deleting database item
+            final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
+            WritableDatabase.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
 
+            // set DELETED_DATABASE task
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
+            WritableDatabase.insert(DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", contentValues);
+
+            // showing snack bar with Undo option
+            Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
+            snackbar.setAnchorView(R.id.fabs_constraintLayout_completed);
+            snackbar.setAnimationMode(BaseTransientBottomBar.ANIMATION_MODE_SLIDE);
+            snackbar.setAction(getResources().getText(R.string.snackbar_undo), new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // undo is selected, restore the deleted item
+                    adapter.restoreItem(deletedModel, deletedPosition);
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
+                    database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);
+                }
+            });
+            snackbar.show();
+        }
+
+
+    }
 }

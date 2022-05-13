@@ -10,7 +10,6 @@
         <item name="android:navigationBarColor">@color/BlueTheme_colorPrimary</item>
         <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
 
-
         <item name="buttonStyle">@style/BlueTheme_Button</item>
         <item name="editTextStyle">@style/BlueTheme_EditText</item>
         <item name="toolbarStyle">@style/BlueTheme_Toolbar</item>

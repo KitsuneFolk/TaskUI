@@ -36,5 +36,7 @@
     <string name="delete">Delete</string>
     <string name="add">Add</string>
     <string name="delete_forever">Delete forever</string>
+    <string name="complete">Complete</string>
+
 
 </resources>
