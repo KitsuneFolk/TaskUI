@@ -21,12 +21,12 @@
     <color name="DarkTheme_NavigationBar">#0F0F0F</color>
 
     <!--  RedTheme  -->
-    <color name="RedTheme_colorPrimary">#F50000</color>
-    <color name="RedTheme_colorPrimaryDark">#F50000</color>
+    <color name="RedTheme_colorPrimary">#DC0000</color>
+    <color name="RedTheme_colorPrimaryDark">#DC0000</color>
     <color name="RedTheme_colorAccent">#FCA727</color>
-    <color name="RedTheme_Background">#FF3C3C</color>
+    <color name="RedTheme_Background">#FF5B5B</color>
     <color name="RedTheme_ActionBar">#E57373</color>
-    <color name="RedTheme_ButtonColor">#FF1E1E</color>
+    <color name="RedTheme_ButtonColor">#DC0000</color>
     <color name="RedTheme_textColorSecondary">#F0DBD8</color>
     <color name="RedTheme_NavigationBar">#F50000</color>
 

@@ -32,6 +32,9 @@
     <string name="snackbar_undo">Отменить</string>
     <string name="snackbar_removed">Задача удалена!</string>
     <string name="snackbar_completed">Задача выполнена!</string>
+    <string name="set_time">Выбрать время</string>
+    <string name="postpone">Отложить</string>
+    <string name="done">Завершить</string>
 
     <!--  fragment_main_tasks  -->
     <string name="delete">Удалить</string>

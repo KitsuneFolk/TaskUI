@@ -31,12 +31,16 @@
     <string name="snackbar_undo">Undo</string>
     <string name="snackbar_removed">Task is removed!</string>
     <string name="snackbar_completed">Task is completed!</string>
+    <string name="set_time">Set time</string>
+    <string name="postpone">Postpone</string>
+    <string name="done">Done</string>
 
     <!--  fragment_main_tasks  -->
     <string name="delete">Delete</string>
     <string name="add">Add</string>
     <string name="delete_forever">Delete forever</string>
     <string name="complete">Complete</string>
+
 
 
 </resources>

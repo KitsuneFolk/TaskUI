@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.pandacorp.taskui">
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+
 
     <application
         android:allowBackup="true"
@@ -13,6 +15,14 @@
         android:requestLegacyExternalStorage="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="q">
+        <receiver android:name="com.allyants.notifyme.NotificationPublisher" />
+        <receiver android:name="com.allyants.notifyme.BootNotifyMe">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+
+                <category android:name="android.intent.category.HOME" />
+            </intent-filter>
+        </receiver>
         <activity android:name=".ui.SetTaskActivity"></activity>
         <activity
             android:name=".ui.settings.SettingsActivity"

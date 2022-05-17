@@ -38,5 +38,7 @@ dependencies {
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.google.android.material:material:1.6.0-alpha02'
     implementation 'it.xabaras.android:recyclerview-swipedecorator:1.1'
+    implementation 'com.github.jakebonk:NotifyMe:1.0.1'
+    implementation 'com.wdullaer:materialdatetimepicker:3.6.0'
 
 }
