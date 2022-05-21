@@ -145,8 +145,20 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
     private void fillArrayItemList() {
         arrayItemList.clear();
         for (int i = 0; i < itemList.size(); i++) {
-            ListItem current = new ListItem(itemList.get(i));
-            arrayItemList.add(current);
+            if (cursor.moveToFirst()) {
+                int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
+                int keyTaskIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT);
+                int keyTimeIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME);
+                do {
+                    Log.d("MyLogs", "ID = " + cursor.getInt(idIndex) +
+                            ", name = " + cursor.getString(keyTaskIndex));
+                    itemList.add(cursor.getString(keyTaskIndex));
+                    ListItem current = new ListItem(itemList.get(i));
+                    arrayItemList.add(current);
+
+                } while (cursor.moveToNext());
+            } else
+                Log.d("mLog", "0 rows");
 
         }
     }

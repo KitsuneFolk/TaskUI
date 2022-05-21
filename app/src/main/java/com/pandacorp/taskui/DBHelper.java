@@ -11,6 +11,7 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "MyDatabase";
     public static final String KEY_ID = "id";
     public static final String KEY_TASK_TEXT = "task_text";
+    public static final String KEY_TASK_TIME = "task_time";
     public static final String MAIN_TASKS_TABLE_NAME = "MainTasks";
     public static final String COMPLETED_TASKS_TABLE_NAME = "CompletedTasks";
     public static final String DELETED_TASKS_TABLE_NAME = "DeletedTasks";
@@ -24,11 +25,11 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + MAIN_TASKS_TABLE_NAME + "(" + KEY_ID
-                + " integer primary key," + KEY_TASK_TEXT + " text" + ")");
+                + " integer primary key," + KEY_TASK_TEXT + " text, " + KEY_TASK_TIME + " time" + ")");
         db.execSQL("create table " + COMPLETED_TASKS_TABLE_NAME + "(" + KEY_ID
-                + " integer primary key," + KEY_TASK_TEXT + " text" + ")");
+                + " integer primary key," + KEY_TASK_TEXT + " text, " + KEY_TASK_TIME + " time" + ")");
         db.execSQL("create table " + DELETED_TASKS_TABLE_NAME + "(" + KEY_ID
-                + " integer primary key," + KEY_TASK_TEXT + " text" + ")");
+                + " integer primary key," + KEY_TASK_TEXT + " text, " + KEY_TASK_TIME + " time" + ")");
     }
 
     @Override

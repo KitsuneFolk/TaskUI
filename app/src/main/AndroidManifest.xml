@@ -2,19 +2,27 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.pandacorp.taskui">
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/BlueTheme"
-        android:requestLegacyExternalStorage="true"
         tools:ignore="GoogleAppIndexingWarning"
+        android:screenOrientation="portrait"
         tools:targetApi="q">
+        <activity
+            android:name=".ui.main_tasks.PostponeActivity"
+            android:excludeFromRecents="true"
+            android:launchMode="singleInstance"
+            android:taskAffinity="" />
+
         <receiver android:name="com.allyants.notifyme.NotificationPublisher" />
         <receiver android:name="com.allyants.notifyme.BootNotifyMe">
             <intent-filter>
@@ -23,7 +31,9 @@
                 <category android:name="android.intent.category.HOME" />
             </intent-filter>
         </receiver>
-        <activity android:name=".ui.SetTaskActivity"></activity>
+        <receiver android:name=".ui.ReminderBroadcast"/>
+
+        <activity android:name=".SetTaskActivity" />
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/menu_settings"

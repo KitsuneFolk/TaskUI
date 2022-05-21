@@ -2,6 +2,7 @@ package com.pandacorp.taskui.ui.Adapter;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,20 +21,25 @@ import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.taskui.DBHelper;
 import com.pandacorp.taskui.R;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private final String TAG = "MyLogs";
 
     private View view;
 
-    private DBHelper dbHelper;
-    private SQLiteDatabase database;
-
     private ViewHolder viewHolder;
 
     private Activity activity;
     private List<ListItem> listItems;
+
+    //SQLite database objects.
+    private DBHelper dbHelper;
+    private SQLiteDatabase database;
 
     public CustomAdapter(List<ListItem> listItems, Activity activity) {
         this.listItems = listItems;
@@ -138,6 +145,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView main_tv;
+        private TextView time_tv;
         private ImageButton complete_button;
 
         //Needed for drawing red color when swiping.
@@ -148,11 +156,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             super(itemView);
 
             main_tv = itemView.findViewById(R.id.main_tv);
+            time_tv = itemView.findViewById(R.id.main_tv);
             complete_button = itemView.findViewById(R.id.complete_button);
 
             foreground = itemView.findViewById(R.id.foreground);
             background = itemView.findViewById(R.id.background);
-
 
         }
 
@@ -162,6 +170,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             main_tv.setText(listItem.getMainText());
             i++;
         }
+
 
     }
 }

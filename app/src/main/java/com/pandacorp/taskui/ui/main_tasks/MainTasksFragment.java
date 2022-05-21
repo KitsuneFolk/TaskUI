@@ -28,7 +28,7 @@ import com.pandacorp.taskui.R;
 import com.pandacorp.taskui.ui.Adapter.CustomAdapter;
 import com.pandacorp.taskui.ui.Adapter.ListItem;
 import com.pandacorp.taskui.ui.Adapter.RecyclerItemTouchHelper;
-import com.pandacorp.taskui.ui.SetTaskActivity;
+import com.pandacorp.taskui.SetTaskActivity;
 
 import java.util.ArrayList;
 
