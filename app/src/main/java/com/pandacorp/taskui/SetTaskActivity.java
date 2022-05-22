@@ -1,9 +1,6 @@
 package com.pandacorp.taskui;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.content.ContentValues;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -16,18 +13,13 @@ import android.widget.EditText;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.NotificationCompat;
 
-import com.allyants.notifyme.NotifyMe;
 import com.pandacorp.taskui.ui.MySettings;
 import com.pandacorp.taskui.ui.NotificationUtils;
-import com.pandacorp.taskui.ui.main_tasks.PostponeActivity;
-import com.pandacorp.taskui.ui.settings.SettingsActivity;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
-import java.util.Random;
 
 public class SetTaskActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private String TAG = "MyLogs";
@@ -40,9 +32,6 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
     private TimePickerDialog timePickerDialog;
 
     Calendar now = Calendar.getInstance();
-
-    //Need for understand program is the time chosed or no;
-    boolean isTimeChoosed = false;
 
     //SQLite database objects.
     private DBHelper dbHelper;
@@ -85,7 +74,6 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
         cursor = database.query(DBHelper.MAIN_TASKS_TABLE_NAME, null, null, null, null, null, null);
 
 
-
     }
 
     @Override
@@ -93,24 +81,24 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.set_task_accept_btn:
 
-                    String task_text = String.valueOf(set_task_editText.getText());
-                    Log.d("MyLogs", "onClick: task_text = " + task_text);
+                String task_text = String.valueOf(set_task_editText.getText());
+                Log.d("MyLogs", "onClick: task_text = " + task_text);
+                String task_time = now.get(Calendar.HOUR_OF_DAY) + ":" + now.get(Calendar.MINUTE);
 
-                    ContentValues contentValues = new ContentValues();
+                ContentValues contentValues = new ContentValues();
 
-                    contentValues.put(DBHelper.KEY_TASK_TEXT, task_text);
+                contentValues.put(DBHelper.KEY_TASK_TEXT, task_text);
+                contentValues.put(DBHelper.KEY_TASK_TIME, task_time);
 
-                    database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
-                    String timeData = now.getTime().toString();
-                    Log.d(TAG, "onClick: timeData = " + timeData);
-                    ContentValues contentValues1 = new ContentValues();
-                    contentValues1.put(DBHelper.KEY_TASK_TIME, timeData);
-                    setNotification();
-                    dbHelper.close();
+                database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
+                Log.d(TAG, "onClick: task_time = " + task_time);
 
-                    setResult(RESULT_OK);
+                setNotification();
+                dbHelper.close();
 
-                    this.finish();
+                setResult(RESULT_OK);
+
+                this.finish();
 
 
                 break;
@@ -119,7 +107,8 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
-    private void setNotification(){
+
+    private void setNotification() {
 //        Intent done_intent = new Intent(getApplicationContext(), SettingsActivity.class);
 //        NotifyMe notifyMe = new NotifyMe.Builder(getApplicationContext())
 //                .title(getResources().getString(R.string.show_layout_task))
@@ -137,8 +126,8 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
         reminderNotification(time);
 
     }
-    public void reminderNotification(long time)
-    {
+
+    public void reminderNotification(long time) {
         NotificationUtils _notificationUtils = new NotificationUtils(this);
         long _currentTime = System.currentTimeMillis();
         long _triggerReminder = _currentTime + time; //triggers a reminder after 10 seconds.
@@ -160,7 +149,6 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         now.set(Calendar.YEAR, year);
@@ -171,9 +159,9 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
 
     @Override
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+        Log.d(TAG, "onTimeSet: hourOfDay, minute = " + hourOfDay + ", " + minute);
         now.set(Calendar.HOUR_OF_DAY, hourOfDay);
         now.set(Calendar.MINUTE, minute);
         now.set(Calendar.SECOND, 0);
-        isTimeChoosed  = true;
     }
 }

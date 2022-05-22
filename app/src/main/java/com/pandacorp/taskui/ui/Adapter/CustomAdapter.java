@@ -41,6 +41,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private DBHelper dbHelper;
     private SQLiteDatabase database;
 
+
     public CustomAdapter(List<ListItem> listItems, Activity activity) {
         this.listItems = listItems;
         this.activity = activity;
@@ -156,7 +157,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             super(itemView);
 
             main_tv = itemView.findViewById(R.id.main_tv);
-            time_tv = itemView.findViewById(R.id.main_tv);
+            time_tv = itemView.findViewById(R.id.time_tv);
+
             complete_button = itemView.findViewById(R.id.complete_button);
 
             foreground = itemView.findViewById(R.id.foreground);
@@ -164,11 +166,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         }
 
-        int i = 0;
 
         public void bindData(final ListItem listItem) {
             main_tv.setText(listItem.getMainText());
-            i++;
+            time_tv.setText(listItem.getTime());
+
         }
 
 

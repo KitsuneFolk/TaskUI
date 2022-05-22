@@ -153,7 +153,7 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
                     Log.d("MyLogs", "ID = " + cursor.getInt(idIndex) +
                             ", name = " + cursor.getString(keyTaskIndex));
                     itemList.add(cursor.getString(keyTaskIndex));
-                    ListItem current = new ListItem(itemList.get(i));
+                    ListItem current = new ListItem(itemList.get(i), cursor.getString(keyTimeIndex));
                     arrayItemList.add(current);
 
                 } while (cursor.moveToNext());

@@ -25,11 +25,11 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + MAIN_TASKS_TABLE_NAME + "(" + KEY_ID
-                + " integer primary key," + KEY_TASK_TEXT + " text, " + KEY_TASK_TIME + " time" + ")");
+                + " integer primary key," + KEY_TASK_TEXT + " text, " + KEY_TASK_TIME + " time)");
         db.execSQL("create table " + COMPLETED_TASKS_TABLE_NAME + "(" + KEY_ID
-                + " integer primary key," + KEY_TASK_TEXT + " text, " + KEY_TASK_TIME + " time" + ")");
+                + " integer primary key," + KEY_TASK_TEXT + " text, " + KEY_TASK_TIME + " time)");
         db.execSQL("create table " + DELETED_TASKS_TABLE_NAME + "(" + KEY_ID
-                + " integer primary key," + KEY_TASK_TEXT + " text, " + KEY_TASK_TIME + " time" + ")");
+                + " integer primary key," + KEY_TASK_TEXT + " text, " + KEY_TASK_TIME + " time)");
     }
 
     @Override

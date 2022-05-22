@@ -44,6 +44,7 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
     private RecyclerView recyclerView;
     public CustomAdapter adapter;
     private ArrayList<String> itemList = new ArrayList<>();
+    private ArrayList<String> itemListTime = new ArrayList<>();
     private ArrayList<ListItem> arrayItemList = new ArrayList<>();
 
     private EditText speed_dial_editText;
@@ -182,6 +183,7 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
 
     private void databaseGetTasks() {
         itemList.clear();
+        itemListTime.clear();
         //Here is recreating DataBase objects for getting new tasks that came from SetTaskActivity
         //from user.
         dbHelper = new DBHelper(getContext());
@@ -191,10 +193,12 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
         if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
             int keyTaskIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT);
+            int keyTaskTimeIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME);
             do {
                 Log.d("MyLogs", "ID = " + cursor.getInt(idIndex) +
-                        ", name = " + cursor.getString(keyTaskIndex));
+                        ", name = " + cursor.getString(keyTaskIndex) + ", time = " + cursor.getString(keyTaskTimeIndex));
                 itemList.add(cursor.getString(keyTaskIndex));
+                itemListTime.add(cursor.getString(keyTaskTimeIndex));
             } while (cursor.moveToNext());
         } else
             Log.d("mLog", "0 rows");
@@ -205,11 +209,12 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
     private void fillArrayItemList() {
         arrayItemList.clear();
         for (int i = 0; i < itemList.size(); i++) {
-            ListItem current = new ListItem(itemList.get(i));
+            ListItem current = new ListItem(itemList.get(i), itemListTime.get(i));
             arrayItemList.add(current);
 
         }
     }
+
 
     private void enableSwipe() {
         //Attached the ItemTouchHelper

@@ -135,18 +135,20 @@ public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchH
         for (int i = 0; i < itemList.size(); i++) {
             if (cursor.moveToFirst()) {
                 int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-                int keyTaskIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT);
-                do {
-                    Log.d("MyLogs", "ID = " + cursor.getInt(idIndex) +
-                            ", name = " + cursor.getString(keyTaskIndex));
-                    itemList.add(cursor.getString(keyTaskIndex));
-                    ListItem current = new ListItem(itemList.get(i));
-                    arrayItemList.add(current);
+                int keyTaskIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME);
+                int keyTimeIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME);
 
+                do {
+                    dbHelper = new DBHelper(getContext());
+                    database = dbHelper.getWritableDatabase();
+                    cursor = database.query(DBHelper.DELETED_TASKS_TABLE_NAME, null, null, null, null, null, null);
+                    Log.d("MyLogs", "ID = " + cursor.getInt(idIndex) +
+                            ", time = " + cursor.getString(keyTaskIndex));
+                    ListItem current = new ListItem(itemList.get(i), cursor.getString(keyTimeIndex));
+                    arrayItemList.add(current);
                 } while (cursor.moveToNext());
             } else
                 Log.d("mLog", "0 rows");
-
         }
     }
     private void enableSwipe() {
