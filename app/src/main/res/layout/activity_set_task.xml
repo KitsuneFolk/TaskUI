@@ -53,7 +53,51 @@
             android:layout_marginTop="4dp"
             android:layout_marginEnd="16dp"
             android:gravity="center"
-            android:text="@string/set_time" />
+            android:text="@string/show_layout_set_time" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="16dp">
+
+            <TextView
+                android:id="@+id/set_priority_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/show_layout_set_priority" />
+
+            <RadioGroup
+                android:id="@+id/set_priority_radio_group"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/white_radio_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/TextColor"
+                    android:checked="true"/>
+
+                <RadioButton
+                    android:id="@+id/orange_radio_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/Yellow"/>
+
+                <RadioButton
+                    android:id="@+id/red_radio_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:buttonTint="@color/Red"/>
+            </RadioGroup>
+        </LinearLayout>
 
     </LinearLayout>
 

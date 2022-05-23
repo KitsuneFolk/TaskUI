@@ -15,7 +15,6 @@
         android:supportsRtl="true"
         android:theme="@style/BlueTheme"
         tools:ignore="GoogleAppIndexingWarning"
-        android:screenOrientation="portrait"
         tools:targetApi="q">
         <activity
             android:name=".ui.main_tasks.PostponeActivity"
@@ -33,7 +32,9 @@
         </receiver>
         <receiver android:name=".ui.ReminderBroadcast"/>
 
-        <activity android:name=".SetTaskActivity" />
+        <activity android:name=".SetTaskActivity"
+            android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/menu_settings"

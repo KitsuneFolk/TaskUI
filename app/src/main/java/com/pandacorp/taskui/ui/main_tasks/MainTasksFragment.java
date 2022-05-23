@@ -45,6 +45,7 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
     public CustomAdapter adapter;
     private ArrayList<String> itemList = new ArrayList<>();
     private ArrayList<String> itemListTime = new ArrayList<>();
+    private ArrayList<String> itemListPriority = new ArrayList<>();
     private ArrayList<ListItem> arrayItemList = new ArrayList<>();
 
     private EditText speed_dial_editText;
@@ -65,9 +66,7 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_main_tasks, container, false);
 
-
         initViews();
-
 
         return root;
     }
@@ -184,6 +183,7 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
     private void databaseGetTasks() {
         itemList.clear();
         itemListTime.clear();
+        itemListPriority.clear();
         //Here is recreating DataBase objects for getting new tasks that came from SetTaskActivity
         //from user.
         dbHelper = new DBHelper(getContext());
@@ -192,13 +192,17 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
 
         if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-            int keyTaskIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT);
+            int keyTaskTextIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT);
             int keyTaskTimeIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME);
+            int keyTaskPriorityIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_PRIORITY);
             do {
                 Log.d("MyLogs", "ID = " + cursor.getInt(idIndex) +
-                        ", name = " + cursor.getString(keyTaskIndex) + ", time = " + cursor.getString(keyTaskTimeIndex));
-                itemList.add(cursor.getString(keyTaskIndex));
+                        ", name = " + cursor.getString(keyTaskTextIndex) +
+                        ", time = " + cursor.getString(keyTaskTimeIndex) +
+                        ", priority = " + cursor.getString(keyTaskPriorityIndex));
+                itemList.add(cursor.getString(keyTaskTextIndex));
                 itemListTime.add(cursor.getString(keyTaskTimeIndex));
+                itemListPriority.add(cursor.getString(keyTaskPriorityIndex));
             } while (cursor.moveToNext());
         } else
             Log.d("mLog", "0 rows");
@@ -209,7 +213,7 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
     private void fillArrayItemList() {
         arrayItemList.clear();
         for (int i = 0; i < itemList.size(); i++) {
-            ListItem current = new ListItem(itemList.get(i), itemListTime.get(i));
+            ListItem current = new ListItem(itemList.get(i), itemListTime.get(i), itemListPriority.get(i));
             arrayItemList.add(current);
 
         }
@@ -230,7 +234,6 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
         Log.d(TAG, "onSwiped: onSwiped");
         if (viewHolder instanceof CustomAdapter.ViewHolder) {
             final ListItem deletedModel = arrayItemList.get(position);
-            final int deletedPosition = position;
             adapter.removeItem(position, deletedModel, DBHelper.MAIN_TASKS_TABLE_NAME);
             // deleting database item
             final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
@@ -249,7 +252,7 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
                 @Override
                 public void onClick(View view) {
                     // undo is selected, restore the deleted item
-                    adapter.restoreItem(deletedModel, deletedPosition);
+                    adapter.restoreItem(deletedModel, arrayItemList.size()-1);
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
                     database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);

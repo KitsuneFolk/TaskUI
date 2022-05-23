@@ -33,6 +33,9 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
     private RecyclerView recyclerView;
     public CustomAdapter adapter;
     private ArrayList<String> itemList = new ArrayList<>();
+    private ArrayList<String> itemListTime = new ArrayList<>();
+    private ArrayList<String> itemListPriority = new ArrayList<>();
+
     private ArrayList<ListItem> arrayItemList = new ArrayList<>();
 
     private FloatingActionButton delete_fab_completed;
@@ -44,13 +47,11 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
     private SQLiteDatabase database;
     private Cursor cursor;
 
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_completed_tasks, container, false);
 
         initViews();
-
 
         return root;
     }
@@ -122,6 +123,8 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
 
     private void databaseGetTasks() {
         itemList.clear();
+        itemListTime.clear();
+        itemListPriority.clear();
         //Here is recreating DataBase objects for getting new tasks that came from SetTaskActivity
         //from user.
         dbHelper = new DBHelper(getContext());
@@ -130,11 +133,19 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
 
         if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-            int keyTaskIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT);
+            int keyTaskTextIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT);
+            int keyTaskTimeIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME);
+            int keyTaskPriorityIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_PRIORITY);
+
             do {
                 Log.d("MyLogs", "ID = " + cursor.getInt(idIndex) +
-                        ", name = " + cursor.getString(keyTaskIndex));
-                itemList.add(cursor.getString(keyTaskIndex));
+                        ", name = " + cursor.getString(keyTaskTextIndex) +
+                        ", time = " + cursor.getString(keyTaskTimeIndex) +
+                        ", priority = " + cursor.getString(keyTaskPriorityIndex));
+                itemList.add(cursor.getString(keyTaskTextIndex));
+                itemListTime.add(cursor.getString(keyTaskTimeIndex));
+                itemListPriority.add(cursor.getString(keyTaskPriorityIndex));
+
             } while (cursor.moveToNext());
         } else
             Log.d("mLog", "0 rows");
@@ -145,20 +156,8 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
     private void fillArrayItemList() {
         arrayItemList.clear();
         for (int i = 0; i < itemList.size(); i++) {
-            if (cursor.moveToFirst()) {
-                int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-                int keyTaskIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT);
-                int keyTimeIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME);
-                do {
-                    Log.d("MyLogs", "ID = " + cursor.getInt(idIndex) +
-                            ", name = " + cursor.getString(keyTaskIndex));
-                    itemList.add(cursor.getString(keyTaskIndex));
-                    ListItem current = new ListItem(itemList.get(i), cursor.getString(keyTimeIndex));
-                    arrayItemList.add(current);
-
-                } while (cursor.moveToNext());
-            } else
-                Log.d("mLog", "0 rows");
+            ListItem current = new ListItem(itemList.get(i), itemListTime.get(i), itemListPriority.get(i));
+            arrayItemList.add(current);
 
         }
     }
@@ -196,7 +195,7 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
                 @Override
                 public void onClick(View view) {
                     // undo is selected, restore the deleted item
-                    adapter.restoreItem(deletedModel, deletedPosition);
+                    adapter.restoreItem(deletedModel,  arrayItemList.size()-1);
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
                     database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);

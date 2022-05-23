@@ -37,6 +37,8 @@ public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchH
     private RecyclerView recyclerView;
     public CustomAdapter adapter;
     private ArrayList<String> itemList= new ArrayList<>();
+    private ArrayList<String> itemListTime = new ArrayList<>();
+    private ArrayList<String> itemListPriority = new ArrayList<>();
     private ArrayList<ListItem> arrayItemList = new ArrayList<>();
 
     private FloatingActionButton clear_fab_deleted;
@@ -110,6 +112,8 @@ public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchH
 
     private void databaseGetTasks() {
         itemList.clear();
+        itemListTime.clear();
+        itemListPriority.clear();
         //Here is recreating DataBase objects for getting new tasks that came from SetTaskActivity
         //from user.
         dbHelper = new DBHelper(getContext());
@@ -118,37 +122,29 @@ public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchH
 
         if (cursor.moveToFirst()) {
             int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-            int keyTaskIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT);
+            int keyTaskTextIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT);
+            int keyTaskTimeIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME);
+            int keyTaskPriorityIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_PRIORITY);
             do {
                 Log.d("MyLogs", "ID = " + cursor.getInt(idIndex) +
-                        ", name = " + cursor.getString(keyTaskIndex));
-                itemList.add(cursor.getString(keyTaskIndex));
+                        ", name = " + cursor.getString(keyTaskTextIndex) +
+                        ", time = " + cursor.getString(keyTaskTimeIndex) +
+                        ", priority = " + cursor.getString(keyTaskPriorityIndex));
+                itemList.add(cursor.getString(keyTaskTextIndex));
+                itemListTime.add(cursor.getString(keyTaskTimeIndex));
+                itemListPriority.add(cursor.getString(keyTaskPriorityIndex));
             } while (cursor.moveToNext());
         } else
             Log.d("mLog", "0 rows");
-
 
     }
 
     private void fillArrayItemList() {
         arrayItemList.clear();
         for (int i = 0; i < itemList.size(); i++) {
-            if (cursor.moveToFirst()) {
-                int idIndex = cursor.getColumnIndex(DBHelper.KEY_ID);
-                int keyTaskIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME);
-                int keyTimeIndex = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME);
+            ListItem current = new ListItem(itemList.get(i), itemListTime.get(i), itemListPriority.get(i));
+            arrayItemList.add(current);
 
-                do {
-                    dbHelper = new DBHelper(getContext());
-                    database = dbHelper.getWritableDatabase();
-                    cursor = database.query(DBHelper.DELETED_TASKS_TABLE_NAME, null, null, null, null, null, null);
-                    Log.d("MyLogs", "ID = " + cursor.getInt(idIndex) +
-                            ", time = " + cursor.getString(keyTaskIndex));
-                    ListItem current = new ListItem(itemList.get(i), cursor.getString(keyTimeIndex));
-                    arrayItemList.add(current);
-                } while (cursor.moveToNext());
-            } else
-                Log.d("mLog", "0 rows");
         }
     }
     private void enableSwipe() {
@@ -188,7 +184,7 @@ public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchH
                 @Override
                 public void onClick(View view) {
                     // undo is selected, restore the deleted item
-                    adapter.restoreItem(deletedModel, deletedPosition);
+                    adapter.restoreItem(deletedModel, arrayItemList.size()-1);
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
                     database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);

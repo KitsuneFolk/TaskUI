@@ -2,19 +2,25 @@ package com.pandacorp.taskui.ui.Adapter;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.res.ColorStateList;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -121,7 +127,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         listItems.remove(position);
         notifyItemRemoved(position);
 
-
         deleteTask(listItem.getMainText(), Table);
 
 
@@ -135,6 +140,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public void restoreItem(ListItem listItem, int position) {
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBHelper.KEY_TASK_TEXT, listItem.getMainText());
+        contentValues.put(DBHelper.KEY_TASK_TIME, listItem.getTime());
         listItems.add(listItem);
         database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
         deleteTask(listItem.getMainText(), DBHelper.COMPLETED_TASKS_TABLE_NAME);
@@ -147,6 +153,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView main_tv;
         private TextView time_tv;
+        private ImageView priority_image_view;
         private ImageButton complete_button;
 
         //Needed for drawing red color when swiping.
@@ -158,6 +165,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
             main_tv = itemView.findViewById(R.id.main_tv);
             time_tv = itemView.findViewById(R.id.time_tv);
+            priority_image_view = itemView.findViewById(R.id.priority_image_view);
 
             complete_button = itemView.findViewById(R.id.complete_button);
 
@@ -170,6 +178,18 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         public void bindData(final ListItem listItem) {
             main_tv.setText(listItem.getMainText());
             time_tv.setText(listItem.getTime());
+            switch (listItem.getPriority()){
+                case "white":
+                    priority_image_view.setBackgroundColor(activity.getResources().getColor(R.color.mdtp_white));
+                    break;
+                case "yellow":
+                    priority_image_view.setBackgroundColor(activity.getResources().getColor(R.color.Yellow));
+                    break;
+                case "red":
+                    priority_image_view.setBackgroundColor(activity.getResources().getColor(R.color.Red));
+                    break;
+            }
+
 
         }
 

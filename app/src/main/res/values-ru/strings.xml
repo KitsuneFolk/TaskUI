@@ -32,7 +32,8 @@
     <string name="snackbar_undo">Отменить</string>
     <string name="snackbar_removed">Задача удалена!</string>
     <string name="snackbar_completed">Задача выполнена!</string>
-    <string name="set_time">Выбрать время</string>
+    <string name="show_layout_set_time">Выбрать время</string>
+    <string name="show_layout_set_priority">Выбрать приоритет</string>
     <string name="postpone">Отложить</string>
     <string name="done">Завершить</string>
 

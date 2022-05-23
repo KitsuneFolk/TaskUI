@@ -31,7 +31,8 @@
     <string name="snackbar_undo">Вiдмiнити</string>
     <string name="snackbar_removed">Задача видалена!</string>
     <string name="snackbar_completed">Задача виконана!</string>
-    <string name="set_time">Обрати Час</string>
+    <string name="show_layout_set_time">Обрати Час</string>
+    <string name="show_layout_set_priority">Обрати прiорiтет</string>
     <string name="postpone">Вiдкласти</string>
     <string name="done">Завершити</string>
 

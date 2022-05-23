@@ -31,7 +31,9 @@
     <string name="snackbar_undo">Undo</string>
     <string name="snackbar_removed">Task is removed!</string>
     <string name="snackbar_completed">Task is completed!</string>
-    <string name="set_time">Set time</string>
+    <string name="show_layout_set_time">Set time</string>
+    <string name="show_layout_set_priority">Set priority</string>
+
     <string name="postpone">Postpone</string>
     <string name="done">Done</string>
 
