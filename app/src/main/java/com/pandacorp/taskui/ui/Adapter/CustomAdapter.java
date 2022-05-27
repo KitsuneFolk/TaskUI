@@ -2,36 +2,25 @@ package com.pandacorp.taskui.ui.Adapter;
 
 import android.app.Activity;
 import android.content.ContentValues;
-import android.content.res.ColorStateList;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.taskui.DBHelper;
 import com.pandacorp.taskui.R;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private final String TAG = "MyLogs";
@@ -79,31 +68,41 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             @Override
             public void onClick(View v) {
 
-//                removeItem(position);
-                dbHelper = new DBHelper(view.getContext());
-                database = dbHelper.getWritableDatabase();
+                try {
+                    setCompleteButton(listItem, position);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                removeItem(position, listItem, DBHelper.MAIN_TASKS_TABLE_NAME);
-
-                setCompletedTaskValue(listItem);
-
-                Snackbar snackbar = Snackbar.make(activity.getWindow().getDecorView().getRootView(), view.getResources().getString(R.string.snackbar_completed), Snackbar.LENGTH_LONG);
-                snackbar.setAnchorView(R.id.speed_dial_linearLayout);
-                snackbar.setAction(view.getResources().getString(R.string.snackbar_undo), new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-//                        deleteTask(listItem.getMainText(), DBHelper.COMPLETED_TASKS_TABLE_NAME);
-                        restoreItem(listItem, position);
-
-                        //Убирает галочку на чекбоксе, когда элемент возвращается.
-                        notifyDataSetChanged();
-
-
-                    }
-                });
-                snackbar.show();
             }
         });
+
+    }
+
+    private void setCompleteButton(final ListItem listItem, int position) {
+
+        Snackbar snackbar = Snackbar.make(activity.getWindow().getDecorView().getRootView(), view.getResources().getString(R.string.snackbar_completed), Snackbar.LENGTH_LONG);
+        snackbar.setAnchorView(R.id.speed_dial_linearLayout);
+
+        snackbar.setAction(view.getResources().getString(R.string.snackbar_undo), new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                restoreItem(listItem, DBHelper.COMPLETED_TASKS_TABLE_NAME, DBHelper.MAIN_TASKS_TABLE_NAME);
+
+                //Убирает галочку на чекбоксе, когда элемент возвращается.
+                notifyDataSetChanged();
+
+
+            }
+        });
+        snackbar.show();
+
+        dbHelper = new DBHelper(view.getContext());
+        database = dbHelper.getWritableDatabase();
+
+        removeItem(position, listItem, DBHelper.MAIN_TASKS_TABLE_NAME);
+
+        setCompletedTaskValue(listItem);
 
     }
 
@@ -111,11 +110,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         //Setting values of contentValue to set it to COMPLETED_TASKS_DATABASE when clicking CheckBox.
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBHelper.KEY_TASK_TEXT, listItem.getMainText());
+        contentValues.put(DBHelper.KEY_TASK_TIME, listItem.getTime());
+        contentValues.put(DBHelper.KEY_TASK_PRIORITY, listItem.getPriority());
         Log.d(TAG, "setCompletedTasksValues: listItems.get(position).getMainText() = " + listItem.getMainText());
         database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);
 
     }
-
 
 
     @Override
@@ -131,19 +131,25 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
 
     }
+
     public void deleteTask(String name, String DataBase) {
         database.execSQL("DELETE FROM " + DataBase + " WHERE " + DBHelper.KEY_TASK_TEXT + "= '" + name + "'");
 
     }
 
 
-    public void restoreItem(ListItem listItem, int position) {
+    public void restoreItem(ListItem listItem, String fromTable, String toTable) {
+
+        listItems.add(listItem);
+
         ContentValues contentValues = new ContentValues();
         contentValues.put(DBHelper.KEY_TASK_TEXT, listItem.getMainText());
         contentValues.put(DBHelper.KEY_TASK_TIME, listItem.getTime());
-        listItems.add(listItem);
-        database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
-        deleteTask(listItem.getMainText(), DBHelper.COMPLETED_TASKS_TABLE_NAME);
+        contentValues.put(DBHelper.KEY_TASK_PRIORITY, listItem.getPriority());
+        database.insert(toTable, null, contentValues);
+        if (fromTable != null) {
+            deleteTask(listItem.getMainText(), fromTable);
+        }
 
         // notify item added by position
         notifyDataSetChanged();
@@ -178,7 +184,11 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         public void bindData(final ListItem listItem) {
             main_tv.setText(listItem.getMainText());
             time_tv.setText(listItem.getTime());
-            switch (listItem.getPriority()){
+            if (listItem.getPriority() == null) {
+                return;
+                //In case if there is not priority for listItem when you use quick task;
+            }
+            switch (listItem.getPriority()) {
                 case "white":
                     priority_image_view.setBackgroundColor(activity.getResources().getColor(R.color.mdtp_white));
                     break;

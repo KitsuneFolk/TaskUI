@@ -20,6 +20,7 @@
 
     <!--  Share views  -->
     <string name="share_thanks">Дякую що поширили наш додаток!</string>
+    <string name="share_text">Вiтаю. Додаток TaskUI це ваш помiчник iз вашими завданнями, ви можете завантажити його за цим посиланням. Дякую! :) </string>
     <string name="settings_another">Iнше</string>
 
     <!--  show_layout  -->

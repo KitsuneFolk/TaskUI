@@ -25,10 +25,10 @@ import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.taskui.DBHelper;
 import com.pandacorp.taskui.R;
+import com.pandacorp.taskui.SetTaskActivity;
 import com.pandacorp.taskui.ui.Adapter.CustomAdapter;
 import com.pandacorp.taskui.ui.Adapter.ListItem;
 import com.pandacorp.taskui.ui.Adapter.RecyclerItemTouchHelper;
-import com.pandacorp.taskui.SetTaskActivity;
 
 import java.util.ArrayList;
 
@@ -242,6 +242,8 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
             // set DELETED_DATABASE task
             ContentValues contentValues = new ContentValues();
             contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
+            contentValues.put(DBHelper.KEY_TASK_TIME, deletedModel.getTime());
+            contentValues.put(DBHelper.KEY_TASK_PRIORITY, deletedModel.getPriority());
             WritableDatabase.insert(DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", contentValues);
 
             // showing snack bar with Undo option
@@ -252,10 +254,8 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
                 @Override
                 public void onClick(View view) {
                     // undo is selected, restore the deleted item
-                    adapter.restoreItem(deletedModel, arrayItemList.size()-1);
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-                    database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
+                    adapter.restoreItem(deletedModel, DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.MAIN_TASKS_TABLE_NAME);
+
                 }
             });
             snackbar.show();

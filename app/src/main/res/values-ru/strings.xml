@@ -21,6 +21,7 @@
 
     <!--  Share views  -->
     <string name="share_thanks">Спасибо что поделились нашим приложением!</string>
+    <string name="share_text">Приветствую. Приложение TaskUI это ваш помощник с вашими заданиями, вы можете скачать его по этой ссылке. Спасибо! :) </string>
     <string name="settings_another">Другое</string>
 
     <!--  show_layout  -->

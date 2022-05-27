@@ -16,25 +16,12 @@
         android:theme="@style/BlueTheme"
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="q">
+
+        <receiver android:name=".ui.ReminderBroadcast" />
+
         <activity
-            android:name=".ui.main_tasks.PostponeActivity"
-            android:excludeFromRecents="true"
-            android:launchMode="singleInstance"
-            android:taskAffinity="" />
-
-        <receiver android:name="com.allyants.notifyme.NotificationPublisher" />
-        <receiver android:name="com.allyants.notifyme.BootNotifyMe">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-
-                <category android:name="android.intent.category.HOME" />
-            </intent-filter>
-        </receiver>
-        <receiver android:name=".ui.ReminderBroadcast"/>
-
-        <activity android:name=".SetTaskActivity"
-            android:screenOrientation="portrait"
-            />
+            android:name=".SetTaskActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.settings.SettingsActivity"
             android:label="@string/menu_settings"

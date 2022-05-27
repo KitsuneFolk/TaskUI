@@ -40,7 +40,7 @@
     <style name="BlueTheme_AlertDialog" parent="Theme.AppCompat.Dialog.Alert">
         <!--  This theme needs for ListPreference background  -->
         <item name="android:colorBackground">@color/BlueTheme_Background</item>
-        <item name="android:textColorSecondary">#448AFF</item>
+        <item name="android:textColorSecondary">@color/TextColor</item>
         <item name="textColorAlertDialogListItem">@color/TextColor</item>
         <item name="color">@color/BlueTheme_Background</item>
 

@@ -152,7 +152,7 @@ public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchH
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
 
         //Attached the ItemTouchHelper
-        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
+        ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.RIGHT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
     }
 
@@ -170,7 +170,6 @@ public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchH
         Log.d(TAG, "onSwiped: onSwiped");
         if (viewHolder instanceof CustomAdapter.ViewHolder) {
             final ListItem deletedModel = arrayItemList.get(position);
-            final int deletedPosition = position;
             adapter.removeItem(position, deletedModel, DBHelper.DELETED_TASKS_TABLE_NAME);
             // deleting database item
             final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
@@ -184,10 +183,8 @@ public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchH
                 @Override
                 public void onClick(View view) {
                     // undo is selected, restore the deleted item
-                    adapter.restoreItem(deletedModel, arrayItemList.size()-1);
-                    ContentValues contentValues = new ContentValues();
-                    contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-                    database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);
+                    adapter.restoreItem(deletedModel, null, DBHelper.DELETED_TASKS_TABLE_NAME);
+
                 }
             });
             snackbar.show();

@@ -9,14 +9,12 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 
 import androidx.core.app.NotificationCompat;
 
 import com.pandacorp.taskui.MainActivity;
 import com.pandacorp.taskui.R;
-import com.pandacorp.taskui.ui.main_tasks.PostponeActivity;
 
 import java.util.Random;
 
@@ -47,15 +45,6 @@ public class NotificationUtils extends ContextWrapper {
                 stackBuilder.getPendingIntent(0,
                         PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-//        Intent postponeIntent = new Intent(this, PostponeActivity.class);
-//        TaskStackBuilder postponeStackBuilder = TaskStackBuilder.create(this);
-//        postponeStackBuilder.addNextIntentWithParentStack(postponeIntent);
-//        PendingIntent postponePendingIntent =
-//                postponeStackBuilder.getPendingIntent(0,
-//                        PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-
-//        Intent doneIntent = new Intent(this, DoneActivity.class);
-
 
         return new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_complete)
@@ -63,8 +52,6 @@ public class NotificationUtils extends ContextWrapper {
                 .setContentText(content)
                 .setAutoCancel(true)
                 .setContentIntent(resultPendingIntent)
-//                .addAction(R.drawable.ic_notification_postpone, getResources().getString(R.string.postpone), postponePendingIntent)
-//                .addAction(R.drawable.ic_complete, getResources().getString(R.string.done), doneIntent)
 
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
     }
@@ -84,14 +71,22 @@ public class NotificationUtils extends ContextWrapper {
 
         return _notificationManager;
     }
-
+    PendingIntent pendingIntent;
+    AlarmManager alarmManager;
     public void setReminder(long timeInMillis) {
-        Intent _intent = new Intent(_context, ReminderBroadcast.class);
-        PendingIntent _pendingIntent = PendingIntent.getBroadcast(_context, 0, _intent, 0);
+        Intent intent = new Intent(_context, ReminderBroadcast.class);
+        pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        AlarmManager _alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        _alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, _pendingIntent);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent);
+
     }
+    public static void cancelNotification(Context context, int notifyId){
+        String ns = Context.NOTIFICATION_SERVICE;
+        NotificationManager nMgr = (NotificationManager) context.getSystemService(ns);
+        nMgr.cancel(notifyId);
+    }
+
 
 }

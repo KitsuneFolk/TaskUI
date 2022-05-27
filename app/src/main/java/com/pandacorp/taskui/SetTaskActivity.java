@@ -129,12 +129,15 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
         ContentValues contentValues = new ContentValues();
 
         contentValues.put(DBHelper.KEY_TASK_TEXT, task_text);
-        contentValues.put(DBHelper.KEY_TASK_TIME, task_time);
         contentValues.put(DBHelper.KEY_TASK_PRIORITY, task_priority);
+        if (isTimeSet ){
+            contentValues.put(DBHelper.KEY_TASK_TIME, task_time);
+            setNotification();
+
+        }
 
         database.insert(DBHelper.MAIN_TASKS_TABLE_NAME, null, contentValues);
 
-        setNotification();
         dbHelper.close();
 
         setResult(RESULT_OK);
@@ -152,6 +155,7 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
         NotificationUtils _notificationUtils = new NotificationUtils(this);
         _notificationUtils.setNotification(title, content);
         _notificationUtils.setReminder(_triggerReminder);
+
 
     }
 
@@ -181,6 +185,10 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
         now.set(Calendar.HOUR_OF_DAY, hourOfDay);
         now.set(Calendar.MINUTE, minute);
         now.set(Calendar.SECOND, 0);
+
+        String task_time = String.format("%02d:%02d", now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+        set_time_btn.setText(task_time);
+        isTimeSet = true;
 
     }
 }

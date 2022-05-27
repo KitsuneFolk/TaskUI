@@ -20,6 +20,7 @@
 
     <!--  Share views  -->
     <string name="share_thanks">Thanks for sharing the app!</string>
+    <string name="share_text">Hello. The app TaskUI is your helper with your tasks, you can download it from this link. Thank you :) </string>
     <string name="settings_another">Another</string>
 
     <!--  show_layout  -->
@@ -37,7 +38,7 @@
     <string name="postpone">Postpone</string>
     <string name="done">Done</string>
 
-    <!--  fragment_main_tasks  -->
+    <!--  _main_tasks  -->
     <string name="delete">Delete</string>
     <string name="add">Add</string>
     <string name="delete_forever">Delete forever</string>
