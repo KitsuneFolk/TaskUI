@@ -21,15 +21,17 @@ import java.util.Random;
 public class NotificationUtils extends ContextWrapper {
 
     private NotificationManager _notificationManager;
-    private Context _context;
+    private Context context;
     private String CHANNEL_ID = String.valueOf(new Random().nextInt(1000));
     private String TIMELINE_CHANNEL_NAME = String.valueOf(new Random().nextInt(1000)) + 1000;
 
-    public static String title;
+    private static long timeInMillis;
+
+    public String title;
     public static String content;
-    public NotificationUtils(Context base) {
-        super(base);
-        _context = base;
+    public NotificationUtils(Context context) {
+        super(context);
+        this.context = context;
         createChannel();
     }
 
@@ -71,21 +73,27 @@ public class NotificationUtils extends ContextWrapper {
 
         return _notificationManager;
     }
-    PendingIntent pendingIntent;
-    AlarmManager alarmManager;
+    private static PendingIntent pendingIntent;
+    private static AlarmManager alarmManager;
     public void setReminder(long timeInMillis) {
-        Intent intent = new Intent(_context, ReminderBroadcast.class);
-        pendingIntent = PendingIntent.getBroadcast(_context, 0, intent, 0);
+        this.timeInMillis = timeInMillis;
+        Intent intent = new Intent(context, ReminderBroadcast.class);
+        intent.putExtra("title", title);
+        intent.putExtra("content", content);
+        pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, timeInMillis, pendingIntent);
 
+
     }
     public static void cancelNotification(Context context, int notifyId){
-        String ns = Context.NOTIFICATION_SERVICE;
-        NotificationManager nMgr = (NotificationManager) context.getSystemService(ns);
-        nMgr.cancel(notifyId);
+        alarmManager.cancel(pendingIntent);
+        NotificationManager notificationManager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(notifyId);
+
+
     }
 
 

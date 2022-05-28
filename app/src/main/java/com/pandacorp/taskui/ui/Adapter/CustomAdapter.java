@@ -2,6 +2,8 @@ package com.pandacorp.taskui.ui.Adapter;
 
 import android.app.Activity;
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.taskui.DBHelper;
 import com.pandacorp.taskui.R;
+import com.pandacorp.taskui.ui.NotificationUtils;
 
 import java.util.List;
 
@@ -80,6 +83,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     private void setCompleteButton(final ListItem listItem, int position) {
+        cancelNotification(listItem);
 
         Snackbar snackbar = Snackbar.make(activity.getWindow().getDecorView().getRootView(), view.getResources().getString(R.string.snackbar_completed), Snackbar.LENGTH_LONG);
         snackbar.setAnchorView(R.id.speed_dial_linearLayout);
@@ -104,6 +108,13 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
         setCompletedTaskValue(listItem);
 
+    }
+
+    private void cancelNotification(ListItem deletedModel) {
+        SharedPreferences sp = activity.getSharedPreferences("notifications_id", Context.MODE_PRIVATE);
+        int notification_id = sp.getInt(deletedModel.getMainText(), 0);
+
+        NotificationUtils.cancelNotification(activity, notification_id);
     }
 
     private void setCompletedTaskValue(ListItem listItem) {

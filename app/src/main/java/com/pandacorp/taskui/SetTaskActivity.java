@@ -1,6 +1,8 @@
 package com.pandacorp.taskui;
 
 import android.content.ContentValues;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -21,6 +23,7 @@ import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
+import java.util.Random;
 
 public class SetTaskActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private String TAG = "MyLogs";
@@ -152,6 +155,13 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
         String title = getResources().getString(R.string.show_layout_task);
         String content = set_task_editText.getText().toString();
 
+        int notification_id = now.get(Calendar.HOUR_OF_DAY) + now.get(Calendar.MINUTE) + now.get(Calendar.SECOND);
+        SharedPreferences sp = getSharedPreferences("notifications_id", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putInt(set_task_editText.getText().toString(), notification_id);
+
+        editor.apply();
+
         NotificationUtils _notificationUtils = new NotificationUtils(this);
         _notificationUtils.setNotification(title, content);
         _notificationUtils.setReminder(_triggerReminder);
@@ -184,7 +194,7 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
         Log.d(TAG, "onTimeSet: hourOfDay, minute = " + hourOfDay + ", " + minute);
         now.set(Calendar.HOUR_OF_DAY, hourOfDay);
         now.set(Calendar.MINUTE, minute);
-        now.set(Calendar.SECOND, 0);
+        now.set(Calendar.SECOND, second);
 
         String task_time = String.format("%02d:%02d", now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
         set_time_btn.setText(task_time);

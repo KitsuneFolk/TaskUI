@@ -1,7 +1,9 @@
 package com.pandacorp.taskui.ui.main_tasks;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -29,12 +31,13 @@ import com.pandacorp.taskui.SetTaskActivity;
 import com.pandacorp.taskui.ui.Adapter.CustomAdapter;
 import com.pandacorp.taskui.ui.Adapter.ListItem;
 import com.pandacorp.taskui.ui.Adapter.RecyclerItemTouchHelper;
+import com.pandacorp.taskui.ui.NotificationUtils;
 
 import java.util.ArrayList;
 
 import static android.app.Activity.RESULT_OK;
 
-public class MainTasksFragment extends Fragment implements View.OnClickListener, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener{
+public class MainTasksFragment extends Fragment implements View.OnClickListener, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     //Variable needed for ActivityOnResult to understand where data came from.
     private final int REQUEST_CODE_SET_TASK = 0;
 
@@ -110,9 +113,10 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
         delete_forever_fab.setOnClickListener(this);
 
     }
+
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.add_fab:
                 Intent intent = new Intent(getActivity(), SetTaskActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_SET_TASK);
@@ -229,6 +233,7 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
 
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
     }
+
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         Log.d(TAG, "onSwiped: onSwiped");
@@ -245,6 +250,8 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
             contentValues.put(DBHelper.KEY_TASK_TIME, deletedModel.getTime());
             contentValues.put(DBHelper.KEY_TASK_PRIORITY, deletedModel.getPriority());
             WritableDatabase.insert(DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", contentValues);
+
+            cancelNotification(deletedModel);
 
             // showing snack bar with Undo option
             Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
@@ -264,6 +271,12 @@ public class MainTasksFragment extends Fragment implements View.OnClickListener,
 
     }
 
+    private void cancelNotification(ListItem deletedModel) {
+        SharedPreferences sp = getContext().getSharedPreferences("notifications_id", Context.MODE_PRIVATE);
+        int notification_id = sp.getInt(deletedModel.getMainText(), 0);
+
+        NotificationUtils.cancelNotification(getContext(), notification_id);
+    }
 
 
 }
