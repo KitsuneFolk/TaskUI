@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.ui.Adapter;
+package com.pandacorp.taskui.Adapter;
 
 import android.graphics.Canvas;
 import android.view.View;

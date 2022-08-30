@@ -18,7 +18,6 @@ import androidx.preference.PreferenceManager;
 
 import com.pandacorp.taskui.MainActivity;
 import com.pandacorp.taskui.R;
-import com.pandacorp.taskui.ui.MySettings;
 
 public class SettingsActivity extends AppCompatActivity {
     final String TAG = "MyLogs";

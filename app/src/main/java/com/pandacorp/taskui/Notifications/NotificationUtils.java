@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.ui;
+package com.pandacorp.taskui.Notifications;
 
 import android.app.AlarmManager;
 import android.app.Notification;

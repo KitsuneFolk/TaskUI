@@ -17,7 +17,7 @@
         tools:ignore="GoogleAppIndexingWarning"
         tools:targetApi="q">
 
-        <receiver android:name=".ui.ReminderBroadcast" />
+        <receiver android:name=".Notifications.ReminderBroadcast" />
 
         <activity
             android:name=".SetTaskActivity"

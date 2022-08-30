@@ -1,5 +1,7 @@
 package com.pandacorp.taskui.ui.main_tasks;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -25,17 +27,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.pandacorp.taskui.Adapter.CustomAdapter;
+import com.pandacorp.taskui.Adapter.ListItem;
+import com.pandacorp.taskui.Adapter.RecyclerItemTouchHelper;
 import com.pandacorp.taskui.DBHelper;
+import com.pandacorp.taskui.Notifications.NotificationUtils;
 import com.pandacorp.taskui.R;
 import com.pandacorp.taskui.SetTaskActivity;
-import com.pandacorp.taskui.ui.Adapter.CustomAdapter;
-import com.pandacorp.taskui.ui.Adapter.ListItem;
-import com.pandacorp.taskui.ui.Adapter.RecyclerItemTouchHelper;
-import com.pandacorp.taskui.ui.NotificationUtils;
 
 import java.util.ArrayList;
-
-import static android.app.Activity.RESULT_OK;
 
 public class MainTasksFragment extends Fragment implements View.OnClickListener, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     //Variable needed for ActivityOnResult to understand where data came from.

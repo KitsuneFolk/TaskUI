@@ -19,11 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.pandacorp.taskui.Adapter.CustomAdapter;
+import com.pandacorp.taskui.Adapter.ListItem;
+import com.pandacorp.taskui.Adapter.RecyclerItemTouchHelper;
 import com.pandacorp.taskui.DBHelper;
 import com.pandacorp.taskui.R;
-import com.pandacorp.taskui.ui.Adapter.CustomAdapter;
-import com.pandacorp.taskui.ui.Adapter.ListItem;
-import com.pandacorp.taskui.ui.Adapter.RecyclerItemTouchHelper;
 
 import java.util.ArrayList;
 

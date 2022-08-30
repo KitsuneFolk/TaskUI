@@ -9,6 +9,7 @@
         <item name="android:textColor">@color/TextColor</item>
         <item name="android:navigationBarColor">@color/BlueTheme_colorPrimary</item>
         <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 
         <item name="buttonStyle">@style/BlueTheme_Button</item>
         <item name="editTextStyle">@style/BlueTheme_EditText</item>
@@ -77,6 +78,7 @@
         <item name="android:textColorSecondary">@color/DarkTheme_textColorSecondary</item>
         <item name="android:textColorHint">@color/DarkTheme_TextColor</item>
         <item name="android:navigationBarColor">@color/DarkTheme_colorPrimary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 
         <item name="buttonStyle">@style/DarkTheme_Button</item>
         <item name="editTextStyle">@style/DarkTheme_EditText</item>
@@ -146,6 +148,7 @@
         <item name="android:textColorSecondary">@color/RedTheme_textColorSecondary</item>
         <item name="android:textColorHint">@color/TextColor</item>
         <item name="android:navigationBarColor">@color/RedTheme_colorPrimary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
 
         <item name="buttonStyle">@style/RedTheme_Button</item>
         <item name="editTextStyle">@style/RedTheme_EditText</item>

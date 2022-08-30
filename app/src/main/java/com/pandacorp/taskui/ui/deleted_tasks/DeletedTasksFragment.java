@@ -3,7 +3,6 @@ package com.pandacorp.taskui.ui.deleted_tasks;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -21,15 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
+import com.pandacorp.taskui.Adapter.CustomAdapter;
+import com.pandacorp.taskui.Adapter.ListItem;
+import com.pandacorp.taskui.Adapter.RecyclerItemTouchHelper;
 import com.pandacorp.taskui.DBHelper;
 import com.pandacorp.taskui.R;
-import com.pandacorp.taskui.ui.Adapter.CustomAdapter;
-import com.pandacorp.taskui.ui.Adapter.ListItem;
-import com.pandacorp.taskui.ui.Adapter.RecyclerItemTouchHelper;
 
 import java.util.ArrayList;
-
-import it.xabaras.android.recyclerview.swipedecorator.RecyclerViewSwipeDecorator;
 
 public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     private final String TAG = "MyLogs";

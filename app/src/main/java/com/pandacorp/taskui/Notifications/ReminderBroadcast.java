@@ -1,6 +1,5 @@
-package com.pandacorp.taskui.ui;
+package com.pandacorp.taskui.Notifications;
 
-import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;

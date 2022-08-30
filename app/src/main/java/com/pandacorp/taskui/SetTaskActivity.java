@@ -17,13 +17,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.pandacorp.taskui.ui.MySettings;
-import com.pandacorp.taskui.ui.NotificationUtils;
+import com.pandacorp.taskui.Notifications.NotificationUtils;
+import com.pandacorp.taskui.ui.settings.MySettings;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
-import java.util.Random;
 
 public class SetTaskActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
     private String TAG = "MyLogs";

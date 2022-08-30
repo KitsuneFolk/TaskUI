@@ -11,7 +11,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
-import com.pandacorp.taskui.ui.MySettings;
+import com.pandacorp.taskui.ui.settings.MySettings;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -47,6 +47,5 @@ public class MainActivity extends AppCompatActivity {
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
-
 
 }

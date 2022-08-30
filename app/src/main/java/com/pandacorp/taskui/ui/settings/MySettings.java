@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.ui;
+package com.pandacorp.taskui.ui.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;

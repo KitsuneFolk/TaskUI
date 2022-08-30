@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.ui.Adapter;
+package com.pandacorp.taskui.Adapter;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.taskui.DBHelper;
+import com.pandacorp.taskui.Notifications.NotificationUtils;
 import com.pandacorp.taskui.R;
-import com.pandacorp.taskui.ui.NotificationUtils;
 
 import java.util.List;
 
