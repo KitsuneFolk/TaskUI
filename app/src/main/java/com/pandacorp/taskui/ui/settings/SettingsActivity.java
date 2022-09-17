@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -18,6 +17,7 @@ import androidx.preference.PreferenceManager;
 
 import com.pandacorp.taskui.MainActivity;
 import com.pandacorp.taskui.R;
+import com.pandacorp.taskui.Widget.WidgetProvider;
 
 public class SettingsActivity extends AppCompatActivity {
     final String TAG = "MyLogs";
@@ -94,25 +94,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
-            final String TAG = "MyLogs";
-            Log.d(TAG, "onPreferenceChange: preference = " + preference.getKey());
-            Log.d(TAG, "onPreferenceChange: newValue = " + newValue);
 
-            language = sp.getString("Languages", "");
-            theme = sp.getString("Themes", "");
-
-            switch (preference.getKey()) {
-                case "Themes":
-
-                    getActivity().recreate();
-                    break;
-                case "Languages":
-
-                    getActivity().recreate();
-                    break;
-                default:
-
-            }
+            WidgetProvider.Companion.sendRefreshBroadcast(requireContext());
+            getActivity().recreate();
 
             return true;
         }

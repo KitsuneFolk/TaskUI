@@ -38,11 +38,15 @@
     <string name="postpone">Postpone</string>
     <string name="done">Done</string>
 
-    <!--  _main_tasks  -->
+    <!--  main_tasks  -->
     <string name="delete">Delete</string>
     <string name="add">Add</string>
     <string name="delete_forever">Delete forever</string>
     <string name="complete">Complete</string>
+
+    <!--    widget-->
+    <string name="widget_settings">Widget settings</string>
+    <string name="widget_theme_spinner_default_value">App theme</string>
 
 
 </resources>

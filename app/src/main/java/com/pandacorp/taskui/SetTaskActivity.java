@@ -17,7 +17,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.pandacorp.taskui.Adapter.ListItem;
 import com.pandacorp.taskui.Notifications.NotificationUtils;
+import com.pandacorp.taskui.Widget.WidgetProvider;
 import com.pandacorp.taskui.ui.settings.MySettings;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -91,7 +93,8 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
 
                 if (set_task_editText.getText().length() != 0) {
                     setTask();
-                    Log.d(TAG, "onClick: set_task_editText.getText() = " + set_task_editText.getText());
+                    updateWidgetOnItemAdded();
+
                 }
                 break;
             case R.id.set_time_btn:
@@ -101,29 +104,27 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void setTask() {
-        String task_text;
-        String task_time;
         String task_priority;
 
 
-        task_text = String.valueOf(set_task_editText.getText());
+        String task_text = String.valueOf(set_task_editText.getText());
         //Needed for set time from 10:0 to 10:00
-        task_time = String.format("%02d:%02d", now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
-        
+        String task_time = String.format("%02d:%02d", now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+
         switch (set_priority_radio_group.getCheckedRadioButtonId()) {
             case R.id.white_radio_button:
-                task_priority = "white";
+                task_priority = ListItem.white;
                 break;
             case R.id.orange_radio_button:
-                task_priority = "yellow";
+                task_priority = ListItem.yellow;
                 break;
             case R.id.red_radio_button:
-                task_priority = "red";
+                task_priority = ListItem.red;
                 break;
             default:
                 throw new IllegalStateException("SetTaskActivity.settask: Unexpected value: " + set_priority_radio_group.getCheckedRadioButtonId());
         }
-        
+
         Log.d(TAG, "onClick: task_time = " + task_time);
         Log.d("MyLogs", "onClick: task_text = " + task_text);
         Log.d(TAG, "onClick: task_prioriy = " + task_time);
@@ -132,7 +133,7 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
 
         contentValues.put(DBHelper.KEY_TASK_TEXT, task_text);
         contentValues.put(DBHelper.KEY_TASK_PRIORITY, task_priority);
-        if (isTimeSet ){
+        if (isTimeSet) {
             contentValues.put(DBHelper.KEY_TASK_TIME, task_time);
             setNotification();
 
@@ -165,6 +166,11 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
         _notificationUtils.setNotification(title, content);
         _notificationUtils.setReminder(_triggerReminder);
 
+
+    }
+
+    private void updateWidgetOnItemAdded() {
+        WidgetProvider.Companion.sendRefreshBroadcast(this);
 
     }
 

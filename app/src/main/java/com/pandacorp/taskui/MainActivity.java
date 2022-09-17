@@ -20,20 +20,28 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadSettings();
+        setContentView(R.layout.activity_main);
+        initViews();
+
+    }
+    private void loadSettings(){
         MySettings mySettings = new MySettings(this);
         mySettings.load();
 
-        setContentView(R.layout.activity_main);
+    }
+    private void initViews(){
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_main_tasks, R.id.nav_completed_tasks, R.id.nav_deleted_tasks, R.id.nav_share)
                 .setDrawerLayout(drawer)
                 .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);

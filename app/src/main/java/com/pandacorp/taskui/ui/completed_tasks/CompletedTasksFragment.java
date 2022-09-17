@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,11 +25,13 @@ import com.pandacorp.taskui.Adapter.ListItem;
 import com.pandacorp.taskui.Adapter.RecyclerItemTouchHelper;
 import com.pandacorp.taskui.DBHelper;
 import com.pandacorp.taskui.R;
+import com.pandacorp.taskui.Widget.WidgetProvider;
 
 import java.util.ArrayList;
 
 public class CompletedTasksFragment extends Fragment implements View.OnClickListener, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     private final String TAG = "MyLogs";
+    private final String table = DBHelper.COMPLETED_TASKS_TABLE_NAME;
 
     private RecyclerView recyclerView;
     public CustomAdapter adapter;
@@ -51,7 +54,7 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_completed_tasks, container, false);
 
-        initViews();
+        new Handler().post(this::initViews);
 
         return root;
     }
@@ -177,10 +180,11 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
         Log.d(TAG, "onSwiped: onSwiped");
         if (viewHolder instanceof CustomAdapter.ViewHolder) {
             final ListItem deletedModel = arrayItemList.get(position);
-            adapter.removeItem(position, deletedModel, DBHelper.COMPLETED_TASKS_TABLE_NAME);
+            adapter.removeItem(position);
             // deleting database item
             final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
-            WritableDatabase.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", new String[]{deletedModel.getMainText()});
+            int id = dbHelper.getDatabaseItemIdByRecyclerViewItemId(table, position);
+            WritableDatabase.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_ID + "=?", new String[]{String.valueOf(id)});
 
             // set DELETED_DATABASE task
             ContentValues contentValues = new ContentValues();
@@ -188,6 +192,7 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
             contentValues.put(DBHelper.KEY_TASK_TIME, deletedModel.getTime());
             contentValues.put(DBHelper.KEY_TASK_PRIORITY, deletedModel.getPriority());
             WritableDatabase.insert(DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", contentValues);
+            WidgetProvider.Companion.sendRefreshBroadcast(getContext());
 
             // showing snack bar with Undo option
             Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
@@ -197,7 +202,7 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
                 @Override
                 public void onClick(View view) {
                     // undo is selected, restore the deleted item
-                    adapter.restoreItem(deletedModel, DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.COMPLETED_TASKS_TABLE_NAME);
+                    adapter.restoreItem(deletedModel, DBHelper.COMPLETED_TASKS_TABLE_NAME);
 
                 }
             });

@@ -12,6 +12,12 @@
         <item>red</item>
     </string-array>
 
+    <string-array name="Widget_themes">
+        <item>Синя</item>
+        <item>Темна</item>
+        <item>Червона</item>
+        <item>Тема додатку</item>
+    </string-array>
 
     <!--    <string-array name="Languages">-->
     <!--        <item>Росiйська</item>-->

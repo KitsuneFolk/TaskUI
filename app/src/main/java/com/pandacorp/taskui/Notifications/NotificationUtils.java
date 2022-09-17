@@ -88,10 +88,16 @@ public class NotificationUtils extends ContextWrapper {
 
     }
     public static void cancelNotification(Context context, int notifyId){
-        alarmManager.cancel(pendingIntent);
-        NotificationManager notificationManager =
-                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.cancel(notifyId);
+        if (alarmManager != null){
+            alarmManager.cancel(pendingIntent);
+
+            NotificationManager notificationManager =
+
+                    (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            notificationManager.cancel(notifyId);
+
+        }
 
 
     }

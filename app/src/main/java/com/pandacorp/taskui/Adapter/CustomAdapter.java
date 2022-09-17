@@ -1,11 +1,9 @@
 package com.pandacorp.taskui.Adapter;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.pandacorp.taskui.DBHelper;
 import com.pandacorp.taskui.Notifications.NotificationUtils;
 import com.pandacorp.taskui.R;
+import com.pandacorp.taskui.Widget.WidgetProvider;
 
 import java.util.List;
 
@@ -59,12 +58,12 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        delete_cb_init(holder, position);
+        setCompleteButton(holder, position);
 
 
     }
 
-    private void delete_cb_init(final ViewHolder holder, final int position) {
+    private void setCompleteButton(final ViewHolder holder, final int position) {
         final ListItem listItem = listItems.get(position);
         holder.bindData(listItem);
         holder.complete_button.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +71,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             public void onClick(View v) {
 
                 try {
-                    setCompleteButton(listItem, position);
+                    cancelNotification(listItem);
+                    setUndoSnackbar(listItem, position);
+                    WidgetProvider.Companion.sendRefreshBroadcast(view.getContext());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -82,8 +83,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     }
 
-    private void setCompleteButton(final ListItem listItem, int position) {
-        cancelNotification(listItem);
+    private void setUndoSnackbar(final ListItem listItem, int position) {
 
         Snackbar snackbar = Snackbar.make(activity.getWindow().getDecorView().getRootView(), view.getResources().getString(R.string.snackbar_completed), Snackbar.LENGTH_LONG);
         snackbar.setAnchorView(R.id.speed_dial_linearLayout);
@@ -91,7 +91,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         snackbar.setAction(view.getResources().getString(R.string.snackbar_undo), new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                restoreItem(listItem, DBHelper.COMPLETED_TASKS_TABLE_NAME, DBHelper.MAIN_TASKS_TABLE_NAME);
+                restoreItem(listItem, DBHelper.MAIN_TASKS_TABLE_NAME);
 
                 //Убирает галочку на чекбоксе, когда элемент возвращается.
                 notifyDataSetChanged();
@@ -104,7 +104,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         dbHelper = new DBHelper(view.getContext());
         database = dbHelper.getWritableDatabase();
 
-        removeItem(position, listItem, DBHelper.MAIN_TASKS_TABLE_NAME);
+        removeItem(position);
 
         setCompletedTaskValue(listItem);
 
@@ -118,13 +118,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     }
 
     private void setCompletedTaskValue(ListItem listItem) {
-        //Setting values of contentValue to set it to COMPLETED_TASKS_DATABASE when clicking CheckBox.
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBHelper.KEY_TASK_TEXT, listItem.getMainText());
-        contentValues.put(DBHelper.KEY_TASK_TIME, listItem.getTime());
-        contentValues.put(DBHelper.KEY_TASK_PRIORITY, listItem.getPriority());
-        Log.d(TAG, "setCompletedTasksValues: listItems.get(position).getMainText() = " + listItem.getMainText());
-        database.insert(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, contentValues);
+        dbHelper.add(DBHelper.COMPLETED_TASKS_TABLE_NAME, listItem);
 
     }
 
@@ -134,36 +128,27 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         return listItems.size();
     }
 
-    public void removeItem(int position, ListItem listItem, String Table) {
+    public void removeItem(int position) {
         listItems.remove(position);
         notifyItemRemoved(position);
 
-        deleteTask(listItem.getMainText(), Table);
+        int id = dbHelper.getDatabaseItemIdByRecyclerViewItemId(DBHelper.COMPLETED_TASKS_TABLE_NAME, position);
+        database.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_ID + "=?", new String[]{String.valueOf(id)});
 
 
     }
 
-    public void deleteTask(String name, String DataBase) {
-        database.execSQL("DELETE FROM " + DataBase + " WHERE " + DBHelper.KEY_TASK_TEXT + "= '" + name + "'");
 
-    }
-
-
-    public void restoreItem(ListItem listItem, String fromTable, String toTable) {
+    public void restoreItem(ListItem listItem, String table) {
 
         listItems.add(listItem);
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(DBHelper.KEY_TASK_TEXT, listItem.getMainText());
-        contentValues.put(DBHelper.KEY_TASK_TIME, listItem.getTime());
-        contentValues.put(DBHelper.KEY_TASK_PRIORITY, listItem.getPriority());
-        database.insert(toTable, null, contentValues);
-        if (fromTable != null) {
-            deleteTask(listItem.getMainText(), fromTable);
-        }
+        dbHelper.add(table, listItem);
 
-        // notify item added by position
+        // notify item added by position.
         notifyDataSetChanged();
+        // update widget info after restoring the item.
+        WidgetProvider.Companion.sendRefreshBroadcast(view.getContext());
 
     }
 

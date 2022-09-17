@@ -27,7 +27,6 @@
 
     </FrameLayout>
 
-
     <LinearLayout
         android:id="@+id/speed_dial_linearLayout"
         android:layout_width="match_parent"

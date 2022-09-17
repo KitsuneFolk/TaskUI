@@ -44,7 +44,9 @@
     <string name="delete_forever">Удалить навсегда</string>
     <string name="complete">Выполнить</string>
 
-
+    <!--    widget-->
+    <string name="widget_settings">Настройки виджета</string>
+    <string name="widget_theme_spinner_default_value">Тема приложения</string>
 
 
 </resources>

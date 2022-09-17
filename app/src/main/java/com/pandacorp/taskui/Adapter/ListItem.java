@@ -21,4 +21,8 @@ public class ListItem {
         return priority;
     }
 
+    public static String white = "white";
+    public static String yellow = "yellow";
+    public static String red = "red";
+
 }

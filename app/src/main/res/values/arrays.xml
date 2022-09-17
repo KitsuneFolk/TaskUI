@@ -12,6 +12,13 @@
         <item>red</item>
     </string-array>
 
+    <string-array name="Widget_themes">
+        <item>Blue</item>
+        <item>Dark</item>
+        <item>Red</item>
+        <item>App theme</item>
+    </string-array>
+
     <string-array name="Languages">
         <item>Русский</item>
         <item>English</item>

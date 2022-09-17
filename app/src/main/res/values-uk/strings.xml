@@ -43,7 +43,8 @@
     <string name="delete_forever">Видалити назавжди</string>
     <string name="complete">Виконати</string>
 
-
-
+    <!--    widget-->
+    <string name="widget_settings">Налаштування виджета</string>
+    <string name="widget_theme_spinner_default_value">Тема застосунку</string>
 
 </resources>

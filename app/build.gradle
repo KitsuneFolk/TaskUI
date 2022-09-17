@@ -1,12 +1,13 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "31.0.0"
     defaultConfig {
         applicationId "com.pandacorp.taskui"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1
         versionName "1.1"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -19,6 +20,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+configurations {
+    cleanedAnnotations
+    compile.exclude group: 'org.jetbrains' , module:'annotations'
 }
 
 dependencies {
@@ -37,8 +46,16 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'org.jetbrains:annotations-java5:15.0'
     implementation 'com.google.android.material:material:1.6.0-alpha02'
-    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.1'
+    implementation 'it.xaba' +
+            'ras.android:recyclerview-swipedecorator:1.1'
     implementation 'com.github.jakebonk:NotifyMe:1.0.1'
     implementation 'com.wdullaer:materialdatetimepicker:3.6.0'
+    implementation "androidx.core:core-ktx:1.7.0"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "com.github.skydoves:powerspinner:1.2.4"
 
+}
+repositories {
+    mavenCentral()
 }
