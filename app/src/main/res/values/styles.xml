@@ -13,12 +13,11 @@
 
         <item name="buttonStyle">@style/BlueTheme_Button</item>
         <item name="editTextStyle">@style/BlueTheme_EditText</item>
-        <item name="toolbarStyle">@style/BlueTheme_Toolbar</item>
         <item name="alertDialogTheme">@style/BlueTheme_AlertDialog</item>
         <item name="drawerArrowStyle">@style/BlueTheme_DrawerArrowToggle</item>
         <item name="snackbarStyle">@style/BlueTheme_SnackBar</item>
-        <item name="android:datePickerStyle">@style/BlueTheme_DatePicker</item>
-        <item name="android:timePickerStyle">@style/BlueTheme_TimePicker</item>
+        <item name="android:datePickerDialogTheme">@style/BlueTheme_TimePicker</item>
+        <item name="android:timePickerDialogTheme">@style/BlueTheme_TimePicker</item>
 
     </style>
     <style name="BlueTheme_Button" parent="Widget.AppCompat.Button">
@@ -28,10 +27,6 @@
     <style name="BlueTheme_EditText" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/TextColor</item>
         <item name="android:textColorHint">@color/TextColor</item>
-    </style>
-    <style name="BlueTheme_Toolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:colorPrimary">@color/TextColor</item>
-        <item name="android:background">@color/BlueTheme_colorPrimaryDark</item>
     </style>
     <style name="BlueTheme_DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="android:background">@color/TextColor</item>
@@ -46,22 +41,15 @@
         <item name="color">@color/BlueTheme_Background</item>
 
     </style>
-    <style name="BlueTheme_DatePicker" parent="@android:style/Widget.Material.Light.DatePicker">
-        <!--  This theme needs for DatePickerDialog and TimePickerDialog background  -->
-        <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
-        <item name="textColorAlertDialogListItem">@color/TextColor</item>
-        <item name="android:headerBackground">@color/BlueTheme_colorPrimary</item>
-        <item name="android:background">@color/BlueTheme_Background</item>
-        <item name="android:colorBackground">@color/BlueTheme_Background</item>
+    <style name="BlueTheme_TimePicker" parent="Theme.AppCompat.Light.Dialog">
 
-    </style>
-    <style name="BlueTheme_TimePicker" parent="@android:style/Widget.Material.Light.TimePicker">
         <!--  This theme needs for DatePickerDialog and TimePickerDialog background  -->
-        <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
-        <item name="textColorAlertDialogListItem">@color/TextColor</item>
-        <item name="android:headerBackground">@color/BlueTheme_colorPrimary</item>
-        <item name="android:background">@color/BlueTheme_Background</item>
-        <item name="android:colorBackground">@color/BlueTheme_Background</item>
+        <item name="android:textColorPrimary">@color/BlueTheme_colorPrimaryDark</item>
+        <item name="android:textColorHint">@color/BlueTheme_colorPrimaryDark</item>
+        <item name="android:textColorSecondary">@color/BlueTheme_colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/BlueTheme_Background</item>
+
+        <item name="colorAccent">@color/BlueTheme_colorPrimary</item>
 
     </style>
     <style name="BlueTheme_SnackBar" parent="Widget.Design.Snackbar">
@@ -71,8 +59,8 @@
     <style name="DarkTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
 
         <item name="android:colorBackground">@color/DarkTheme_Background</item>
-        <item name="colorPrimary">@color/DarkTheme_colorPrimaryDark</item>
-        <item name="colorPrimaryDark">@color/DarkTheme_colorPrimaryDark</item>
+        <item name="colorPrimary">@color/DarkTheme_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/DarkTheme_colorPrimary</item>
         <item name="colorAccent">@color/DarkTheme_colorAccent</item>
         <item name="android:textColor">@color/DarkTheme_TextColor</item>
         <item name="android:textColorSecondary">@color/DarkTheme_textColorSecondary</item>
@@ -82,11 +70,10 @@
 
         <item name="buttonStyle">@style/DarkTheme_Button</item>
         <item name="editTextStyle">@style/DarkTheme_EditText</item>
-        <item name="toolbarStyle">@style/DarkTheme_Toolbar</item>
         <item name="drawerArrowStyle">@style/DarkTheme_DrawerArrowToggle</item>
         <item name="snackbarStyle">@style/DarkTheme_SnackBar</item>
         <item name="alertDialogTheme">@style/DarkTheme_AlertDialog</item>
-        <item name="android:datePickerStyle">@style/DarkTheme_DatePicker</item>
+        <item name="android:datePickerStyle">@style/DarkTheme_TimePicker</item>
         <item name="android:timePickerStyle">@style/DarkTheme_TimePicker</item>
 
 
@@ -98,12 +85,6 @@
         <item name="android:textColorHint">@color/DarkTheme_TextColor</item>
         <item name="android:textColor">@color/DarkTheme_TextColor</item>
         <item name="android:textColorHighlight">@color/DarkTheme_TextColor</item>
-    </style>
-    <style name="DarkTheme_Toolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:textColor">@color/DarkTheme_TextColor</item>
-        <item name="android:background">@color/DarkTheme_colorPrimaryDark</item>
-        <item name="actionMenuTextColor">@color/TextColor</item>
-
     </style>
     <style name="DarkTheme_DrawerArrowToggle" parent="Widget.AppCompat.DrawerArrowToggle">
         <item name="color">@color/DarkTheme_TextColor</item>
@@ -119,30 +100,24 @@
     <style name="DarkTheme_SnackBar" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">@color/DarkTheme_ButtonColor</item>
     </style>
-    <style name="DarkTheme_DatePicker" parent="@android:style/Widget.Material.Light.DatePicker">
+    <style name="DarkTheme_TimePicker" parent="Theme.AppCompat.DayNight.Dialog">
         <!--  This theme needs for DatePickerDialog and TimePickerDialog background  -->
-        <item name="android:textColorSecondary">@color/DarkTheme_textColorSecondary</item>
-        <item name="textColorAlertDialogListItem">@color/TextColor</item>
-        <item name="android:headerBackground">@color/DarkTheme_colorPrimary</item>
-        <item name="android:background">@color/DarkTheme_Background</item>
-        <item name="android:colorBackground">@color/DarkTheme_Background</item>
+        <item name="android:textColorPrimary">@color/DarkTheme_colorAccent</item>
+        <item name="android:textColorSecondary">@color/DarkTheme_colorAccent</item>
+        <item name="android:textColorHint">@color/DarkTheme_colorAccent</item>
+        <item name="android:textColorHighlight">@color/DarkTheme_colorAccent</item>
+        <item name="android:colorControlActivated">@color/DarkTheme_colorAccent</item>
+        <item name="android:windowBackground">@color/DarkTheme_Background</item>
 
-    </style>
-    <style name="DarkTheme_TimePicker" parent="@android:style/Widget.Material.Light.TimePicker">
-        <!--  This theme needs for DatePickerDialog and TimePickerDialog background  -->
-        <item name="android:textColorSecondary">@color/DarkTheme_textColorSecondary</item>
-        <item name="textColorAlertDialogListItem">@color/TextColor</item>
-        <item name="android:headerBackground">@color/DarkTheme_colorPrimary</item>
-        <item name="android:background">@color/DarkTheme_Background</item>
-        <item name="android:colorBackground">@color/DarkTheme_Background</item>
+        <item name="colorAccent">@color/DarkTheme_colorPrimaryDark</item>
 
     </style>
 
     <style name="RedTheme" parent="Theme.AppCompat.Light.NoActionBar">
 
         <item name="android:colorBackground">@color/RedTheme_Background</item>
-        <item name="colorPrimary">@color/RedTheme_colorPrimaryDark</item>
-        <item name="colorPrimaryDark">@color/RedTheme_colorPrimaryDark</item>
+        <item name="colorPrimary">@color/RedTheme_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/RedTheme_colorPrimary</item>
         <item name="colorAccent">@color/RedTheme_colorAccent</item>
         <item name="android:textColor">@color/TextColor</item>
         <item name="android:textColorSecondary">@color/RedTheme_textColorSecondary</item>
@@ -155,8 +130,8 @@
         <item name="drawerArrowStyle">@style/RedTheme_DrawerArrowToggle</item>
         <item name="alertDialogTheme">@style/RedTheme_AlertDialog</item>
         <item name="snackbarStyle">@style/RedTheme_SnackBar</item>
-        <item name="android:datePickerStyle">@style/RedTheme_DatePicker</item>
         <item name="android:timePickerStyle">@style/RedTheme_TimePicker</item>
+        <item name="android:datePickerStyle">@style/RedTheme_TimePicker</item>
     </style>
     <style name="RedTheme_Button" parent="Widget.AppCompat.Button">
         <item name="android:background">@color/RedTheme_ButtonColor</item>
@@ -171,10 +146,7 @@
         <item name="color">@color/TextColor</item>
 
     </style>
-    <style name="RedTheme_Toolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:textColor">@color/TextColor</item>
-        <item name="android:background">@color/RedTheme_colorPrimaryDark</item>
-    </style>
+
     <style name="RedTheme_AlertDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <!--  This theme needs for ListPreference background  -->
         <item name="android:colorBackground">@color/RedTheme_Background</item>
@@ -185,32 +157,16 @@
     <style name="RedTheme_SnackBar" parent="Widget.Design.Snackbar">
         <item name="backgroundTint">@color/RedTheme_ButtonColor</item>
     </style>
-    <style name="RedTheme_DatePicker" parent="@android:style/Widget.Material.Light.DatePicker">
+    <style name="RedTheme_TimePicker" parent="Theme.AppCompat.Light.Dialog">
         <!--  This theme needs for ListPreference background  -->
-        <item name="android:textColorSecondary">@color/RedTheme_textColorSecondary</item>
-        <item name="textColorAlertDialogListItem">@color/TextColor</item>
-        <item name="android:headerBackground">@color/RedTheme_colorPrimary</item>
-        <item name="android:background">@color/RedTheme_Background</item>
-        <item name="android:colorBackground">@color/RedTheme_Background</item>
+        <item name="android:textColorPrimary">@color/RedTheme_colorAccent</item>
+        <item name="android:textColorHint">@color/RedTheme_colorAccent</item>
+        <item name="android:textColorSecondary">@color/RedTheme_colorAccent</item>
+        <item name="android:windowBackground">@color/RedTheme_Background</item>
 
-    </style>
-    <style name="RedTheme_TimePicker" parent="@android:style/Widget.Material.Light.TimePicker">
-        <!--  This theme needs for ListPreference background  -->
-        <item name="android:textColorSecondary">@color/RedTheme_textColorSecondary</item>
-        <item name="textColorAlertDialogListItem">@color/TextColor</item>
-        <item name="android:headerBackground">@color/RedTheme_colorPrimary</item>
-        <item name="android:background">@color/RedTheme_Background</item>
-        <item name="android:colorBackground">@color/RedTheme_Background</item>
-
+        <item name="colorAccent">@color/RedTheme_colorPrimary</item>
     </style>
 
     <style name="BlueTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="BlueTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-    <style name="DarkTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="DarkTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
-
-    <style name="RedTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
-    <style name="RedTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
 
 </resources>

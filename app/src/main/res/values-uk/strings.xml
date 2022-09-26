@@ -13,10 +13,8 @@
     <string name="Theme_text">Тема</string>
     <string name="version">Версія</string>
 
-    <string name="settings_theme_summary">Синя</string>
     <string name="settings_theme_default_value">blue</string>
     <string name="settings_language_default_value">uk</string>
-    <string name="settings_language_summary">Українська</string>
 
     <!--  Share views  -->
     <string name="share_thanks">Дякую що поширили наш додаток!</string>
@@ -27,24 +25,19 @@
     <string name="show_layout_task">Задача</string>
     <string name="show_layout_title">Введiть задачу</string>
     <string name="show_layout_accept">Приняти</string>
-    <string name="show_layout_back">Назад</string>
     <string name="speed_dial">Швидкий набiр</string>
     <string name="snackbar_undo">Вiдмiнити</string>
     <string name="snackbar_removed">Задача видалена!</string>
     <string name="snackbar_completed">Задача виконана!</string>
     <string name="show_layout_set_time">Обрати Час</string>
     <string name="show_layout_set_priority">Обрати прiорiтет</string>
-    <string name="postpone">Вiдкласти</string>
-    <string name="done">Завершити</string>
 
     <!--  fragment_main_tasks  -->
     <string name="delete">Видалити</string>
     <string name="add">Додати</string>
     <string name="delete_forever">Видалити назавжди</string>
-    <string name="complete">Виконати</string>
 
     <!--    widget-->
     <string name="widget_settings">Налаштування виджета</string>
-    <string name="widget_theme_spinner_default_value">Тема застосунку</string>
 
 </resources>

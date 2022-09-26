@@ -14,10 +14,8 @@
     <string name="version">Версия</string>
 
 
-    <string name="settings_theme_summary">Синяя</string>
     <string name="settings_theme_default_value">blue</string>
     <string name="settings_language_default_value">ru</string>
-    <string name="settings_language_summary">Русский</string>
 
     <!--  Share views  -->
     <string name="share_thanks">Спасибо что поделились нашим приложением!</string>
@@ -28,25 +26,20 @@
     <string name="show_layout_task">Задача</string>
     <string name="show_layout_title">Введите задачу</string>
     <string name="show_layout_accept">Принять</string>
-    <string name="show_layout_back">Назад</string>
     <string name="speed_dial">Быстрый набор</string>
     <string name="snackbar_undo">Отменить</string>
     <string name="snackbar_removed">Задача удалена!</string>
     <string name="snackbar_completed">Задача выполнена!</string>
     <string name="show_layout_set_time">Выбрать время</string>
     <string name="show_layout_set_priority">Выбрать приоритет</string>
-    <string name="postpone">Отложить</string>
-    <string name="done">Завершить</string>
 
     <!--  fragment_main_tasks  -->
     <string name="delete">Удалить</string>
     <string name="add">Добавить</string>
     <string name="delete_forever">Удалить навсегда</string>
-    <string name="complete">Выполнить</string>
 
     <!--    widget-->
     <string name="widget_settings">Настройки виджета</string>
-    <string name="widget_theme_spinner_default_value">Тема приложения</string>
 
 
 </resources>

@@ -36,7 +36,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
     //SQLite database objects.
     private DBHelper dbHelper;
-    private SQLiteDatabase database;
+    private SQLiteDatabase wdb;
 
 
     public CustomAdapter(List<ListItem> listItems, Activity activity) {
@@ -52,7 +52,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         view = inflater.inflate(R.layout.list_item, parent, false);
         viewHolder = new ViewHolder(view);
         dbHelper = new DBHelper(view.getContext());
-        database = dbHelper.getWritableDatabase();
+        wdb = dbHelper.getWritableDatabase();
         return viewHolder;
     }
 
@@ -71,9 +71,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             public void onClick(View v) {
 
                 try {
+                    removeItem(position);
+                    dbHelper.removeById(DBHelper.MAIN_TASKS_TABLE_NAME, position);
+
+                    dbHelper.add(DBHelper.COMPLETED_TASKS_TABLE_NAME, listItem);
+
                     cancelNotification(listItem);
-                    setUndoSnackbar(listItem, position);
                     WidgetProvider.Companion.sendRefreshBroadcast(view.getContext());
+
+                    setUndoSnackbar(listItem, position);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -101,12 +108,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         });
         snackbar.show();
 
-        dbHelper = new DBHelper(view.getContext());
-        database = dbHelper.getWritableDatabase();
 
-        removeItem(position);
-
-        setCompletedTaskValue(listItem);
 
     }
 
@@ -117,12 +119,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         NotificationUtils.cancelNotification(activity, notification_id);
     }
 
-    private void setCompletedTaskValue(ListItem listItem) {
-        dbHelper.add(DBHelper.COMPLETED_TASKS_TABLE_NAME, listItem);
-
-    }
-
-
     @Override
     public int getItemCount() {
         return listItems.size();
@@ -131,9 +127,7 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     public void removeItem(int position) {
         listItems.remove(position);
         notifyItemRemoved(position);
-
-        int id = dbHelper.getDatabaseItemIdByRecyclerViewItemId(DBHelper.COMPLETED_TASKS_TABLE_NAME, position);
-        database.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_ID + "=?", new String[]{String.valueOf(id)});
+        notifyItemRangeChanged(position, listItems.size());
 
 
     }

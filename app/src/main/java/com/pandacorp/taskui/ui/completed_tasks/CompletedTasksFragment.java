@@ -179,19 +179,11 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         Log.d(TAG, "onSwiped: onSwiped");
         if (viewHolder instanceof CustomAdapter.ViewHolder) {
-            final ListItem deletedModel = arrayItemList.get(position);
+            final ListItem deletedListItem = arrayItemList.get(position);
             adapter.removeItem(position);
-            // deleting database item
-            final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
-            int id = dbHelper.getDatabaseItemIdByRecyclerViewItemId(table, position);
-            WritableDatabase.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_ID + "=?", new String[]{String.valueOf(id)});
+            dbHelper.removeById(DBHelper.COMPLETED_TASKS_TABLE_NAME, position);
+            dbHelper.add(DBHelper.DELETED_TASKS_TABLE_NAME, deletedListItem);
 
-            // set DELETED_DATABASE task
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-            contentValues.put(DBHelper.KEY_TASK_TIME, deletedModel.getTime());
-            contentValues.put(DBHelper.KEY_TASK_PRIORITY, deletedModel.getPriority());
-            WritableDatabase.insert(DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", contentValues);
             WidgetProvider.Companion.sendRefreshBroadcast(getContext());
 
             // showing snack bar with Undo option
@@ -202,7 +194,7 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
                 @Override
                 public void onClick(View view) {
                     // undo is selected, restore the deleted item
-                    adapter.restoreItem(deletedModel, DBHelper.COMPLETED_TASKS_TABLE_NAME);
+                    adapter.restoreItem(deletedListItem, DBHelper.COMPLETED_TASKS_TABLE_NAME);
 
                 }
             });

@@ -14,9 +14,7 @@
     <string name="version">Version</string>
 
     <string name="settings_theme_default_value">blue</string>
-    <string name="settings_theme_summary">Blue</string>
     <string name="settings_language_default_value">en</string>
-    <string name="settings_language_summary">English</string>
 
     <!--  Share views  -->
     <string name="share_thanks">Thanks for sharing the app!</string>
@@ -27,7 +25,6 @@
     <string name="show_layout_task">Task</string>
     <string name="show_layout_title">Enter the task</string>
     <string name="show_layout_accept">Accept</string>
-    <string name="show_layout_back">Back</string>
     <string name="speed_dial">Speed dial</string>
     <string name="snackbar_undo">Undo</string>
     <string name="snackbar_removed">Task is removed!</string>
@@ -35,18 +32,13 @@
     <string name="show_layout_set_time">Set time</string>
     <string name="show_layout_set_priority">Set priority</string>
 
-    <string name="postpone">Postpone</string>
-    <string name="done">Done</string>
-
     <!--  main_tasks  -->
     <string name="delete">Delete</string>
     <string name="add">Add</string>
     <string name="delete_forever">Delete forever</string>
-    <string name="complete">Complete</string>
 
     <!--    widget-->
     <string name="widget_settings">Widget settings</string>
-    <string name="widget_theme_spinner_default_value">App theme</string>
 
 
 </resources>

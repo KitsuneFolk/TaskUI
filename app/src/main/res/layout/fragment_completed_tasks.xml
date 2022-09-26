@@ -57,7 +57,6 @@
             app:layout_constraintVertical_bias="0.5" />
 
         <TextView
-            android:id="@+id/delete_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete"
@@ -67,7 +66,6 @@
             app:layout_constraintTop_toBottomOf="@+id/delete_fab_completed" />
 
         <TextView
-            android:id="@+id/delete_forever_tv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete_forever"

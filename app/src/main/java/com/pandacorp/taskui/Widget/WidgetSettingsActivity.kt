@@ -11,6 +11,7 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.ui.settings.MySettings
 import com.skydoves.powerspinner.PowerSpinnerView
 
+
 class WidgetSettingsActivity : Activity() {
     private val TAG = "MyLogs"
     

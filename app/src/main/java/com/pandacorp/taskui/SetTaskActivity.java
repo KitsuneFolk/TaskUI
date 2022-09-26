@@ -1,9 +1,10 @@
 package com.pandacorp.taskui;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,17 +17,16 @@ import android.widget.RadioGroup;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import com.pandacorp.taskui.Adapter.ListItem;
 import com.pandacorp.taskui.Notifications.NotificationUtils;
 import com.pandacorp.taskui.Widget.WidgetProvider;
 import com.pandacorp.taskui.ui.settings.MySettings;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.util.Calendar;
 
-public class SetTaskActivity extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class SetTaskActivity extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "MyLogs";
 
     private Button set_task_accept_btn;
@@ -42,16 +42,19 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
     //SQLite database objects.
     private DBHelper dbHelper;
     private SQLiteDatabase database;
-    private Cursor cursor;
 
     private boolean isTimeSet = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         MySettings mySettings = new MySettings(this);
         mySettings.load();
-        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_set_task);
+        initViews();
+
+    }
+    private void initViews(){
         Toolbar toolbar = findViewById(R.id.set_task_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -65,25 +68,59 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
 
         set_priority_radio_group = findViewById(R.id.set_priority_radio_group);
 
-        datePickerDialog = DatePickerDialog.newInstance(
-                this,
+        initDialogPickers();
+
+        dbHelper = new DBHelper(this);
+        database = dbHelper.getWritableDatabase();
+
+    }
+    private void initDialogPickers(){
+        String pickerDialogThemeSP = PreferenceManager.getDefaultSharedPreferences(this).getString("Themes", MySettings.Theme_Blue);
+
+        int pickerDialogTheme;
+        switch (pickerDialogThemeSP){
+            case MySettings.Theme_Blue:
+                pickerDialogTheme = R.style.BlueTheme_TimePicker;
+                break;
+            case MySettings.Theme_Dark:
+                pickerDialogTheme = R.style.DarkTheme_TimePicker;
+                break;
+            case MySettings.Theme_Red:
+                pickerDialogTheme = R.style.RedTheme_TimePicker;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + pickerDialogThemeSP);
+        }
+        DatePickerDialog.OnDateSetListener datePickerDialogListener = (view, year, month, dayOfMonth) -> {
+            now.set(Calendar.YEAR, year);
+            now.set(Calendar.MONTH, month);
+            now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            timePickerDialog.show();
+        };
+        TimePickerDialog.OnTimeSetListener timePickerDialogListener = (view, hourOfDay, minute) -> {
+            now.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            now.set(Calendar.MINUTE, minute);
+            now.set(Calendar.SECOND, 0);
+
+            String task_time = String.format("%02d:%02d", now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
+            set_time_btn.setText(task_time);
+            isTimeSet = true;
+        };
+        datePickerDialog = new DatePickerDialog(this,
+                pickerDialogTheme,
+                datePickerDialogListener,
                 now.get(Calendar.YEAR),
                 now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
-        );
+                now.get(Calendar.DAY_OF_MONTH));
 
-        timePickerDialog = TimePickerDialog.newInstance(
+        timePickerDialog = new TimePickerDialog(
                 this,
+                pickerDialogTheme,
+                timePickerDialogListener,
                 now.get(Calendar.HOUR_OF_DAY),
                 now.get(Calendar.MINUTE),
                 true
         );
-
-        dbHelper = new DBHelper(this);
-        database = dbHelper.getWritableDatabase();
-        cursor = database.query(DBHelper.MAIN_TASKS_TABLE_NAME, null, null, null, null, null, null);
-
-
     }
 
     @Override
@@ -98,7 +135,7 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
                 }
                 break;
             case R.id.set_time_btn:
-                datePickerDialog.show(getFragmentManager(), "Datepickerdialog");
+                datePickerDialog.show();
                 break;
         }
     }
@@ -186,24 +223,4 @@ public class SetTaskActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        now.set(Calendar.YEAR, year);
-        now.set(Calendar.MONTH, monthOfYear);
-        now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-        timePickerDialog.show(getFragmentManager(), "Timepickerdialog");
-    }
-
-    @Override
-    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-        Log.d(TAG, "onTimeSet: hourOfDay, minute = " + hourOfDay + ", " + minute);
-        now.set(Calendar.HOUR_OF_DAY, hourOfDay);
-        now.set(Calendar.MINUTE, minute);
-        now.set(Calendar.SECOND, second);
-
-        String task_time = String.format("%02d:%02d", now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE));
-        set_time_btn.setText(task_time);
-        isTimeSet = true;
-
-    }
 }

@@ -43,48 +43,55 @@ class DBHelper(context: Context?) :
         onCreate(db)
     }
     
-    fun getCursor(TABLE_NAME: String): Cursor =  readableDatabase.query(TABLE_NAME, null, null, null, null, null, null);
+    fun getCursor(TABLE_NAME: String): Cursor =  writableDatabase.query(TABLE_NAME, null, null, null, null, null, null);
     
     fun getDatabaseItemIdByRecyclerViewItemId(table: String, id: Int): Int {
         //This method by a recyclerview item id returns id of the item in database
         val cursor = getCursor(table)
-    
         //var of Id number in Timer_Table to understand how much there elements is
         var numberOfIds = 0
         //var of position of the deleted item
         var deletedPosition: Int?
-    
-        Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: id = " + id)
-        Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: cursor!!.moveToFirst = " + cursor.moveToFirst())
         
         if (cursor.moveToFirst()) {
-            Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: cursor!!.moveToFirst")
+            // Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: cursor!!.moveToFirst")
             val ID_COL = cursor.getColumnIndex(KEY_ID)
-            Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: ID_COL = " + ID_COL)
+            // Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: ID_COL = " + ID_COL)
             do {
-                Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: do while()")
+                // Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: do while()")
                 numberOfIds++
                 if (numberOfIds == id + 1) {
                     
                     deletedPosition = cursor.getInt(ID_COL)
-                    Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: deletedPosition = " + deletedPosition)
+                    // Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: deletedPosition = " + deletedPosition)
     
                     if (deletedPosition == null) {
                         throw Exception("deletedPosition cannot be null!")
                     }
-                    Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: returned " + deletedPosition)
+                    // Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: returned " + deletedPosition)
                     return deletedPosition
                 }
             } while (cursor.moveToNext())
         }
+        cursor.close()
         Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: numberOfIds = " + numberOfIds)
         Log.d(TAG, "getDatabaseItemIdByRecyclerViewItemId: deletedPosition = null")
         throw Exception("getDatabaseItemIdByRecyclerViewItemId method returns null!")
         
         
     }
+    fun removeById(table: String, id: Int) {
+        
+        val db = this.writableDatabase
+        val deletedPosition = getDatabaseItemIdByRecyclerViewItemId(table, id)
+        Log.d(TAG, "removeById: id = $id, deletedPosition = $deletedPosition")
+        
+        db.delete(table, "$KEY_ID=?", arrayOf("$deletedPosition"))
+        
+        
+    }
     
-    fun add(table: String?, timerListItem: ListItem) {
+    fun add(table: String, timerListItem: ListItem) {
         val db = writableDatabase
         val cv = ContentValues()
         cv.put(KEY_TASK_TEXT, timerListItem.mainText)
@@ -103,5 +110,6 @@ class DBHelper(context: Context?) :
         const val MAIN_TASKS_TABLE_NAME = "MainTasks"
         const val COMPLETED_TASKS_TABLE_NAME = "CompletedTasks"
         const val DELETED_TASKS_TABLE_NAME = "DeletedTasks"
+        
     }
 }

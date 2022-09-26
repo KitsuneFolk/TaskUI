@@ -168,12 +168,11 @@ public class MainTasksFragment extends Fragment implements RecyclerItemTouchHelp
     private void setRecyclerView() {
 
         adapter = new CustomAdapter(arrayItemList, getActivity());
+
         recyclerView = root.findViewById(R.id.main_rv);
         recyclerView.setHasFixedSize(false);
-
-        recyclerView.setAdapter(adapter);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
 
         enableSwipe();
 
@@ -209,8 +208,8 @@ public class MainTasksFragment extends Fragment implements RecyclerItemTouchHelp
 
     private void enableSwipe() {
         //Attached the ItemTouchHelper
-        getActivity().runOnUiThread(() -> recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL)));
-
+        DividerItemDecoration recyclerViewDivider = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(recyclerViewDivider);
 
         //Attached the ItemTouchHelper
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.RIGHT, this);
@@ -220,24 +219,15 @@ public class MainTasksFragment extends Fragment implements RecyclerItemTouchHelp
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
-        Log.d(TAG, "onSwiped: onSwiped");
         if (viewHolder instanceof CustomAdapter.ViewHolder) {
-            final ListItem deletedModel = arrayItemList.get(position);
+            Log.d(TAG, "onSwiped: position = " + position);
+            final ListItem deletedListItem = arrayItemList.get(position);
             adapter.removeItem(position);
-            // deleting database item
-            final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
-            int id = dbHelper.getDatabaseItemIdByRecyclerViewItemId(DBHelper.MAIN_TASKS_TABLE_NAME, position);
-            WritableDatabase.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_ID + "=?", new String[]{String.valueOf(id)});
+            dbHelper.removeById(DBHelper.MAIN_TASKS_TABLE_NAME, position);
 
-            // set DELETED_DATABASE task
-            ContentValues contentValues = new ContentValues();
-            contentValues.put(DBHelper.KEY_TASK_TEXT, deletedModel.getMainText());
-            contentValues.put(DBHelper.KEY_TASK_TIME, deletedModel.getTime());
-            contentValues.put(DBHelper.KEY_TASK_PRIORITY, deletedModel.getPriority());
-            WritableDatabase.insert(DBHelper.DELETED_TASKS_TABLE_NAME, DBHelper.KEY_TASK_TEXT + "=?", contentValues);
-
-            cancelNotification(deletedModel);
-            WidgetProvider.Companion.sendRefreshBroadcast(getContext());
+            dbHelper.add(DBHelper.DELETED_TASKS_TABLE_NAME, deletedListItem);
+            cancelNotification(deletedListItem);
+            updateWidget();
 
             // showing snack bar with Undo option
             Snackbar snackbar = Snackbar.make(getActivity().getWindow().getDecorView().getRootView(), getResources().getText(R.string.snackbar_removed), Snackbar.LENGTH_LONG);
@@ -247,7 +237,7 @@ public class MainTasksFragment extends Fragment implements RecyclerItemTouchHelp
                 @Override
                 public void onClick(View view) {
                     // undo is selected, restore the deleted item
-                    adapter.restoreItem(deletedModel, DBHelper.MAIN_TASKS_TABLE_NAME);
+                    adapter.restoreItem(deletedListItem, DBHelper.MAIN_TASKS_TABLE_NAME);
 
                 }
             });

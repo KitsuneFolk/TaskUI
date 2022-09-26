@@ -42,16 +42,16 @@ public class MySettings {
 
     private void setMyTheme() {
         switch (theme) {
-            case "blue":
+            case Theme_Blue:
 
                 context.setTheme(R.style.BlueTheme);
 
                 break;
-            case "dark":
+            case Theme_Dark:
                 context.setTheme(R.style.DarkTheme);
 
                 break;
-            case "red":
+            case Theme_Red:
                 context.setTheme(R.style.RedTheme);
 
                 break;
@@ -132,5 +132,25 @@ public class MySettings {
         return -1;
     }
 
+    public static int getTheme(Context context) {
+
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        String theme = sp.getString("Themes", Theme_Blue);
+        int themeId;
+        switch (theme) {
+            case Theme_Blue:
+                themeId = R.style.BlueTheme;
+                break;
+            case Theme_Dark:
+                themeId = R.style.DarkTheme;
+                break;
+            case Theme_Red:
+                themeId = R.style.RedTheme;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + theme);
+        }
+        return themeId;
+    }
 
 }

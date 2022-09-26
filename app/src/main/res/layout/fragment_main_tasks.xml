@@ -55,6 +55,8 @@
             android:id="@+id/speed_dial_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/rounded_button"
+            android:textColor="?android:attr/colorAccent"
             android:text="@string/show_layout_accept" />
     </LinearLayout>
 
@@ -107,7 +109,6 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/delete_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete"
@@ -117,7 +118,6 @@
             app:layout_constraintTop_toBottomOf="@+id/delete_fab" />
 
         <TextView
-            android:id="@+id/add_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add"
@@ -127,7 +127,6 @@
             app:layout_constraintTop_toBottomOf="@+id/add_fab" />
 
         <TextView
-            android:id="@+id/delete_forever_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete_forever"

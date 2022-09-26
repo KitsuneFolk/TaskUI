@@ -26,8 +26,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        MySettings mySettings = new MySettings(this);
-        mySettings.load();
+        new MySettings(this).load();
         setContentView(R.layout.fragment_settings);
         getSupportFragmentManager()
                 .beginTransaction()
@@ -57,9 +56,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragmentCompat implements Preference.OnPreferenceChangeListener {
-
-        String language;
-        String theme;
 
         SharedPreferences sp;
 
@@ -102,7 +98,9 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
+
     }
+
 
 
 }

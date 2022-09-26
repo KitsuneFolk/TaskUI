@@ -87,8 +87,9 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="?android:colorBackground"
+            android:foreground="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_complete"
-            android:tint="?colorAccent"
+            app:tint="?colorAccent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/priority_image_view"
             app:layout_constraintTop_toTopOf="parent" />

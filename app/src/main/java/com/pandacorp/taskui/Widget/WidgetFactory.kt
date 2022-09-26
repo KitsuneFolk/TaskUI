@@ -124,18 +124,47 @@ class WidgetFactory internal constructor(
     
     private fun setBackgroundColors(context: Context, widget_item_view: RemoteViews){
         //Here we set Layout's widget_item_background, widget_complete_button background, widget_complete_button tint.
+        val sp = context.getSharedPreferences("widget_settings", Context.MODE_PRIVATE)!!
+    
+        val themeIndex = sp.getInt("theme", WidgetSettingsActivity.appThemeIndex)
+        val backgroundColor: Int?
+        val accentColor: Int?
+        
+        when (themeIndex) {
+            WidgetSettingsActivity.blueThemeIndex -> {
+                backgroundColor = R.color.BlueTheme_Background
+                accentColor = R.color.BlueTheme_colorAccent
+            
+            }
+            WidgetSettingsActivity.darkThemeIndex -> {
+                backgroundColor = R.color.DarkTheme_Background
+                accentColor = R.color.DarkTheme_colorAccent
+            
+            }
+            WidgetSettingsActivity.redThemeIndex -> {
+                backgroundColor = R.color.RedTheme_Background
+                accentColor = R.color.RedTheme_colorAccent
+            
+            }
+            WidgetSettingsActivity.appThemeIndex -> {
+                backgroundColor = MySettings.getThemeColor(context, MySettings.BACKGROUND_COLOR)
+                accentColor = MySettings.getThemeColor(context, MySettings.ACCENT_COLOR)
+            }
+            else -> throw NullPointerException("value backgroundColor is null!")
+        
+        }
         widget_item_view.setInt(
                 R.id.widget_item_background,
                 "setBackgroundResource",
-                MySettings.getThemeColor(context, MySettings.BACKGROUND_COLOR))
+                backgroundColor)
         widget_item_view.setInt(
                 R.id.widget_complete_button,
                 "setBackgroundResource",
-                MySettings.getThemeColor(context, MySettings.BACKGROUND_COLOR))
+                backgroundColor)
         widget_item_view.setInt(
                 R.id.widget_complete_button,
                 "setColorFilter",
-                ContextCompat.getColor(context, MySettings.getThemeColor(context, MySettings.ACCENT_COLOR)))
+                ContextCompat.getColor(context, accentColor!!))
     
     
     }

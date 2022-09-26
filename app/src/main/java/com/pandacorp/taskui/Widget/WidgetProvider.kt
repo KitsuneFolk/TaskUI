@@ -14,6 +14,7 @@ import com.pandacorp.taskui.Adapter.ListItem
 import com.pandacorp.taskui.DBHelper
 import com.pandacorp.taskui.MainActivity
 import com.pandacorp.taskui.R
+import com.pandacorp.taskui.SetTaskActivity
 import com.pandacorp.taskui.ui.settings.MySettings
 
 
@@ -21,7 +22,6 @@ class WidgetProvider : AppWidgetProvider() {
     private val TAG = "MyLogs"
     
     private val COMPLETE_BUTTON_ACTION = "widget_complete_btn"
-    
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -76,30 +76,25 @@ class WidgetProvider : AppWidgetProvider() {
             val dialogPendingIntent = PendingIntent.getActivity(context, 0, dialogIntent, 0)
             widget_views.setOnClickPendingIntent(R.id.widget_settings_button, dialogPendingIntent)
             
+            //Set on widget_add_fab click open SetTaskActivity
+            val openSetTaskActivityIntent = Intent(context, SetTaskActivity::class.java)
+            val openSetTaskActivityPendingIntent = PendingIntent.getActivity(context, 0, openSetTaskActivityIntent, 0)
+            widget_views.setOnClickPendingIntent(R.id.widget_add_fab, openSetTaskActivityPendingIntent)
+            
             appWidgetManager.updateAppWidget(appWidgetId, widget_views)
             
         }
         
     }
     
-    override fun onReceive(context: Context?, intent: Intent) {
+    override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         
         if (intent.action.equals(COMPLETE_TASK_ACTION)) {
-            val viewIndex = intent.getIntExtra(EXTRA_ITEM, 0)
-            
+            val id = intent.getIntExtra(EXTRA_ITEM, 0)
             
             val db = DBHelper(context)
-            val wdb = db.writableDatabase
-            val tableDelete = DBHelper.MAIN_TASKS_TABLE_NAME
-            val tableAdd = DBHelper.MAIN_TASKS_TABLE_NAME
-            
-            val id = db.getDatabaseItemIdByRecyclerViewItemId(tableDelete, viewIndex)
-            wdb.delete(
-                    DBHelper.MAIN_TASKS_TABLE_NAME,
-                    DBHelper.KEY_ID + "=?",
-                    arrayOf(id.toString()))
-            db.add(tableAdd, getListItemObjectById(context!!, tableDelete, id))
+            db.removeById(DBHelper.MAIN_TASKS_TABLE_NAME, id)
             sendRefreshBroadcast(context)
         }
         val action = intent.action
@@ -107,8 +102,7 @@ class WidgetProvider : AppWidgetProvider() {
             if (action == AppWidgetManager.ACTION_APPWIDGET_UPDATE) {
                 
                 val manager = AppWidgetManager.getInstance(context)
-                val cn = ComponentName(context!!, WidgetProvider::class.java)
-                Log.d(TAG, "onReceive: onReceive")
+                val cn = ComponentName(context, WidgetProvider::class.java)
                 manager.notifyAppWidgetViewDataChanged(
                         manager.getAppWidgetIds(cn),
                         R.id.widget_listView
@@ -137,21 +131,21 @@ class WidgetProvider : AppWidgetProvider() {
         when (themeIndex) {
             WidgetSettingsActivity.blueThemeIndex -> {
                 backgroundColor = R.color.BlueTheme_Background
-            
+                
             }
             WidgetSettingsActivity.darkThemeIndex -> {
                 backgroundColor = R.color.DarkTheme_Background
-            
+                
             }
             WidgetSettingsActivity.redThemeIndex -> {
                 backgroundColor = R.color.RedTheme_Background
-            
+                
             }
             WidgetSettingsActivity.appThemeIndex -> {
                 backgroundColor = MySettings.getThemeColor(context, MySettings.BACKGROUND_COLOR)
             }
             else -> throw NullPointerException("value backgroundColor is null!")
-        
+            
         }
         widget_views.setInt(
                 R.id.widget_actions_background,

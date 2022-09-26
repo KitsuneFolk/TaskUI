@@ -170,10 +170,7 @@ public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchH
         if (viewHolder instanceof CustomAdapter.ViewHolder) {
             final ListItem deletedModel = arrayItemList.get(position);
             adapter.removeItem(position);
-            // deleting database item
-            final SQLiteDatabase WritableDatabase = dbHelper.getWritableDatabase();
-            int id = dbHelper.getDatabaseItemIdByRecyclerViewItemId(table, position);
-            WritableDatabase.delete(DBHelper.MAIN_TASKS_TABLE_NAME, DBHelper.KEY_ID + "=?", new String[]{String.valueOf(id)});
+            dbHelper.removeById(DBHelper.DELETED_TASKS_TABLE_NAME, position);
             WidgetProvider.Companion.sendRefreshBroadcast(getContext());
 
             // showing snack bar with Undo option
