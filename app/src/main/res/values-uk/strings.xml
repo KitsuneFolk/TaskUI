@@ -39,5 +39,6 @@
 
     <!--    widget-->
     <string name="widget_settings">Налаштування виджета</string>
+    <string name="widget_show_fab">Показувати кнопку додати</string>
 
 </resources>

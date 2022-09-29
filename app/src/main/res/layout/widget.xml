@@ -62,13 +62,14 @@
 
         <ImageButton
             android:id="@+id/widget_add_fab"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:background="@drawable/widget_circle_button"
-            android:src="@drawable/ic_widget_add"
+            android:layout_width="@dimen/widget_fab_add"
+            android:layout_height="@dimen/widget_fab_add"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            app:tint="@color/RedTheme_colorAccent" />
+            android:background="@drawable/widget_circle_button"
+            android:src="@drawable/ic_widget_add"
+            app:tint="@color/BlueTheme_Background"/>
+
     </LinearLayout>
 
 

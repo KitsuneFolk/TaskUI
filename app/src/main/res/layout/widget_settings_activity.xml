@@ -4,8 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:background="?android:attr/colorBackground"
     tools:context=".Widget.WidgetSettingsActivity"
-    android:id="@+id/widget_dialog_backgrund">
+    android:id="@+id/widget_dialog_backgrund"
+    android:forceDarkAllowed = "false" tools:targetApi="q"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,7 +24,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
@@ -36,6 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+
                 android:layout_marginEnd="20dp"
                 android:textColor="@color/TextColor"
                 android:textColorHint="@color/TextColor"
@@ -43,15 +47,29 @@
                 app:spinner_arrow_animate="true"
                 app:spinner_arrow_gravity="end"
                 app:spinner_arrow_padding="8dp"
-                app:spinner_divider_color="@color/mdtp_white"
+                app:spinner_divider_color="@color/white"
                 app:spinner_divider_show="true"
-                app:spinner_divider_size="0.4dp"
+                app:spinner_divider_size="1px"
                 app:spinner_item_array="@array/Widget_themes"
                 app:spinner_item_height="46dp"
-                app:spinner_popup_animation="dropdown"
+                app:spinner_popup_animation="fade"
                 app:spinner_popup_elevation="14dp"
                 />
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/widget_settings_show_fab_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:trackTint="?android:attr/colorPrimary"
+                android:thumbTint="@color/white"
+                android:layout_marginStart="10dp"
+                android:text="@string/widget_show_fab" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

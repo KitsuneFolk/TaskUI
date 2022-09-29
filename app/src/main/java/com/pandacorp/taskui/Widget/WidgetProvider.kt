@@ -9,8 +9,9 @@ import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
 import android.util.Log
+import android.view.View
 import android.widget.RemoteViews
-import com.pandacorp.taskui.Adapter.ListItem
+import androidx.core.content.ContextCompat
 import com.pandacorp.taskui.DBHelper
 import com.pandacorp.taskui.MainActivity
 import com.pandacorp.taskui.R
@@ -78,8 +79,11 @@ class WidgetProvider : AppWidgetProvider() {
             
             //Set on widget_add_fab click open SetTaskActivity
             val openSetTaskActivityIntent = Intent(context, SetTaskActivity::class.java)
-            val openSetTaskActivityPendingIntent = PendingIntent.getActivity(context, 0, openSetTaskActivityIntent, 0)
-            widget_views.setOnClickPendingIntent(R.id.widget_add_fab, openSetTaskActivityPendingIntent)
+            val openSetTaskActivityPendingIntent =
+                PendingIntent.getActivity(context, 0, openSetTaskActivityIntent, 0)
+            widget_views.setOnClickPendingIntent(
+                    R.id.widget_add_fab,
+                    openSetTaskActivityPendingIntent)
             
             appWidgetManager.updateAppWidget(appWidgetId, widget_views)
             
@@ -126,23 +130,28 @@ class WidgetProvider : AppWidgetProvider() {
         //Here we set Layout's background and Settings button background color
         //to background color of the layout.
         val backgroundColor: Int?
+        val colorPrimary: Int?
         val sp = context.getSharedPreferences("widget_settings", Context.MODE_PRIVATE)
         val themeIndex = sp.getInt("theme", WidgetSettingsActivity.appThemeIndex)
         when (themeIndex) {
             WidgetSettingsActivity.blueThemeIndex -> {
                 backgroundColor = R.color.BlueTheme_Background
+                colorPrimary = R.color.BlueTheme_colorPrimary
                 
             }
             WidgetSettingsActivity.darkThemeIndex -> {
                 backgroundColor = R.color.DarkTheme_Background
+                colorPrimary = R.color.DarkTheme_colorPrimary
                 
             }
             WidgetSettingsActivity.redThemeIndex -> {
                 backgroundColor = R.color.RedTheme_Background
+                colorPrimary = R.color.RedTheme_colorPrimary
                 
             }
             WidgetSettingsActivity.appThemeIndex -> {
                 backgroundColor = MySettings.getThemeColor(context, MySettings.BACKGROUND_COLOR)
+                colorPrimary = MySettings.getThemeColor(context, MySettings.PRIMARY_COLOR)
             }
             else -> throw NullPointerException("value backgroundColor is null!")
             
@@ -159,6 +168,20 @@ class WidgetProvider : AppWidgetProvider() {
                 R.id.widget_settings_button,
                 "setBackgroundResource",
                 backgroundColor)
+        when (sp.getBoolean("fab_visible", true)){
+            true ->{
+                widget_views.setViewVisibility(R.id.widget_add_fab, View.VISIBLE)
+                // Here we change tint color of button
+                widget_views.setInt(
+                        R.id.widget_add_fab,
+                        "setColorFilter",
+                        ContextCompat.getColor(context, backgroundColor))
+            }
+            false ->{
+                widget_views.setViewVisibility(R.id.widget_add_fab, View.INVISIBLE)
+    
+            }
+        }
         
     }
     
@@ -167,26 +190,6 @@ class WidgetProvider : AppWidgetProvider() {
         intent.setAction(action)
         
         return PendingIntent.getBroadcast(context, 0, intent, 0)
-    }
-    
-    private fun getListItemObjectById(context: Context, table: String, id: Int): ListItem {
-        val cursor = DBHelper(context).getCursor(table)!!
-        
-        val TASK_TEXT_COL = cursor.getColumnIndex(DBHelper.KEY_TASK_TEXT)
-        val TASK_TIME_COL = cursor.getColumnIndex(DBHelper.KEY_TASK_TIME)
-        val TASK_PRIORITY_COL = cursor.getColumnIndex(DBHelper.KEY_TASK_PRIORITY)
-        if (cursor.moveToFirst()) {
-            val listItem = ListItem(
-                    cursor.getString(TASK_TEXT_COL),
-                    cursor.getString(TASK_TIME_COL),
-                    cursor.getString(TASK_PRIORITY_COL),
-                    
-                    )
-            return listItem
-        }
-        throw Exception("I don't know what goes wrong...")
-        
-        
     }
     
     companion object {

@@ -40,6 +40,7 @@
 
     <!--    widget-->
     <string name="widget_settings">Настройки виджета</string>
+    <string name="widget_show_fab">Показывать кнопку добавить</string>
 
 
 </resources>

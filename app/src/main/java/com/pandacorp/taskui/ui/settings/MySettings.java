@@ -97,28 +97,33 @@ public class MySettings {
 
     public static final String BACKGROUND_COLOR = "BACKGROUND_COLOR";
     public static final String ACCENT_COLOR = "ACCENT_COLOR";
+    public static final String PRIMARY_COLOR = "PRIMARY_COLOR";
 
     public static int getThemeColor(Context context, String color) {
 
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
         int background_color;
         int accent_color;
+        int primary_color;
         switch (sp.getString("Themes", "blue")) {
             case Theme_Blue: {
                 background_color = R.color.BlueTheme_Background;
                 accent_color = R.color.BlueTheme_colorAccent;
+                primary_color = R.color.BlueTheme_colorPrimary;
                 break;
 
             }
             case Theme_Dark: {
                 background_color = R.color.DarkTheme_Background;
                 accent_color = R.color.DarkTheme_colorAccent;
+                primary_color = R.color.DarkTheme_colorPrimary;
                 break;
 
             }
             case Theme_Red: {
                 background_color = R.color.RedTheme_Background;
                 accent_color = R.color.RedTheme_colorAccent;
+                primary_color = R.color.RedTheme_colorPrimary;
                 break;
 
             }
@@ -128,6 +133,7 @@ public class MySettings {
         }
         if (color.equals(BACKGROUND_COLOR)) return background_color;
         if (color.equals(ACCENT_COLOR)) return accent_color;
+        if (color.equals(PRIMARY_COLOR)) return primary_color;
 
         return -1;
     }

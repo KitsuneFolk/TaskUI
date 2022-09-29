@@ -29,6 +29,7 @@
     <color name="TextColor">#FFFFFF</color>
     <color name="Red">#FF0000</color>
     <color name="Yellow">#FFEB3B</color>
+    <color name="white">#FFFFFF</color>
 
 
 </resources>

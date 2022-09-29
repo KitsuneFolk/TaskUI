@@ -39,6 +39,7 @@
 
     <!--    widget-->
     <string name="widget_settings">Widget settings</string>
+    <string name="widget_show_fab">Widget show add button</string>
 
 
 </resources>

@@ -16,6 +16,7 @@
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/drawable/ic_widget_complete.xml" value="0.1065" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/drawable/recyclerview_drawable.xml" value="0.1" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/drawable/rounded_button.xml" value="0.1" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/drawable/widget_add_fab_drawable.xml" value="0.1" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/drawable/widget_background.xml" value="0.1" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/drawable/widget_circle_button.xml" value="0.1" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/layout/activity_main.xml" value="0.17916666666666667" />
@@ -24,10 +25,10 @@
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/layout/fragment_main_tasks.xml" value="0.22" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/layout/list_item.xml" value="0.2" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/layout/nav_header_main.xml" value="0.17916666666666667" />
-        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/layout/widget.xml" value="0.2" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/layout/widget.xml" value="0.33" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/layout/widget_dialog_activity.xml" value="0.33" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/layout/widget_list_item.xml" value="0.33" />
-        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/layout/widget_settings_activity.xml" value="0.25" />
+        <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/layout/widget_settings_activity.xml" value="0.33" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
         <entry key="..\:/Programming_files/JavaFiles/ProjectsAS/TaskUI/app/src/main/res/xml/attrs.xml" value="0.17916666666666667" />
