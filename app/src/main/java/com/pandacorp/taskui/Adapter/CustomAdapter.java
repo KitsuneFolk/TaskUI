@@ -27,10 +27,15 @@ import java.util.List;
 public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
     private final String TAG = "MyLogs";
 
+    public final static String MAIN_FRAGMENT = "MAIN_FRAGMENT";
+    public final static String COMPLETED_FRAGMENT = "COMPLETED_FRAGMENT";
+    public final static String DELETED_FRAGMENT = "DELETED_FRAGMENT";
+
     private View view;
 
     private ViewHolder viewHolder;
 
+    private String fragmentName;
     private Activity activity;
     private List<ListItem> listItems;
 
@@ -39,7 +44,8 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private SQLiteDatabase wdb;
 
 
-    public CustomAdapter(List<ListItem> listItems, Activity activity) {
+    public CustomAdapter(String fragmentName, List<ListItem> listItems, Activity activity) {
+        this.fragmentName = fragmentName;
         this.listItems = listItems;
         this.activity = activity;
     }
@@ -66,11 +72,9 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
     private void setCompleteButton(final ViewHolder holder, final int position) {
         final ListItem listItem = listItems.get(position);
         holder.bindData(listItem);
-        holder.complete_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
+        holder.complete_button.setOnClickListener(v -> {
+            switch (fragmentName){
+                case MAIN_FRAGMENT: {
                     removeItem(position);
                     dbHelper.removeById(DBHelper.MAIN_TASKS_TABLE_NAME, position);
 
@@ -81,11 +85,16 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
 
                     setUndoSnackbar(listItem, position);
 
-                } catch (Exception e) {
-                    e.printStackTrace();
                 }
-
+                case COMPLETED_FRAGMENT: {
+                    break;
+                }
+                case DELETED_FRAGMENT: {
+                    break;
+                }
             }
+
+
         });
 
     }
@@ -107,7 +116,6 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             }
         });
         snackbar.show();
-
 
 
     }

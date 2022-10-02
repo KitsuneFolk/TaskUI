@@ -9,7 +9,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,8 +66,7 @@ public class MainTasksFragment extends Fragment implements RecyclerItemTouchHelp
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_main_tasks, container, false);
-
-        new Handler().post(this::initViews);
+        new Thread(this::initViews).start();
 
         return root;
     }
@@ -83,58 +81,68 @@ public class MainTasksFragment extends Fragment implements RecyclerItemTouchHelp
 
         speed_dial_editText = root.findViewById(R.id.speed_dial_editText);
         speed_dial_button = root.findViewById(R.id.speed_dial_button);
+        speed_dial_button.post(() -> {
+            speed_dial_button.setOnClickListener(v -> {
+                String text = String.valueOf(speed_dial_editText.getText());
+                if (!text.isEmpty()) {
+
+                    ListItem listItem = new ListItem(text, null, null);
+
+                    dbHelper.add(DBHelper.MAIN_TASKS_TABLE_NAME, listItem);
+                    adapter.notifyDataSetChanged();
+                    speed_dial_editText.setText("");
+
+                    databaseGetTasks();
+                    updateWidget();
+
+                }
+            });
+        });
+
 
         add_fab = root.findViewById(R.id.add_fab);
-        delete_fab = root.findViewById(R.id.delete_fab);
-        delete_forever_fab = root.findViewById(R.id.delete_forever_fab);
-
-        speed_dial_button.setOnClickListener(v -> {
-            String text = String.valueOf(speed_dial_editText.getText());
-            if (!text.isEmpty()) {
-
-                ListItem listItem = new ListItem(text, null, null);
-
-                dbHelper.add(DBHelper.MAIN_TASKS_TABLE_NAME, listItem);
+        add_fab.post(() -> {
+            add_fab.setOnClickListener(v -> {
+                Intent intent = new Intent(getActivity(), SetTaskActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_SET_TASK);
                 adapter.notifyDataSetChanged();
-                speed_dial_editText.setText("");
+            });
+        });
+        delete_fab = root.findViewById(R.id.delete_fab);
+        delete_fab.post(() -> {
+            delete_fab.setOnClickListener(v -> {
+                dbHelper = new DBHelper(getContext());
+                database = dbHelper.getWritableDatabase();
+                setDeletedTasksValues();
+                database.delete(DBHelper.MAIN_TASKS_TABLE_NAME, null, null);
 
+                //Without this expression tasks won't be updated.
                 databaseGetTasks();
+
+                adapter.notifyDataSetChanged();
+                //Очистка текста.
+                speed_dial_editText.setText("");
                 updateWidget();
-
-            }
+            });
         });
-        add_fab.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), SetTaskActivity.class);
-            startActivityForResult(intent, REQUEST_CODE_SET_TASK);
-            adapter.notifyDataSetChanged();
+
+        delete_forever_fab = root.findViewById(R.id.delete_forever_fab);
+        delete_forever_fab.post(() -> {
+            delete_forever_fab.setOnClickListener(v -> {
+                dbHelper = new DBHelper(getContext());
+                database = dbHelper.getWritableDatabase();
+                database.delete(DBHelper.MAIN_TASKS_TABLE_NAME, null, null);
+
+                //Without this expression tasks won't be updated.
+                databaseGetTasks();
+
+                adapter.notifyDataSetChanged();
+                //Очистка текста.
+                speed_dial_editText.setText("");
+                updateWidget();
+            });
         });
-        delete_fab.setOnClickListener(v -> {
-            dbHelper = new DBHelper(getContext());
-            database = dbHelper.getWritableDatabase();
-            setDeletedTasksValues();
-            database.delete(DBHelper.MAIN_TASKS_TABLE_NAME, null, null);
 
-            //Without this expression tasks won't be updated.
-            databaseGetTasks();
-
-            adapter.notifyDataSetChanged();
-            //Очистка текста.
-            speed_dial_editText.setText("");
-            updateWidget();
-        });
-        delete_forever_fab.setOnClickListener(v -> {
-            dbHelper = new DBHelper(getContext());
-            database = dbHelper.getWritableDatabase();
-            database.delete(DBHelper.MAIN_TASKS_TABLE_NAME, null, null);
-
-            //Without this expression tasks won't be updated.
-            databaseGetTasks();
-
-            adapter.notifyDataSetChanged();
-            //Очистка текста.
-            speed_dial_editText.setText("");
-            updateWidget();
-        });
 
     }
 
@@ -167,16 +175,19 @@ public class MainTasksFragment extends Fragment implements RecyclerItemTouchHelp
 
     private void setRecyclerView() {
 
-        adapter = new CustomAdapter(arrayItemList, getActivity());
+        adapter = new CustomAdapter(CustomAdapter.MAIN_FRAGMENT, arrayItemList, getActivity());
 
         recyclerView = root.findViewById(R.id.main_rv);
-        recyclerView.setHasFixedSize(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+        recyclerView.post(() -> {
+            recyclerView.setHasFixedSize(false);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            recyclerView.setAdapter(adapter);
+        });
+
 
         enableSwipe();
 
-        registerForContextMenu(recyclerView);
+        recyclerView.post(() -> registerForContextMenu(recyclerView));
 
     }
 
@@ -209,12 +220,17 @@ public class MainTasksFragment extends Fragment implements RecyclerItemTouchHelp
     private void enableSwipe() {
         //Attached the ItemTouchHelper
         DividerItemDecoration recyclerViewDivider = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(recyclerViewDivider);
+        recyclerView.post(() -> recyclerView.addItemDecoration(recyclerViewDivider));
 
         //Attached the ItemTouchHelper
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.RIGHT, this);
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
 
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+            }
+        });
     }
 
     @Override

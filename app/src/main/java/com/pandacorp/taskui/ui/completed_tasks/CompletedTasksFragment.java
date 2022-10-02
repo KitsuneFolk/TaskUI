@@ -1,10 +1,8 @@
 package com.pandacorp.taskui.ui.completed_tasks;
 
-import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,17 +27,13 @@ import com.pandacorp.taskui.Widget.WidgetProvider;
 
 import java.util.ArrayList;
 
-public class CompletedTasksFragment extends Fragment implements View.OnClickListener, RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
+public class CompletedTasksFragment extends Fragment implements RecyclerItemTouchHelper.RecyclerItemTouchHelperListener {
     private final String TAG = "MyLogs";
     private final String table = DBHelper.COMPLETED_TASKS_TABLE_NAME;
 
     private RecyclerView recyclerView;
     public CustomAdapter adapter;
-    private ArrayList<String> itemList = new ArrayList<>();
-    private ArrayList<String> itemListTime = new ArrayList<>();
-    private ArrayList<String> itemListPriority = new ArrayList<>();
-
-    private ArrayList<ListItem> arrayItemList = new ArrayList<>();
+    private ArrayList<ListItem> tasksList = new ArrayList<>();
 
     private FloatingActionButton delete_fab_completed;
     private FloatingActionButton delete_forever_fab_completed;
@@ -54,13 +48,12 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
                              ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_completed_tasks, container, false);
 
-        new Handler().post(this::initViews);
+        new Thread(this::initViews).start();
 
         return root;
     }
 
     private void initViews() {
-        itemList = new ArrayList();
 
         dbHelper = new DBHelper(getContext());
         database = dbHelper.getWritableDatabase();
@@ -68,42 +61,30 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
 
         delete_fab_completed = root.findViewById(R.id.delete_fab_completed);
         delete_forever_fab_completed = root.findViewById(R.id.delete_forever_fab_completed);
-        delete_fab_completed.setOnClickListener(this);
-        delete_forever_fab_completed.setOnClickListener(this);
+        delete_fab_completed.post(() -> delete_fab_completed.setOnClickListener(v -> {
+            dbHelper = new DBHelper(getContext());
+            database = dbHelper.getWritableDatabase();
+            setDeletedTasksValues();
+            database.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, null);
+            databaseGetTasks();
+            adapter.notifyDataSetChanged();
+        }));
+        delete_forever_fab_completed.post(() -> delete_forever_fab_completed.setOnClickListener(v -> {
+            dbHelper = new DBHelper(getContext());
+            database = dbHelper.getWritableDatabase();
+            database.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, null);
+            databaseGetTasks();
+            adapter.notifyDataSetChanged();
+        }));
 
         setRecyclerView();
 
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.delete_fab_completed:
-                dbHelper = new DBHelper(getContext());
-                database = dbHelper.getWritableDatabase();
-                setDeletedTasksValues();
-                database.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, null);
-                databaseGetTasks();
-                fillArrayItemList();
-                adapter.notifyDataSetChanged();
-                break;
-            case R.id.delete_forever_fab_completed:
-                dbHelper = new DBHelper(getContext());
-                database = dbHelper.getWritableDatabase();
-                database.delete(DBHelper.COMPLETED_TASKS_TABLE_NAME, null, null);
-                databaseGetTasks();
-                fillArrayItemList();
-                adapter.notifyDataSetChanged();
-                break;
-        }
-    }
 
     private void setDeletedTasksValues() {
-        //Setting values of contentValue to set it to DELETED_TASKS_DATABASE when clicking clear_fab
-        ContentValues contentValues = new ContentValues();
-        for (int i = 0; i < itemList.size(); i++) {
-            contentValues.put(DBHelper.KEY_TASK_TEXT, itemList.get(i));
-            database.insert(DBHelper.DELETED_TASKS_TABLE_NAME, null, contentValues);
+        for (int i = 0; i < tasksList.size(); i++) {
+            dbHelper.add(DBHelper.DELETED_TASKS_TABLE_NAME, tasksList.get(i));
         }
 
 
@@ -111,23 +92,23 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
 
     private void setRecyclerView() {
         databaseGetTasks();
-        fillArrayItemList();
 
-        adapter = new CustomAdapter(arrayItemList, getActivity());
+        adapter = new CustomAdapter(CustomAdapter.COMPLETED_FRAGMENT, tasksList, getActivity());
         recyclerView = root.findViewById(R.id.completed_rv);
-        recyclerView.setHasFixedSize(false);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.post(() -> {
+            recyclerView.setHasFixedSize(false);
+            recyclerView.setAdapter(adapter);
+            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        });
+
 
         enableSwipe();
-        registerForContextMenu(recyclerView);
+        recyclerView.post(() -> registerForContextMenu(recyclerView));
 
     }
 
     private void databaseGetTasks() {
-        itemList.clear();
-        itemListTime.clear();
-        itemListPriority.clear();
+        tasksList.clear();
         //Here is recreating DataBase objects for getting new tasks that came from SetTaskActivity
         //from user.
         dbHelper = new DBHelper(getContext());
@@ -145,9 +126,11 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
                         ", name = " + cursor.getString(keyTaskTextIndex) +
                         ", time = " + cursor.getString(keyTaskTimeIndex) +
                         ", priority = " + cursor.getString(keyTaskPriorityIndex));
-                itemList.add(cursor.getString(keyTaskTextIndex));
-                itemListTime.add(cursor.getString(keyTaskTimeIndex));
-                itemListPriority.add(cursor.getString(keyTaskPriorityIndex));
+                tasksList.add(new ListItem(
+                        cursor.getString(keyTaskTextIndex),
+                        cursor.getString(keyTaskTimeIndex),
+                        cursor.getString(keyTaskPriorityIndex)
+                ));
 
             } while (cursor.moveToNext());
         } else
@@ -156,30 +139,22 @@ public class CompletedTasksFragment extends Fragment implements View.OnClickList
 
     }
 
-    private void fillArrayItemList() {
-        arrayItemList.clear();
-        for (int i = 0; i < itemList.size(); i++) {
-            ListItem current = new ListItem(itemList.get(i), itemListTime.get(i), itemListPriority.get(i));
-            arrayItemList.add(current);
-
-        }
-    }
 
     private void enableSwipe() {
         //Attached the ItemTouchHelper
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.post(() ->
+                recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL)));
 
         //Attached the ItemTouchHelper
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.RIGHT, this);
-
-        new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView);
+        recyclerView.post(() -> new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(recyclerView));
     }
 
     @Override
     public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
         Log.d(TAG, "onSwiped: onSwiped");
         if (viewHolder instanceof CustomAdapter.ViewHolder) {
-            final ListItem deletedListItem = arrayItemList.get(position);
+            final ListItem deletedListItem = tasksList.get(position);
             adapter.removeItem(position);
             dbHelper.removeById(DBHelper.COMPLETED_TASKS_TABLE_NAME, position);
             dbHelper.add(DBHelper.DELETED_TASKS_TABLE_NAME, deletedListItem);

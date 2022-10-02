@@ -98,7 +98,7 @@ public class DeletedTasksFragment extends Fragment implements RecyclerItemTouchH
         databaseGetTasks();
         fillArrayItemList();
 
-        adapter = new CustomAdapter(arrayItemList, getActivity());
+        adapter = new CustomAdapter(CustomAdapter.DELETED_FRAGMENT, arrayItemList, getActivity());
         recyclerView = root.findViewById(R.id.deleted_rv);
         recyclerView.setHasFixedSize(false);
         recyclerView.setAdapter(adapter);

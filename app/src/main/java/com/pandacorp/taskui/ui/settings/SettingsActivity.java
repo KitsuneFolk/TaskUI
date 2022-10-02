@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -33,6 +34,8 @@ public class SettingsActivity extends AppCompatActivity {
                 .replace(R.id.frameLayout, new SettingsFragment())
                 .commit();
         Toolbar toolbar = findViewById(R.id.toolbar);
+        //Needed for resolve bug when toolbar's background is layout's background.
+        toolbar.setBackground(ContextCompat.getDrawable(this, MySettings.getThemeColor(this, MySettings.PRIMARY_COLOR)));
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -47,7 +50,7 @@ public class SettingsActivity extends AppCompatActivity {
             case android.R.id.home: //Метод обработки нажатия на кнопку home.
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
-
+                overridePendingTransition(0, 0);
                 return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
@@ -92,7 +95,10 @@ public class SettingsActivity extends AppCompatActivity {
         public boolean onPreferenceChange(Preference preference, Object newValue) {
 
             WidgetProvider.Companion.sendRefreshBroadcast(requireContext());
-            getActivity().recreate();
+
+            getActivity().startActivity(new Intent(getContext(), SettingsActivity.class));
+            getActivity().finish();
+            getActivity().overridePendingTransition(0, 0);
 
             return true;
         }

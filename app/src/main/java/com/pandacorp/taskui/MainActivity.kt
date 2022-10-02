@@ -11,7 +11,9 @@ import androidx.navigation.ui.NavigationUI
 import com.google.android.material.navigation.NavigationView
 import com.pandacorp.taskui.ui.settings.MySettings
 
+
 class MainActivity : AppCompatActivity(){
+    private val TAG = "MyLogs"
     
     var mAppBarConfiguration: AppBarConfiguration? = null
     
