@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="menu_main_tasks">Головнi задачi</string>
-    <string name="menu_completed_tasks">Виконанi задачi</string>
-    <string name="menu_deleted_tasks">Видаленi задачi</string>
-    <string name="menu_settings">Налаштування</string>
+    <string name="main_tasks">Головнi задачi</string>
+    <string name="completed_tasks">Виконанi задачi</string>
+    <string name="deleted_tasks">Видаленi задачi</string>
+    <string name="settings">Налаштування</string>
     <string name="menu_share">Поширити</string>
 
     <!-- Preference Titles -->
-    <string name="settings_design">Зовнiшний вигляд</string>
-    <string name="Language_text">Мова</string>
-    <string name="Theme_text">Тема</string>
+    <string name="appearance">Зовнiшний вигляд</string>
+    <string name="language">Мова</string>
+    <string name="theme">Тема</string>
     <string name="version">Версія</string>
 
-    <string name="settings_theme_default_value">blue</string>
     <string name="settings_language_default_value">uk</string>
 
     <!--  Share views  -->
-    <string name="share_thanks">Дякую що поширили наш додаток!</string>
-    <string name="share_text">Вiтаю. Додаток TaskUI це ваш помiчник iз вашими завданнями, ви можете завантажити його за цим посиланням. Дякую! :) </string>
-    <string name="settings_another">Iнше</string>
+    <string name="shareThanks">Дякую що поширили наш додаток!</string>
+    <string name="shareText">Додаток TaskUI це ваш помiчник iз вашими завданнями, ви можете завантажити його за цим посиланням. Дякую! :) </string>
+    <string name="another">Iнше</string>
 
     <!--  show_layout  -->
-    <string name="show_layout_task">Задача</string>
-    <string name="show_layout_title">Введiть задачу</string>
-    <string name="show_layout_accept">Приняти</string>
-    <string name="speed_dial">Швидкий набiр</string>
-    <string name="snackbar_undo">Вiдмiнити</string>
-    <string name="snackbar_removed">Задача видалена!</string>
-    <string name="snackbar_completed">Задача виконана!</string>
-    <string name="show_layout_set_time">Обрати Час</string>
-    <string name="show_layout_set_priority">Обрати прiорiтет</string>
+    <string name="createTask">Створити задачу</string>
+    <string name="enterTheTask">Введiть задачу</string>
+    <string name="quickType">Швидкий набiр</string>
+    <string name="undo">Вiдмiнити</string>
+    <string name="taskRemoved">Задача видалена</string>
+    <string name="taskCompleted">Задача виконана</string>
+    <string name="setTime">Обрати Час</string>
+    <string name="setPriority">Обрати прiорiтет</string>
 
     <!--  fragment_main_tasks  -->
     <string name="delete">Видалити</string>
     <string name="add">Додати</string>
-    <string name="delete_forever">Видалити назавжди</string>
+    <string name="deleteForever">Видалити назавжди</string>
 
     <!--    widget-->
-    <string name="widget_settings">Налаштування виджета</string>
-    <string name="widget_show_fab">Показувати кнопку додати</string>
+    <string name="widgetSettings">Налаштування виджета</string>
+    <string name="widgetShowFab">Показувати кнопку додати</string>
 
+    <string name="cancel">Вiдмiнити</string>
 </resources>

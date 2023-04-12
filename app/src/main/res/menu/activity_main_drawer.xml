@@ -7,24 +7,24 @@
         <item
             android:id="@+id/nav_main_tasks"
             android:icon="@drawable/ic_main_tasks_black_24dp"
-            android:title="@string/menu_main_tasks" />
+            android:title="@string/main_tasks" />
         <item
             android:id="@+id/nav_completed_tasks"
             android:icon="@drawable/ic_completed_tasks_black_24dp"
-            android:title="@string/menu_completed_tasks" />
+            android:title="@string/completed_tasks" />
         <item
             android:id="@+id/nav_deleted_tasks"
             android:icon="@drawable/ic_deleted_tasks_black_24dp"
-            android:title="@string/menu_deleted_tasks" />
+            android:title="@string/deleted_tasks" />
 
     </group>
 
-    <item android:title="@string/settings_another">
+    <item android:title="@string/another">
         <menu>
             <item
                 android:id="@+id/nav_settings"
                 android:icon="@drawable/ic_settings_black_24dp"
-                android:title="@string/menu_settings" />
+                android:title="@string/settings" />
 
             <item
                 android:id="@+id/nav_share"

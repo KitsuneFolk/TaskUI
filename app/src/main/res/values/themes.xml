@@ -1,0 +1,57 @@
+<resources>
+
+    <style name="BlueTheme" parent="BaseTheme">
+        <item name="android:colorBackground">@color/BlueTheme_colorBackground</item>
+        <item name="colorPrimary">@color/BlueTheme_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/BlueTheme_colorPrimaryDark</item>
+        <item name="colorAccent">@color/BlueTheme_colorAccent</item>
+        <item name="selectionColor">@color/BlueTheme_selectionColor</item>
+        <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
+    </style>
+
+    <style name="DarkTheme" parent="BaseTheme">
+        <item name="android:colorBackground">@color/DarkTheme_colorBackground</item>
+        <item name="colorPrimary">@color/DarkTheme_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/DarkTheme_colorPrimaryDark</item>
+        <item name="colorAccent">@color/DarkTheme_colorAccent</item>
+        <item name="selectionColor">#ECB571</item>
+        <item name="android:textColorSecondary">@color/DarkTheme_textColorSecondary</item>
+    </style>
+
+    <style name="RedTheme" parent="BaseTheme">
+        <item name="android:colorBackground">@color/RedTheme_colorBackground</item>
+        <item name="colorPrimary">@color/RedTheme_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/RedTheme_colorPrimaryDark</item>
+        <item name="colorAccent">@color/RedTheme_colorAccent</item>
+        <item name="selectionColor">@color/RedTheme_selectionColor</item>
+        <item name="android:textColorSecondary">@color/RedTheme_textColorSecondary</item>
+
+    </style>
+
+    <style name="PurpleTheme" parent="BaseTheme">
+        <item name="android:colorBackground">@color/PurpleTheme_colorBackground</item>
+        <item name="colorPrimary">@color/PurpleTheme_colorPrimary</item>
+        <item name="colorPrimaryDark">@color/PurpleTheme_colorPrimaryDark</item>
+        <item name="colorAccent">@color/PurpleTheme_colorAccent</item>
+        <item name="selectionColor">@color/PurpleTheme_selectionColor</item>
+        <item name="android:textColorSecondary">@color/PurpleTheme_textColorSecondary</item>
+
+    </style>
+
+    <style name="BlueTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="BlueTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="DarkTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="DarkTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="RedTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="RedTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="PurpleTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="PurpleTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+</resources>

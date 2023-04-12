@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:background="?android:attr/colorBackground"
-    tools:context=".Widget.WidgetSettingsActivity"
+    tools:context=".presentation.ui.widget.WidgetSettingsActivity"
     android:id="@+id/widget_dialog_backgrund"
-    android:forceDarkAllowed = "false" tools:targetApi="q"
+    android:forceDarkAllowed="false" tools:targetApi="q"
     >
 
     <LinearLayout
@@ -18,7 +17,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/widget_settings"
+            android:text="@string/widgetSettings"
             android:layout_gravity="center"
             android:textSize="20sp"/>
 
@@ -27,9 +26,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="@string/Theme_text"
+                android:text="@string/theme"
                 android:textSize="20sp"
                 android:layout_marginStart="10dp"
                 android:layout_weight="0"/>
@@ -41,8 +40,8 @@
                 android:gravity="center"
 
                 android:layout_marginEnd="20dp"
-                android:textColor="@color/TextColor"
-                android:textColorHint="@color/TextColor"
+                android:textColor="@android:color/white"
+                android:textColorHint="@android:color/white"
                 android:textSize="20sp"
                 app:spinner_arrow_animate="true"
                 app:spinner_arrow_gravity="end"
@@ -50,7 +49,7 @@
                 app:spinner_divider_color="@color/white"
                 app:spinner_divider_show="true"
                 app:spinner_divider_size="1px"
-                app:spinner_item_array="@array/Widget_themes"
+                app:spinner_item_array="@array/Themes"
                 app:spinner_item_height="46dp"
                 app:spinner_popup_animation="fade"
                 app:spinner_popup_elevation="14dp"
@@ -69,7 +68,7 @@
                 android:trackTint="?android:attr/colorPrimary"
                 android:thumbTint="@color/white"
                 android:layout_marginStart="10dp"
-                android:text="@string/widget_show_fab" />
+                android:text="@string/widgetShowFab" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

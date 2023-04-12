@@ -1,141 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
-
-    <FrameLayout
-        android:id="@+id/main_rv_layout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
-        app:layout_constraintBottom_toTopOf="@+id/speed_dial_linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintStart_toStartOf="@id/speed_dial_linearLayout"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
-
-
-        <include
-            layout="@layout/recycler_view_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-    </FrameLayout>
-
-    <LinearLayout
-        android:id="@+id/speed_dial_linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/fabs_constraintLayout"
-        app:layout_constraintEnd_toEndOf="@+id/main_rv_layout"
-        app:layout_constraintHorizontal_bias="0.49"
-        app:layout_constraintLeft_toLeftOf="@id/main_rv_layout"
-        app:layout_constraintRight_toRightOf="@id/main_rv_layout"
-        app:layout_constraintStart_toStartOf="@+id/main_rv_layout">
-
-        <EditText
-            android:id="@+id/speed_dial_editText"
-            android:layout_width="250dp"
-            android:layout_height="45dp"
-            android:hint="@string/speed_dial"
-            android:inputType="text"
-            android:layout_marginLeft="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/speed_dial_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/rounded_button"
-            android:textColor="?android:attr/colorAccent"
-            android:text="@string/show_layout_accept" />
-    </LinearLayout>
+    android:background="?android:colorBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/fabs_constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/speed_dial_linearLayout"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="@id/speed_dial_linearLayout">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/delete_fab"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-
-            android:backgroundTint="?android:attr/colorPrimary"
-            android:src="@drawable/ic_delete_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/add_fab"
-            app:layout_constraintEnd_toStartOf="@+id/add_fab"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/add_fab" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/add_fab"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-
-            android:layout_marginTop="8dp"
-            android:backgroundTint="?android:attr/colorPrimary"
-            android:src="@drawable/ic_add_black_24dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/mainRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/fastTypeContainer"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="@id/fastTypeContainer"
             app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_add_black_24dp" />
+            app:layout_constraintVertical_bias="0.0"
+            tools:listitem="@layout/task_item" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/delete_forever_fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="?android:attr/colorPrimary"
-            android:clickable="true"
-            android:src="@drawable/ic_delete_forever"
-            app:layout_constraintBottom_toBottomOf="@+id/add_fab"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/add_fab"
-            app:layout_constraintTop_toTopOf="@+id/add_fab"
-            tools:srcCompat="@tools:sample/avatars" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fastTypeContainer"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@+id/mainFabsContainer"
+            app:layout_constraintEnd_toEndOf="@+id/mainRecyclerView"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintLeft_toLeftOf="@id/mainRecyclerView"
+            app:layout_constraintRight_toRightOf="@id/mainRecyclerView"
+            app:layout_constraintStart_toStartOf="@+id/mainRecyclerView">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/delete"
+            <EditText
+                android:id="@+id/fastTypeEditText"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:hint="@string/quickType"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="text"
+                app:layout_constraintBottom_toBottomOf="@id/fastTypeButton"
+                app:layout_constraintEnd_toStartOf="@id/fastTypeButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/fastTypeButton"
+                android:importantForAutofill="no" />
+
+            <Button
+                android:id="@+id/fastTypeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/defaultMargin"
+                android:layout_marginTop="@dimen/defaultMargin"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:layout_marginBottom="@dimen/defaultMargin"
+                android:text="@string/ok"
+                android:stateListAnimator="@animator/increase_size_normal_animator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/mainFabsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/fabLayoutHeight"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/delete_fab"
-            app:layout_constraintStart_toStartOf="@+id/delete_fab"
-            app:layout_constraintTop_toBottomOf="@+id/delete_fab" />
+            app:layout_constraintEnd_toEndOf="@id/fastTypeContainer"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="@id/fastTypeContainer">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/add_fab"
-            app:layout_constraintStart_toStartOf="@+id/add_fab"
-            app:layout_constraintTop_toBottomOf="@+id/add_fab" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/delete_forever"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/delete_forever_fab"
-            app:layout_constraintStart_toStartOf="@+id/delete_forever_fab"
-            app:layout_constraintTop_toBottomOf="@+id/delete_forever_fab" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/mainDeleteFab"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:src="@drawable/ic_delete_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/add_fab"
+                app:layout_constraintEnd_toStartOf="@+id/add_fab"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/add_fab" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/add_fab"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:src="@drawable/ic_add_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:src="@drawable/ic_add_black_24dp" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/mainDeleteForeverFab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_delete_forever"
+                app:layout_constraintBottom_toBottomOf="@+id/add_fab"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/add_fab"
+                app:layout_constraintTop_toTopOf="@+id/add_fab"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/mainDeleteFab"
+                app:layout_constraintStart_toStartOf="@+id/mainDeleteFab"
+                app:layout_constraintTop_toBottomOf="@+id/mainDeleteFab" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/add_fab"
+                app:layout_constraintStart_toStartOf="@+id/add_fab"
+                app:layout_constraintTop_toBottomOf="@+id/add_fab" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/deleteForever"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/mainDeleteForeverFab"
+                app:layout_constraintStart_toStartOf="@+id/mainDeleteForeverFab"
+                app:layout_constraintTop_toBottomOf="@+id/mainDeleteForeverFab" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

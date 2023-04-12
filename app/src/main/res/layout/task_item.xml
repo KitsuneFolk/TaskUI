@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="45dp"
+            android:orientation="vertical">
+
+        <LinearLayout
+                android:id="@+id/taskBackground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/red"
+                android:gravity="end|center_vertical"
+                android:orientation="horizontal"
+                tools:visibility="gone">
+
+            <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="@dimen/bigDefaultMargin"
+                    android:src="@drawable/ic_delete_recyclerview"/>
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/bigDefaultMargin"
+                    android:text="@string/delete"
+                    android:textColor="#fff"
+                    android:textSize="13sp"/>
+
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/foreground"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="?android:colorBackground"
+                tools:visibility="visible">
+
+            <ImageView
+                    android:id="@+id/priority_image_view"
+                    android:layout_width="10dp"
+                    android:layout_height="10dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toBottomOf="@id/complete_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/complete_button">
+
+            </ImageView>
+
+            <TextView
+                    android:id="@+id/main_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="0.5"
+                    android:textSize="15sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/complete_button"
+                    app:layout_constraintEnd_toStartOf="@+id/time_tv"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/complete_button"
+                    tools:text="New item for test!"/>
+
+            <TextView
+                    android:id="@+id/time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:layout_weight="1"
+                    app:layout_constraintBottom_toBottomOf="@+id/complete_button"
+                    app:layout_constraintEnd_toStartOf="@+id/complete_button"
+                    app:layout_constraintTop_toTopOf="@+id/complete_button"
+                    tools:text="12:20"/>
+
+            <ImageView
+                    android:id="@+id/complete_button"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:stateListAnimator="@animator/increase_size_normal_animator"
+                    android:src="@drawable/ic_complete"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/priority_image_view"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>

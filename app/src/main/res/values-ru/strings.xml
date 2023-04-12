@@ -1,46 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="menu_main_tasks">Главные задачи</string>
-    <string name="menu_completed_tasks">Завершённые задачи</string>
-    <string name="menu_deleted_tasks">Удалённые задачи</string>
-    <string name="menu_settings">Настройки</string>
+    <string name="main_tasks">Главные задачи</string>
+    <string name="completed_tasks">Завершённые задачи</string>
+    <string name="deleted_tasks">Удалённые задачи</string>
+    <string name="settings">Настройки</string>
     <string name="menu_share">Поделиться</string>
 
     <!-- Preference Titles -->
-    <string name="settings_design">Внешний вид</string>
-    <string name="Language_text">Язык</string>
-    <string name="Theme_text">Тема</string>
+    <string name="appearance">Внешний вид</string>
+    <string name="language">Язык</string>
+    <string name="theme">Тема</string>
     <string name="version">Версия</string>
 
 
-    <string name="settings_theme_default_value">blue</string>
     <string name="settings_language_default_value">ru</string>
 
     <!--  Share views  -->
-    <string name="share_thanks">Спасибо что поделились нашим приложением!</string>
-    <string name="share_text">Приветствую. Приложение TaskUI это ваш помощник с вашими заданиями, вы можете скачать его по этой ссылке. Спасибо! :) </string>
-    <string name="settings_another">Другое</string>
+    <string name="shareThanks">Спасибо что поделились нашим приложением!</string>
+    <string name="shareText">Приложение TaskUI это ваш помощник с вашими заданиями, вы можете скачать его по этой ссылке. Спасибо! :) </string>
+    <string name="another">Другое</string>
 
     <!--  show_layout  -->
-    <string name="show_layout_task">Задача</string>
-    <string name="show_layout_title">Введите задачу</string>
-    <string name="show_layout_accept">Принять</string>
-    <string name="speed_dial">Быстрый набор</string>
-    <string name="snackbar_undo">Отменить</string>
-    <string name="snackbar_removed">Задача удалена!</string>
-    <string name="snackbar_completed">Задача выполнена!</string>
-    <string name="show_layout_set_time">Выбрать время</string>
-    <string name="show_layout_set_priority">Выбрать приоритет</string>
+    <string name="createTask">Создать задачу</string>
+    <string name="enterTheTask">Введите задачу</string>
+    <string name="quickType">Быстрый набор</string>
+    <string name="undo">Отменить</string>
+    <string name="taskRemoved">Задача удалена!</string>
+    <string name="taskCompleted">Задача выполнена!</string>
+    <string name="setTime">Выбрать время</string>
+    <string name="setPriority">Выбрать приоритет</string>
 
     <!--  fragment_main_tasks  -->
     <string name="delete">Удалить</string>
     <string name="add">Добавить</string>
-    <string name="delete_forever">Удалить навсегда</string>
+    <string name="deleteForever">Удалить навсегда</string>
 
     <!--    widget-->
-    <string name="widget_settings">Настройки виджета</string>
-    <string name="widget_show_fab">Показывать кнопку добавить</string>
+    <string name="widgetSettings">Настройки виджета</string>
+    <string name="widgetShowFab">Показывать кнопку добавить</string>
 
-
+    <string name="cancel">Отменить</string>
 </resources>

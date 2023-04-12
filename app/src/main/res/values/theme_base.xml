@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="BaseTheme" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColorHint">@android:color/white</item>
+        <item name="rippleColor">@android:color/white</item>
+        <item name="android:statusBarColor">?colorPrimary</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <!--  Needed for Bottom Navigation Menu selected item colors  -->
+        <item name="colorSecondaryContainer">@android:color/white</item>
+        <!--  Needed for Back arrow colors  -->
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="android:navigationBarColor">?colorPrimary</item>
+        <item name="materialButtonStyle">@style/MaterialButtonStyle</item>
+        <item name="toolbarStyle">@style/ToolbarStyle</item>
+        <item name="floatingActionButtonPrimaryStyle">@style/FABStyle</item>
+        <item name="alertDialogTheme">@style/AlertDialogStyle</item>
+        <item name="popupMenuStyle">@style/PopUpMenuStyle</item>
+        <item name="snackbarStyle">@style/SnackBarStyle</item>
+        <item name="navigationViewStyle">@style/NavigationViewStyle</item>
+        <item name="android:datePickerDialogTheme">@style/TimePickerStyle</item>
+        <item name="android:timePickerDialogTheme">@style/TimePickerStyle</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimation</item>
+
+    </style>
+
+    <style name="WindowAnimation" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/no_anim</item>
+        <item name="android:activityOpenExitAnimation">@anim/no_anim</item>
+    </style>
+
+    <style name="MaterialButtonStyle" parent="Widget.Material3.Button">
+        <item name="backgroundTint">?colorPrimary</item>
+        <item name="android:textColor">?android:textColor</item>
+        <item name="rippleColor">@null</item>
+    </style>
+
+    <style name="ToolbarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:colorPrimary">?android:attr/textColor</item>
+        <item name="android:background">?colorPrimary</item>
+    </style>
+
+    <style name="AlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
+        <!--  This theme needs for ListPreference background  -->
+        <item name="android:colorBackground">?android:colorBackground</item>
+        <item name="textColorAlertDialogListItem">?android:attr/textColor</item>
+        <item name="color">?android:colorBackground</item>
+        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+    </style>
+
+    <style name="SnackBarStyle" parent="Widget.Design.Snackbar">
+        <item name="backgroundTint">?android:attr/colorPrimary</item>
+        <item name="android:textColor">?android:textColor</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?android:attr/textColor</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+        <item name="android:textColor">?android:attr/textColor</item>
+    </style>
+
+    <style name="FABStyle" parent="Widget.Material3.FloatingActionButton.Primary">
+        <item name="rippleColor">@null</item>
+        <item name="android:backgroundTint">?colorPrimaryDark</item>
+        <item name="backgroundTint">@android:color/white</item>
+        <item name="borderWidth">1dp</item>
+        <!--  Remove shadow  -->
+        <item name="elevation">0dp</item>
+    </style>
+
+    <style name="PopUpMenuStyle" parent="Widget.Material3.PopupMenu">
+        <item name="android:popupBackground">@drawable/rounded_background_primarydark</item>
+    </style>
+
+    <style name="TimePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:textColorPrimary">?colorPrimaryDark</item>
+        <item name="android:textColorHint">?colorPrimaryDark</item>
+        <item name="android:textColorSecondary">?colorPrimaryDark</item>
+        <item name="android:windowBackground">?android:attr/colorBackground</item>
+        <item name="colorAccent">?colorPrimary</item>
+
+    </style>
+    <style name="NavigationViewStyle" parent="Widget.Material3.NavigationView">
+        <item name="android:backgroundTint">?android:colorBackground</item>
+        <item name="itemIconTint">@color/item_color_state</item>
+        <item name="itemTextColor">@color/item_color_state</item>
+        <item name="itemBackground">@drawable/nav_view_background</item>
+    </style>
+
+</resources>
