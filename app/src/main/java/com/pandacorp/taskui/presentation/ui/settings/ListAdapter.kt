@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.pandacorp.taskui.R
-import com.pandacorp.taskui.presentation.utils.Constans
+import com.pandacorp.taskui.presentation.utils.Constants
 
 class ListAdapter(
     context: Context, languagesList: MutableList<ListItem>, private val preferenceKey: String
@@ -39,8 +39,8 @@ class ListAdapter(
         
         textView.text = listItem.title
         imageView.setImageDrawable(listItem.drawable)
-        // make imageview rounded if key == theme
-        if (preferenceKey == Constans.PreferencesKeys.themesKey) {
+        // make the imageview rounded if key == theme
+        if (preferenceKey == Constants.PreferencesKeys.themesKey) {
             cardView.radius = 80f
         }
         return view

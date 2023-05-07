@@ -2,11 +2,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
-    android:id="@+id/widget_background"
+    android:id="@+id/widgetBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:background="@drawable/rounded_blue_background"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/mediumDefaultMargin"
+    android:paddingTop="@dimen/mediumDefaultMargin"
+    android:paddingEnd="@dimen/mediumDefaultMargin"
+    android:paddingBottom="@dimen/mediumDefaultMargin"
+    tools:layout_height="250dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,53 +28,57 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_weight="0.8"
+                android:layout_weight="1"
                 android:gravity="center"
+                android:stateListAnimator="@animator/decrease_size_normal_animator"
                 android:text="@string/main_tasks"
+                android:textColor="@android:color/white"
                 android:textSize="18sp" />
 
             <ImageButton
                 android:id="@+id/widget_settings_button"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_gravity="end"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_gravity="center"
                 android:layout_marginEnd="10dp"
                 android:layout_weight="0.1"
+                android:background="@null"
                 android:clickable="true"
                 android:focusable="true"
-                android:src="@drawable/ic_settings_black_24dp" />
+                android:src="@drawable/ic_settings_black_24dp"
+                android:stateListAnimator="@animator/decrease_size_normal_animator" />
 
         </LinearLayout>
 
         <ListView
             android:id="@+id/widget_listView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/widget_actions_background"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/defaultMargin"
             android:layout_weight="1"
-            android:divider="@color/mdtp_white"
-            android:dividerHeight="1px"
+            android:divider="@android:color/white"
+            android:dividerHeight="1dp"
+            android:paddingBottom="2dp"
             tools:listitem="@layout/widget_task_item" />
     </LinearLayout>
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="bottom|end"
-        android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="@dimen/mediumDefaultMargin"
+        android:layout_marginBottom="@dimen/mediumDefaultMargin">
 
         <ImageButton
-            android:id="@+id/widget_add_fab"
+            android:id="@+id/widgetAddButton"
             android:layout_width="@dimen/widget_fab_add"
             android:layout_height="@dimen/widget_fab_add"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/widget_circle_button"
+            android:background="@drawable/widget_bluetheme_circle_button"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_widget_add"
-            app:tint="@color/BlueTheme_colorBackground"/>
-
-    </LinearLayout>
-
+            app:tint="@android:color/white" />
+    </FrameLayout>
 
 </RelativeLayout>

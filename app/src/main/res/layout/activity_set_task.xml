@@ -1,112 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <include
-            android:id="@+id/setTaskToolbarInclude"
-            layout="@layout/toolbar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/setTaskToolbarInclude">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/linearLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
+        <include
+                android:id="@+id/setTaskToolbarInclude"
+                layout="@layout/toolbar"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/setTaskToolbarInclude">
+
+            <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
                 <EditText
-                    android:id="@+id/set_task_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:hint="@string/enterTheTask" />
-
-                <Button
-                    android:id="@+id/set_time_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:gravity="center"
-                    android:stateListAnimator="@animator/increase_size_normal_animator"
-                    android:text="@string/setTime" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="4dp"
-                    android:layout_marginEnd="16dp"
-                    android:orientation="vertical">
-
-                    <TextView
+                        android:id="@+id/setTaskEditText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:text="@string/setPriority" />
+                        android:layout_marginStart="@dimen/bigDefaultMargin"
+                        android:layout_marginEnd="@dimen/bigDefaultMargin"
+                        android:imeOptions="flagNoExtractUi"
+                        android:hint="@string/enterTheTask"
+                        android:autofillHints="@null"
+                        android:inputType="text" />
 
-                    <RadioGroup
-                        android:id="@+id/set_priority_radio_group"
+                <Button
+                        android:id="@+id/set_time_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/bigDefaultMargin"
+                        android:layout_marginTop="@dimen/defaultMargin"
+                        android:layout_marginBottom="@dimen/defaultMargin"
+                        android:layout_marginEnd="@dimen/bigDefaultMargin"
+                        android:gravity="center"
+                        android:stateListAnimator="@animator/decrease_size_normal_animator"
+                        android:text="@string/time" />
+
+                <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal">
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="16dp"
+                        android:orientation="vertical">
 
-                        <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/whiteRadioButton"
+                    <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:checked="true"
-                            app:buttonTint="@android:color/white" />
+                            android:gravity="center"
+                            android:textSize="@dimen/mediumText"
+                            android:layout_marginBottom="@dimen/defaultMargin"
+                            android:layout_gravity="start"
+                            android:text="@string/priority" />
+
+                    <RadioGroup
+                            android:id="@+id/set_priority_radio_group"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal">
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/yellowRadioButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:buttonTint="@color/yellow" />
+                                android:id="@+id/nullRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:checked="true"
+                                android:background="?selectableItemBackgroundBorderless"
+                                app:buttonTint="@android:color/darker_gray" />
 
                         <com.google.android.material.radiobutton.MaterialRadioButton
-                            android:id="@+id/redRadioButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            app:buttonTint="@color/red" />
+                                android:id="@+id/whiteRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="?selectableItemBackgroundBorderless"
+                                app:buttonTint="@android:color/white" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:id="@+id/yellowRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="?selectableItemBackgroundBorderless"
+                                app:buttonTint="@color/yellow" />
+
+                        <com.google.android.material.radiobutton.MaterialRadioButton
+                                android:id="@+id/redRadioButton"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="?selectableItemBackgroundBorderless"
+                                app:buttonTint="@color/red" />
                     </RadioGroup>
                 </LinearLayout>
 
             </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/setTaskOKButton"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_marginStart="@dimen/defaultMargin"
-                android:layout_marginEnd="@dimen/defaultMargin"
-                android:stateListAnimator="@animator/increase_size_normal_animator"
-                android:text="@string/ok"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+                    android:id="@+id/OKBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_marginStart="@dimen/bigDefaultMargin"
+                    android:layout_marginEnd="@dimen/bigDefaultMargin"
+                    android:layout_marginBottom="@dimen/bigDefaultMargin"
+                    android:stateListAnimator="@animator/decrease_size_normal_animator"
+                    android:text="@string/ok"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </LinearLayout>
 </layout>

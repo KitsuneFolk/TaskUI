@@ -1,51 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/widget_item_background"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="50dp"
+    android:minHeight="35dp"
     android:orientation="horizontal">
 
-
-    <TextView
-        android:id="@+id/widget_main_textView"
+    <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginStart="@dimen/bigDefaultMargin"
+        android:layout_marginEnd="@dimen/defaultMargin"
         android:layout_weight="1"
-        android:textColor="@android:color/white"
-        android:textSize="15sp"
-        tools:text="New item for test!" />
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/widget_time_textview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginEnd="5dp"
-        android:textColor="@android:color/white"
-        tools:text="12:25" />
+        <TextView
+            android:id="@+id/widgetTaskTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            tools:text="New item for test!" />
+
+        <TextView
+            android:id="@+id/widgetTimeTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:textColor="@android:color/white"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:text="4/30/24 12:20"
+            tools:visibility="visible"/>
+
+    </LinearLayout>
 
     <ImageButton
-        android:id="@+id/widget_complete_button"
+        android:id="@+id/widgetCompleteButton"
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="10dp"
-        android:src="@drawable/ic_widget_complete" />
+        android:layout_marginEnd="@dimen/defaultMargin"
+        android:stateListAnimator="@animator/decrease_size_normal_animator"
+        android:src="@drawable/ic_widget_complete"
+        tools:tint="?colorAccent" />
 
     <ImageView
-        android:id="@+id/widget_priority_imageview"
-        android:layout_width="10dp"
-        android:layout_height="10dp"
+        android:id="@+id/widgetPriorityImageView"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="5dp"
-        tools:background="@android:color/white">
-
-    </ImageView>
+        android:layout_marginEnd="@dimen/defaultMargin"
+        android:src="@color/white"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </LinearLayout>

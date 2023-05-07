@@ -11,7 +11,7 @@ import com.pandacorp.taskui.databinding.DialogListViewBinding
 import com.pandacorp.taskui.presentation.ui.settings.ListAdapter
 import com.pandacorp.taskui.presentation.ui.settings.ListItem
 import com.pandacorp.taskui.presentation.ui.settings.SettingsActivity
-import com.pandacorp.taskui.presentation.utils.Constans
+import com.pandacorp.taskui.presentation.utils.Constants
 
 class DialogListView : CustomDialog() {
     
@@ -24,12 +24,12 @@ class DialogListView : CustomDialog() {
         binding = DialogListViewBinding.inflate(layoutInflater)
         
         val preferenceKey =
-            requireArguments().getString(Constans.PreferencesKeys.preferenceBundleKey)
+            requireArguments().getString(Constants.PreferencesKeys.preferenceBundleKey)
         
         binding.dialogListViewTitle.setText(
                 when (preferenceKey) {
-                    Constans.PreferencesKeys.themesKey -> R.string.theme
-                    Constans.PreferencesKeys.languagesKey -> R.string.language
+                    Constants.PreferencesKeys.themesKey -> R.string.theme
+                    Constants.PreferencesKeys.languagesKey -> R.string.language
                     else -> throw IllegalArgumentException("PreferenceKey = $preferenceKey")
                 }
         )
@@ -39,8 +39,8 @@ class DialogListView : CustomDialog() {
         }
         
         val itemsList: MutableList<ListItem> = when (preferenceKey) {
-            Constans.PreferencesKeys.themesKey -> fillThemesList()
-            Constans.PreferencesKeys.languagesKey -> fillLanguagesList()
+            Constants.PreferencesKeys.themesKey -> fillThemesList()
+            Constants.PreferencesKeys.languagesKey -> fillLanguagesList()
             else -> throw IllegalArgumentException()
             
         }
@@ -95,7 +95,7 @@ class DialogListView : CustomDialog() {
     companion object {
         fun newInstance(preferenceKey: String): DialogListView {
             val args = Bundle()
-            args.putString(Constans.PreferencesKeys.preferenceBundleKey, preferenceKey)
+            args.putString(Constants.PreferencesKeys.preferenceBundleKey, preferenceKey)
             val dialog = DialogListView()
             dialog.arguments = args
             return dialog

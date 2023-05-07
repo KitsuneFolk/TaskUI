@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class TaskDataItem(
     @PrimaryKey(autoGenerate = true) var id: Long = 0,
     @ColumnInfo(name = "text") val text: String,
-    @ColumnInfo(name = "time") var time: String?,
+    @ColumnInfo(name = "time") var time: Long?,
     @ColumnInfo(name = "priority") var priority: Int?,
     @ColumnInfo(name = "status") var status: Int
 )

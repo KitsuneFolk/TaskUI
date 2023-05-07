@@ -1,24 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:colorBackground">
+        android:layout_height="match_parent">
 
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/deletedRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/deletedFabsContainer"
+            app:layout_constraintBottom_toTopOf="@+id/deletedFabsContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/task_item">
+            tools:listitem="@layout/main_task_item">
 
         </androidx.recyclerview.widget.RecyclerView>
 
@@ -26,6 +24,7 @@
             android:id="@+id/deletedFabsContainer"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fabLayoutHeight"
+            android:background="?android:colorBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/deletedRecyclerView"
             app:layout_constraintStart_toStartOf="@+id/deletedRecyclerView">
@@ -35,12 +34,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/deleteForever"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="@+id/deletedDeleteForeverFab"
-                app:layout_constraintStart_toStartOf="@+id/deletedDeleteForeverFab"
-                app:layout_constraintTop_toBottomOf="@+id/deletedDeleteForeverFab" />
+                app:layout_constraintEnd_toEndOf="@+id/deleteForeverFab"
+                app:layout_constraintStart_toStartOf="@+id/deleteForeverFab"
+                app:layout_constraintTop_toBottomOf="@+id/deleteForeverFab" />
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/deletedDeleteForeverFab"
+                android:id="@+id/deleteForeverFab"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:layout_marginTop="8dp"

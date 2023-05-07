@@ -5,7 +5,7 @@ import java.io.Serializable
 data class TaskItem(
     var id: Long = 0,
     var text: String,
-    var time: String? = null,
+    var time: Long? = null,
     var priority: Int? = null,
     var status: Int = MAIN
 ): Serializable {
@@ -20,5 +20,4 @@ data class TaskItem(
         const val COMPLETED = 1
         const val DELETED = 2
     }
-    //TODO: Remove later files from .gradle in disk C, because I changed the folder to D disk
 }

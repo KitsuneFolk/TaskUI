@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.data.database
+package com.pandacorp.taskui.data.mappers
 
 import com.pandacorp.taskui.data.models.TaskDataItem
 import com.pandacorp.taskui.domain.models.TaskItem
@@ -22,4 +22,5 @@ class TasksMapper @Inject constructor() {
                 taskItem.priority,
                 taskItem.status)
     }
+
 }

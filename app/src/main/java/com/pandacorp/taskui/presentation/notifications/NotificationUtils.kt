@@ -1,80 +1,83 @@
 package com.pandacorp.taskui.presentation.notifications
-//
-// import android.app.*
-// import android.content.Context
-// import android.content.ContextWrapper
-// import android.content.Intent
-// import android.os.Build
-// import androidx.core.app.NotificationCompat
-// import com.pandacorp.taskui.R
-// import com.pandacorp.taskui.presentation.ui.MainActivity
-// import java.util.*
-//
-// class NotificationUtils(private val context: Context) : ContextWrapper(
-//         context) {
-//     private var _notificationManager: NotificationManager? = null
-//     private val CHANNEL_ID = Random().nextInt(1000).toString() //TODO: What is this?
-//     private val TIMELINE_CHANNEL_NAME = Random().nextInt(1000).toString() + 1000
-//
-//     fun setNotification(title: String?, content: String, timeInMillis: Long): NotificationCompat.Builder {
-//         //Code for opening MainActivity after notification click.
-//         val intent = Intent(context, ReminderBroadcast::class.java)
-//         intent.putExtra("title", title)
-//         intent.putExtra("content", Companion.content)
-//         pendingIntent = PendingIntent.getBroadcast(context, 0, intent, 0)
-//         alarmManager = getSystemService(ALARM_SERVICE) as AlarmManager
-//         alarmManager!![AlarmManager.RTC_WAKEUP, timeInMillis] =
-//             pendingIntent
-//
-//         val resultIntent = Intent(this, MainActivity::class.java)
-//         val stackBuilder = TaskStackBuilder.create(this)
-//         stackBuilder.addNextIntentWithParentStack(resultIntent)
-//         val resultPendingIntent = stackBuilder.getPendingIntent(
-//                 0,
-//                 PendingIntent.FLAG_UPDATE_CURRENT)
-//         return NotificationCompat.Builder(this, CHANNEL_ID)
-//             .setSmallIcon(R.drawable.ic_complete)
-//             .setContentTitle(title)
-//             .setContentText(content)
-//             .setAutoCancel(true)
-//             .setContentIntent(resultPendingIntent)
-//             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-//     }
-//
-//     private fun createChannel() {
-//         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//             val channel = NotificationChannel(
-//                     CHANNEL_ID,
-//                     TIMELINE_CHANNEL_NAME,
-//                     NotificationManager.IMPORTANCE_DEFAULT)
-//             channel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-//             manager!!.createNotificationChannel(channel)
-//         }
-//     }
-//
-//     val manager: NotificationManager?
-//         get() {
-//             if (_notificationManager == null) {
-//                 _notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-//             }
-//             return _notificationManager
-//         }
-//
-//     companion object {
-//         var content: String? = null
-//         private var pendingIntent: PendingIntent? = null
-//         private var alarmManager: AlarmManager? = null
-//         fun cancelNotification(context: Context, notifyId: Int) {
-//             if (alarmManager != null) {
-//                 alarmManager!!.cancel(pendingIntent)
-//                 val notificationManager =
-//                     context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-//                 notificationManager.cancel(notifyId)
-//             }
-//         }
-//     }
-//
-//     init {
-//         createChannel()
-//     }
-// }
+
+import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import androidx.core.app.NotificationManagerCompat
+import com.pandacorp.taskui.domain.models.TaskItem
+import com.pandacorp.taskui.presentation.ui.MainActivity
+import com.pandacorp.taskui.presentation.utils.Constants
+
+object NotificationUtils {
+    const val TAG = "Notifications"
+
+    fun cancel(context: Context, taskItem: TaskItem) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val intent = Intent(context, NotificationBroadcast::class.java)
+        val pendingIntent = PendingIntent.getBroadcast(
+            context, taskItem.id.toInt(), intent, PendingIntent
+                .FLAG_IMMUTABLE
+        )
+        alarmManager.cancel(pendingIntent)
+    }
+
+    fun create(context: Context, taskItem: TaskItem, snoozedTime: Long = 0) {
+        createChannel(context)
+
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        val createIntent = Intent(context, NotificationBroadcast::class.java).apply {
+            putExtra(Constants.IntentItem, taskItem)
+            action = Constants.Notification.ACTION_CREATE
+        }
+        val notificationPendingIntent =
+            PendingIntent.getBroadcast(context, taskItem.id.toInt(), createIntent, PendingIntent.FLAG_IMMUTABLE)
+        val mainActivityPendingIntent = PendingIntent.getActivity(
+            context, taskItem.id.toInt(), Intent(context, MainActivity::class.java), PendingIntent
+                .FLAG_IMMUTABLE
+        )
+        val clockInfo =
+            if (snoozedTime != 0L) AlarmManager.AlarmClockInfo(
+                System.currentTimeMillis() + snoozedTime,
+                mainActivityPendingIntent
+            )
+            else AlarmManager.AlarmClockInfo(taskItem.time!!, mainActivityPendingIntent)
+        alarmManager.setAlarmClock(clockInfo, notificationPendingIntent)
+    }
+
+    private fun createChannel(context: Context) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val importance = NotificationManager.IMPORTANCE_HIGH
+            val channel = NotificationChannel(
+                Constants.Notification.CHANNEL_KEY, "Tasks Notification Channel",
+                importance
+            ).apply {
+                description = "Notification for Tasks"
+            }
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
+    fun snoozeNotification(context: Context, taskItem: TaskItem, snoozedTime: Long) {
+        NotificationManagerCompat.from(context)
+            .cancel(taskItem.id.toInt()) // remove the notification from the notification panel
+        cancel(context, taskItem)
+        create(context, taskItem, snoozedTime)
+    }
+
+    fun cancelAll(context: Context, list: List<TaskItem>) {
+        val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        list.forEach {
+            val intent = Intent(context, NotificationBroadcast::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(
+                context, it.id.toInt(), intent, PendingIntent
+                    .FLAG_IMMUTABLE
+            )
+            alarmManager.cancel(pendingIntent)
+        }
+    }
+}

@@ -34,9 +34,11 @@
     <color name="PurpleTheme_selectionColor">#6D40EA</color>
 
     <!--  Another  -->
-    <color name="yellow">#FFEB3B</color>
     <color name="white">#FFFFFF</color>
+    <color name="yellow">#FFEB3B</color>
     <color name="red">#FF0000</color>
+
+    <color name="restoreColor">#5EA3DE</color>
 
 </resources>
 

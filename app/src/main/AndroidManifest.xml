@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.pandacorp.taskui">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
 
     <application
@@ -15,8 +16,9 @@
         android:supportsRtl="true"
         android:theme="@style/BlueTheme">
 
-        <!--        <receiver android:name=".presentation.notifications.ReminderBroadcast"  TODO: NOTIFICATION />-->
-        <activity android:name=".presentation.ui.SetTaskActivity" />
+        <activity
+            android:name=".presentation.ui.SetTaskActivity"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".presentation.ui.settings.SettingsActivity"
             android:label="@string/createTask" />
@@ -32,20 +34,19 @@
         </activity>
 
         <activity
-            android:name="com.pandacorp.taskui.presentation.ui.widget.WidgetSettingsActivity"
-            android:excludeFromRecents="true"
-            android:exported="true"
+            android:name=".presentation.ui.widget.WidgetSettingsActivity"
+            android:exported="false"
             android:label="@string/settings"
-            android:theme="@style/AlertDialogStyle">
+            android:theme="@style/BlueTheme_Widget_MaterialAlertDialogStyle" />
 
-        </activity>
 
         <service
-            android:name="com.pandacorp.taskui.presentation.ui.widget.WidgetService"
+            android:name=".presentation.ui.widget.WidgetService"
+            android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <receiver
-            android:name="com.pandacorp.taskui.presentation.ui.widget.WidgetProvider"
+            android:name=".presentation.ui.widget.WidgetProvider"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -55,6 +56,13 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_metadata" />
         </receiver>
-    </application>
 
+        <receiver android:name=".presentation.notifications.NotificationBroadcast" />
+
+        <activity
+            android:name=".presentation.notifications.NotificationSnoozeActivity"
+            android:exported="false"
+            android:label=""
+            android:theme="@style/DarkTheme_Widget_MaterialAlertDialogStyle" />
+    </application>
 </manifest>

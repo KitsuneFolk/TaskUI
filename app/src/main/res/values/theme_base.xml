@@ -15,14 +15,15 @@
         <item name="materialButtonStyle">@style/MaterialButtonStyle</item>
         <item name="toolbarStyle">@style/ToolbarStyle</item>
         <item name="floatingActionButtonPrimaryStyle">@style/FABStyle</item>
-        <item name="alertDialogTheme">@style/AlertDialogStyle</item>
+        <item name="alertDialogTheme">@style/MaterialAlertDialogStyle</item>
         <item name="popupMenuStyle">@style/PopUpMenuStyle</item>
         <item name="snackbarStyle">@style/SnackBarStyle</item>
+        <item name="snackbarButtonStyle">@style/SnackBarButtonStyle</item>
+        <item name="snackbarTextViewStyle">@style/SnackBarTextStyle</item>
         <item name="navigationViewStyle">@style/NavigationViewStyle</item>
-        <item name="android:datePickerDialogTheme">@style/TimePickerStyle</item>
-        <item name="android:timePickerDialogTheme">@style/TimePickerStyle</item>
+        <item name="materialCalendarTheme">@style/MaterialCalendarTheme</item>
+        <item name="materialTimePickerTheme">@style/MaterialTimePickerTheme</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimation</item>
-
     </style>
 
     <style name="WindowAnimation" parent="@android:style/Animation.Activity">
@@ -33,8 +34,10 @@
     </style>
 
     <style name="MaterialButtonStyle" parent="Widget.Material3.Button">
-        <item name="backgroundTint">?colorPrimary</item>
+        <item name="backgroundTint">?colorPrimaryDark</item>
         <item name="android:textColor">?android:textColor</item>
+        <item name="strokeColor">?android:textColor</item>
+        <item name="strokeWidth">1dp</item>
         <item name="rippleColor">@null</item>
     </style>
 
@@ -43,25 +46,29 @@
         <item name="android:background">?colorPrimary</item>
     </style>
 
-    <style name="AlertDialogStyle" parent="Theme.AppCompat.Dialog.Alert">
-        <!--  This theme needs for ListPreference background  -->
+    <style name="MaterialAlertDialogStyle" parent="Theme.Material3.Dark.Dialog">
+        <!--  Disable Full window mode  -->
         <item name="android:colorBackground">?android:colorBackground</item>
         <item name="textColorAlertDialogListItem">?android:attr/textColor</item>
         <item name="color">?android:colorBackground</item>
-        <item name="buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
-        <item name="buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="buttonBarPositiveButtonStyle">@style/DialogButtonStyle</item>
+        <item name="buttonBarNegativeButtonStyle">@style/DialogButtonStyle</item>
     </style>
 
-    <style name="SnackBarStyle" parent="Widget.Design.Snackbar">
+    <style name="SnackBarStyle" parent="Widget.Material3.Snackbar">
         <item name="backgroundTint">?android:attr/colorPrimary</item>
+    </style>
+    <style name="SnackBarButtonStyle" parent="Widget.Material3.Button.TextButton.Snackbar">
+        <item name="backgroundTint">@android:color/transparent</item>
+        <item name="android:textColor">?android:textColor</item>
+        <item name="strokeColor">?android:textColor</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+    <style name="SnackBarTextStyle" parent="@style/Widget.Material3.Snackbar.TextView">
         <item name="android:textColor">?android:textColor</item>
     </style>
 
-    <style name="NegativeButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
-        <item name="android:textColor">?android:attr/textColor</item>
-    </style>
-
-    <style name="PositiveButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
+    <style name="DialogButtonStyle" parent="Widget.MaterialComponents.Button.TextButton.Dialog">
         <item name="android:textColor">?android:attr/textColor</item>
     </style>
 
@@ -78,14 +85,15 @@
         <item name="android:popupBackground">@drawable/rounded_background_primarydark</item>
     </style>
 
-    <style name="TimePickerStyle" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:textColorPrimary">?colorPrimaryDark</item>
-        <item name="android:textColorHint">?colorPrimaryDark</item>
-        <item name="android:textColorSecondary">?colorPrimaryDark</item>
-        <item name="android:windowBackground">?android:attr/colorBackground</item>
-        <item name="colorAccent">?colorPrimary</item>
-
+    <style name="MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="android:textColor">?android:textColor</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
     </style>
+ <style name="MaterialTimePickerTheme" parent="ThemeOverlay.Material3.MaterialTimePicker">
+        <item name="android:textColor">?android:textColor</item>
+        <item name="colorPrimary">?attr/colorAccent</item>
+    </style>
+
     <style name="NavigationViewStyle" parent="Widget.Material3.NavigationView">
         <item name="android:backgroundTint">?android:colorBackground</item>
         <item name="itemIconTint">@color/item_color_state</item>

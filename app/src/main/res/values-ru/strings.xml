@@ -2,7 +2,7 @@
 <resources>
 
     <string name="main_tasks">Главные задачи</string>
-    <string name="completed_tasks">Завершённые задачи</string>
+    <string name="completed_tasks">Выполненные задачи</string>
     <string name="deleted_tasks">Удалённые задачи</string>
     <string name="settings">Настройки</string>
     <string name="menu_share">Поделиться</string>
@@ -28,17 +28,42 @@
     <string name="undo">Отменить</string>
     <string name="taskRemoved">Задача удалена!</string>
     <string name="taskCompleted">Задача выполнена!</string>
-    <string name="setTime">Выбрать время</string>
-    <string name="setPriority">Выбрать приоритет</string>
+    <string name="time">Время</string>
+    <string name="priority">Приоритет</string>
 
     <!--  fragment_main_tasks  -->
-    <string name="delete">Удалить</string>
     <string name="add">Добавить</string>
+    <string name="delete">Удалить</string>
     <string name="deleteForever">Удалить навсегда</string>
+    <string name="restore">Восстановить</string>
 
     <!--    widget-->
     <string name="widgetSettings">Настройки виджета</string>
     <string name="widgetShowFab">Показывать кнопку добавить</string>
+    <string name="darkThemeForWidget">Тёмная тема для виджета</string>
+    <string name="transparency">Прозрачность</string>
 
     <string name="cancel">Отменить</string>
+    <string name="successfully">Успешно</string>
+
+    <string name="emptyRecyclerView">Пусто. Добавьте элемент с помощью кнопки</string>
+
+    <!--    Notification    -->
+    <string name="snooze">Отложить</string>
+    <string name="complete">Выполнить</string>
+
+    <string name="minutes">Минуты</string>
+    <string name="hours">Часы</string>
+    <string name="min5">5</string>
+    <string name="min10">10</string>
+    <string name="min30">30</string>
+    <string name="min60">60</string>
+    <string name="hours2">2</string>
+    <string name="hours4">4</string>
+    <string name="hours8">8</string>
+    <string name="hours12">12</string>
+    <string name="hours24">24</string>
+    <string name="hours48">48</string>
+
+    <string name="custom">Своё</string>
 </resources>

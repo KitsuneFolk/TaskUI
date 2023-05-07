@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">TasksUI</string>
+    <string name="app_name" translatable="false">TaskUI</string>
 
     <string name="main_tasks">Main tasks</string>
     <string name="completed_tasks">Completed tasks</string>
@@ -21,24 +21,49 @@
     <string name="another">Another</string>
 
     <!--  show_layout  -->
-    <string name="createTask">Create task</string>
+    <string name="createTask">Create a task</string>
     <string name="enterTheTask">Enter the task</string>
     <string name="quickType">Quick type</string>
     <string name="undo">Undo</string>
     <string name="taskRemoved">Task is removed</string>
     <string name="taskCompleted">Task is completed</string>
-    <string name="setTime">Set time</string>
-    <string name="setPriority">Set priority</string>
+    <string name="time">Time</string>
+    <string name="priority">Priority</string>
 
     <!--  main_tasks  -->
     <string name="add">Add</string>
     <string name="delete">Delete</string>
     <string name="deleteForever">Delete forever</string>
+    <string name="restore">Restore</string>
 
     <!--    widget-->
     <string name="widgetSettings">Widget settings</string>
-    <string name="widgetShowFab">Widget show add button</string>
+    <string name="widgetShowFab">Show Add button</string>
+    <string name="darkThemeForWidget">Dark theme for widget</string>
+    <string name="transparency">Transparency</string>
 
     <string name="ok" translatable="false">OK</string>
     <string name="cancel">Cancel</string>
+    <string name="successfully">Successfully</string>
+
+    <string name="emptyRecyclerView">Empty. Add an item using the button</string>
+
+    <!--    Notification    -->
+    <string name="snooze">Snooze</string>
+    <string name="complete">Complete</string>
+
+    <string name="minutes">Minutes</string>
+    <string name="hours">Hours</string>
+    <string name="min5">5</string>
+    <string name="min10">10</string>
+    <string name="min30">30</string>
+    <string name="min60">60</string>
+    <string name="hours2">2</string>
+    <string name="hours4">4</string>
+    <string name="hours8">8</string>
+    <string name="hours12">12</string>
+    <string name="hours24">24</string>
+    <string name="hours48">48</string>
+
+    <string name="custom">Custom</string>
 </resources>

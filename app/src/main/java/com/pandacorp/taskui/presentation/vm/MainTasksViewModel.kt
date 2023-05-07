@@ -5,8 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.pandacorp.taskui.domain.models.TaskItem
-import com.pandacorp.taskui.domain.usecases.*
+import com.pandacorp.taskui.domain.usecases.AddTaskUseCase
+import com.pandacorp.taskui.domain.usecases.AddTasksUseCase
+import com.pandacorp.taskui.domain.usecases.GetTasksUseCase
+import com.pandacorp.taskui.domain.usecases.RemoveTasksUseCase
+import com.pandacorp.taskui.domain.usecases.UpdateTaskUseCase
+import com.pandacorp.taskui.domain.usecases.UpdateTasksUseCase
 import com.pandacorp.taskui.presentation.ui.fragments.MainTasksFragment
+import com.pandacorp.taskui.presentation.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -18,7 +24,8 @@ import javax.inject.Inject
 class MainTasksViewModel @Inject constructor(
     private val getItemsUseCase: GetTasksUseCase,
     private val addItemUseCase: AddTaskUseCase,
-    private val removeAllUseCase: RemoveAllTasksUseCase,
+    private val addItemsUseCase: AddTasksUseCase,
+    private val removeItemsUseCase: RemoveTasksUseCase,
     private val updateItemUseCase: UpdateTaskUseCase,
     private val updateItemsUseCase: UpdateTasksUseCase
 ) :
@@ -26,65 +33,122 @@ class MainTasksViewModel @Inject constructor(
     companion object {
         private const val TAG = MainTasksFragment.TAG
     }
-    
+
     private val _tasksList = MutableLiveData<MutableList<TaskItem>>().apply {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
                 getItemsUseCase().filter { it.status == TaskItem.MAIN }.toMutableList().apply {
-                    //TODO: Get only main tasks
                     postValue(this)
                 }
             }
         }
     }
     val tasksList: LiveData<MutableList<TaskItem>> = _tasksList
-    
+
     fun addItem(taskItem: TaskItem) {
         CoroutineScope(Dispatchers.IO).launch {
             val id = addItemUseCase(taskItem)
             taskItem.id = id
-            _tasksList.value?.add(0, taskItem)
+            _tasksList.value?.add(Constants.ITEM_ADD_POSITION, taskItem)
             _tasksList.postValue(_tasksList.value)
         }
     }
-    
-    fun updateItem(position: Int, taskItem: TaskItem) {
-        _tasksList.value?.set(position, taskItem)
+
+    /**
+     * Method that add the task only in the liveData
+     */
+    fun addItemVmOnly(taskItem: TaskItem) {
+        _tasksList.value?.add(Constants.ITEM_ADD_POSITION, taskItem)
         _tasksList.postValue(_tasksList.value)
-        CoroutineScope(Dispatchers.IO).launch {
-            updateItemUseCase(taskItem)
-        }
-        
     }
-    
-    fun removeItem(position: Int, taskItem: TaskItem) {
+
+    fun removeItem(taskItem: TaskItem) {
         taskItem.status = TaskItem.DELETED
-        _tasksList.value?.removeAt(position)
+        _tasksList.value?.apply {
+            remove(find { it.id == taskItem.id } )
+            _tasksList.postValue(this)
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            updateItemUseCase(taskItem)
+        }
+    }
+
+    fun removeAll() {
+        val currentTasksList = _tasksList.value?.map { taskItem -> taskItem.copy(status = TaskItem.DELETED) }?.toMutableList()
+        CoroutineScope(Dispatchers.IO).launch {
+            currentTasksList?.let {
+                updateItemsUseCase(it)
+            }
+        }
+        _tasksList.apply {
+            value?.clear()
+            postValue(_tasksList.value)
+        }
+    }
+
+    fun removeAllForever() {
+        val currentTasksList = _tasksList.value?.toMutableList()!!
+        CoroutineScope(Dispatchers.IO).launch {
+            tasksList.value?.let {
+                removeItemsUseCase(currentTasksList)
+            }
+        }
+        _tasksList.apply {
+            value?.clear()
+            postValue(_tasksList.value)
+        }
+    }
+
+
+    fun completeItem(taskItem: TaskItem) {
+        taskItem.status = TaskItem.COMPLETED
+        _tasksList.value?.apply {
+            remove(find { it.id == taskItem.id })
+
+            _tasksList.postValue(this)
+        }
+        CoroutineScope(Dispatchers.IO).launch {
+            updateItemUseCase(taskItem)
+        }
+    }
+
+    /**
+     * Method that completes the task only in the liveData(In case AppWidgetProvider already updated in Room)
+     */
+    fun completeItemVmOnly(taskItem: TaskItem) {
+        taskItem.status = TaskItem.COMPLETED
+        _tasksList.value?.apply {
+            remove(find { it.id == taskItem.id })
+            _tasksList.postValue(this)
+        }
+    }
+
+    /**
+     * Add item to the livedata and update in Room
+     */
+    fun restoreItem(position: Int, taskItem: TaskItem) {
+        _tasksList.value?.add(position, taskItem)
         _tasksList.postValue(_tasksList.value)
         CoroutineScope(Dispatchers.IO).launch {
             updateItemUseCase(taskItem)
         }
-        
     }
-    
-    fun removeAll() {
-        _tasksList.value?.forEach { taskItem ->
-            taskItem.status = TaskItem.DELETED
-            
-        }
-        CoroutineScope(Dispatchers.IO).launch {
-            updateItemsUseCase(_tasksList.value!!)
-        }
-        _tasksList.value?.clear()
-        _tasksList.postValue(_tasksList.value)
-    }
-    
-    fun removeAllForever() {
-        _tasksList.value?.clear()
+
+    /**
+     * Put all the given items to the livedata and update the items in Room
+     */
+    fun undoRemoveAll(tasksList: MutableList<TaskItem>) {
+        _tasksList.value?.addAll(tasksList)
         _tasksList.postValue(_tasksList.value)
         CoroutineScope(Dispatchers.IO).launch {
-            removeAllUseCase()
+            updateItemsUseCase(tasksList)
         }
-        
+    }
+    fun undoRemoveAllForever(tasksList: MutableList<TaskItem>) {
+        _tasksList.value?.addAll(tasksList)
+        _tasksList.postValue(_tasksList.value)
+        CoroutineScope(Dispatchers.IO).launch {
+            addItemsUseCase(tasksList)
+        }
     }
 }

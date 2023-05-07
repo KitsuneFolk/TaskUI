@@ -26,8 +26,8 @@ class PreferenceHandler(private val context: Context) {
     private var sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     
     fun load() {
-        val theme = sp.getString(Constans.PreferencesKeys.themesKey, themeDefault)!!
-        val language = sp.getString(Constans.PreferencesKeys.languagesKey, "")!!
+        val theme = sp.getString(Constants.PreferencesKeys.themesKey, themeDefault)!!
+        val language = sp.getString(Constants.PreferencesKeys.languagesKey, "")!!
         setMyTheme(context, theme)
         setMyLanguage(context, language)
     }
@@ -66,7 +66,7 @@ class PreferenceHandler(private val context: Context) {
         context.resources.updateConfiguration(configuration, context.resources.displayMetrics)
     }
     
-    fun isDeviceDarkMode(): Boolean =
+    private fun isDeviceDarkMode(): Boolean =
         (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
     
 }

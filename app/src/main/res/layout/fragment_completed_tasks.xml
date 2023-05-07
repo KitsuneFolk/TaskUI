@@ -1,30 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:colorBackground">
+        android:layout_height="match_parent">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/completedRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toTopOf="@id/completedFabsLayout"
+            app:layout_constraintBottom_toTopOf="@+id/completedFabsContainer"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"
-            tools:listitem="@layout/task_item">
+            tools:listitem="@layout/main_task_item">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/completedFabsLayout"
+            android:id="@+id/completedFabsContainer"
             android:layout_width="match_parent"
             android:layout_height="@dimen/fabLayoutHeight"
+            android:background="?android:colorBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/completedRecyclerView"
             app:layout_constraintStart_toStartOf="@+id/completedRecyclerView">
@@ -34,7 +33,6 @@
                 android:id="@+id/completedFabDeleteForever"
                 android:layout_width="56dp"
                 android:layout_height="56dp"
-
                 android:layout_marginTop="8dp"
                 android:src="@drawable/ic_delete_forever"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -49,7 +47,6 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
 
-                android:backgroundTint="?android:attr/colorPrimary"
                 android:src="@drawable/ic_delete_black_24dp"
                 app:layout_constraintBottom_toBottomOf="@+id/completedFabDeleteForever"
                 app:layout_constraintEnd_toStartOf="@+id/completedFabDeleteForever"

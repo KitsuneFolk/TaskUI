@@ -24,20 +24,46 @@
     <string name="createTask">Створити задачу</string>
     <string name="enterTheTask">Введiть задачу</string>
     <string name="quickType">Швидкий набiр</string>
-    <string name="undo">Вiдмiнити</string>
+    <string name="undo">Скасувати</string>
     <string name="taskRemoved">Задача видалена</string>
     <string name="taskCompleted">Задача виконана</string>
-    <string name="setTime">Обрати Час</string>
-    <string name="setPriority">Обрати прiорiтет</string>
+    <string name="time">Час</string>
+    <string name="priority">Прiорiтет</string>
 
     <!--  fragment_main_tasks  -->
-    <string name="delete">Видалити</string>
     <string name="add">Додати</string>
+    <string name="delete">Видалити</string>
     <string name="deleteForever">Видалити назавжди</string>
+    <string name="restore">Вiдновити</string>
 
     <!--    widget-->
     <string name="widgetSettings">Налаштування виджета</string>
     <string name="widgetShowFab">Показувати кнопку додати</string>
+    <string name="darkThemeForWidget">Темна тема для вiджету</string>
+    <string name="transparency">Прозорiсть</string>
 
-    <string name="cancel">Вiдмiнити</string>
+    <string name="cancel">Скасувати</string>
+    <string name="successfully">Успiшно</string>
+
+    <string name="emptyRecyclerView">Порожньо. Додайте елемент за допомогою кнопки</string>
+
+    <!--    Notification    -->
+    <string name="snooze">Вiдкласти</string>
+    <string name="complete">Виконати</string>
+
+    <string name="minutes">Хвилини</string>
+    <string name="hours">Години</string>
+
+    <string name="min5">5</string>
+    <string name="min10">10</string>
+    <string name="min30">30</string>
+    <string name="min60">60</string>
+    <string name="hours2">2</string>
+    <string name="hours4">4</string>
+    <string name="hours8">8</string>
+    <string name="hours12">12</string>
+    <string name="hours24">24</string>
+    <string name="hours48">48</string>
+
+    <string name="custom">Своє</string>
 </resources>

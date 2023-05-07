@@ -1,146 +1,115 @@
 package com.pandacorp.taskui.presentation.ui.widget
 
-import android.appwidget.AppWidgetManager
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
+import android.content.SharedPreferences
+import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
+import androidx.core.content.ContextCompat
 import com.pandacorp.taskui.R
+import com.pandacorp.taskui.data.repositories.TasksRepositoryImpl
 import com.pandacorp.taskui.domain.models.TaskItem
+import com.pandacorp.taskui.presentation.utils.Constants
+import dagger.hilt.android.qualifiers.ApplicationContext
+import java.text.DateFormat
+import java.util.Locale
+import javax.inject.Inject
 
+class WidgetFactory @Inject constructor(
+    @ApplicationContext private val context: Context,
+    private val repository: TasksRepositoryImpl
+) : RemoteViewsService.RemoteViewsFactory {
 
-class WidgetFactory internal constructor(
-    private val context: Context,
-    private val intent: Intent?
-) :
-    RemoteViewsService.RemoteViewsFactory {
-    private val TAG = "MyLogs"
-    
-    private var tasks = ArrayList<TaskItem>()
-    private var widgetID = intent?.getIntExtra(
-            AppWidgetManager.EXTRA_APPWIDGET_ID,
-            AppWidgetManager.INVALID_APPWIDGET_ID)
-    
-    override fun onCreate() {
-        
+    companion object {
+        const val TAG = "widget"
     }
-    
-    override fun getCount(): Int {
-        return tasks.size
+
+    private val dateFormatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault())
+
+    private val sp: SharedPreferences by lazy {
+        context.getSharedPreferences(Constants.Widget.WIDGET_SETTINGS, Context.MODE_PRIVATE)
     }
-    
-    override fun getItemId(position: Int): Long {
-        return position.toLong()
-    }
-    
-    override fun getLoadingView(): RemoteViews? {
-        
-        return null
-        
-    }
-    
+    private var tasksList: MutableList<TaskItem> = mutableListOf()
+
+    override fun onCreate() {}
+
+    override fun getCount(): Int = tasksList.size
+
+    override fun getItemId(position: Int): Long = position.toLong()
+
+    override fun getLoadingView(): RemoteViews? = null
+
     override fun getViewAt(position: Int): RemoteViews {
-    
-        val widget_item_view = RemoteViews(context.packageName, R.layout.widget_task_item)
-    
-    
-        //Here we set Tasks text.
-        widget_item_view.setTextViewText(R.id.widget_main_textView, tasks[position].text)
-        widget_item_view.setTextViewText(R.id.widget_time_textview, tasks[position].time)
-        
-        
-        //Here we set Tasks priority to ImageView.
-        when (tasks[position].priority) {
-            TaskItem.WHITE -> {
-                widget_item_view.setImageViewResource(R.id.widget_priority_imageview, android.R.color.white)
-                
-            }
-            TaskItem.YELLOW -> {
-                widget_item_view.setImageViewResource(R.id.widget_priority_imageview, R.color.yellow)
-                
-            }
-            TaskItem.RED -> {
-                widget_item_view.setImageViewResource(R.id.widget_priority_imageview, R.color.red)
-                
-            }
-            else -> {
-                //Null variation
+        val taskItem = tasksList[position]
+        val itemView = RemoteViews(context.packageName, R.layout.widget_task_item)
+
+        // Reset values
+        itemView.setViewVisibility(R.id.widgetTimeTv, View.GONE)
+        itemView.setViewVisibility(R.id.widgetPriorityImageView, View.GONE)
+
+        itemView.setTextViewText(R.id.widgetTaskTitle, taskItem.text)
+        taskItem.time?.let {
+            itemView.setViewVisibility(R.id.widgetTimeTv, View.VISIBLE)
+            itemView.setTextViewText(R.id.widgetTimeTv, dateFormatter.format(it))
+        }
+        taskItem.priority?.let {
+            itemView.setViewVisibility(R.id.widgetPriorityImageView, View.VISIBLE)
+            when (taskItem.priority) {
+                TaskItem.WHITE -> itemView.setImageViewResource(R.id.widgetPriorityImageView, R.color.white)
+                TaskItem.YELLOW -> itemView.setImageViewResource(R.id.widgetPriorityImageView, R.color.yellow)
+                TaskItem.RED -> itemView.setImageViewResource(R.id.widgetPriorityImageView, R.color.red)
+                else -> itemView.setViewVisibility(R.id.widgetPriorityImageView, View.GONE)
             }
         }
-        
-        setBackgroundColors(context, widget_item_view)
-        
-        //Code needed for handling the complete button in widget list item.
-        val extras = Bundle()
-        extras.putInt(WidgetProvider.EXTRA_ITEM, position)
-        val fillInIntent = Intent()
-        fillInIntent.putExtras(extras)
-        widget_item_view.setOnClickFillInIntent(R.id.widget_complete_button, fillInIntent)
-        
-        return widget_item_view
+
+        setThemeColors(itemView, sp.getBoolean(Constants.Widget.IS_DARK_THEME, false))
+
+        // Handle the complete button click
+        val fillInIntent = Intent().apply {
+            putExtra(Constants.Widget.ITEM, taskItem)
+        }
+        itemView.setOnClickFillInIntent(R.id.widgetCompleteButton, fillInIntent)
+
+        return itemView
     }
-    
-    private fun setBackgroundColors(context: Context, widget_item_view: RemoteViews){
-        // //Here we set Layout's widget_item_background, widget_complete_button background, widget_complete_button tint.
-        // val sp = context.getSharedPreferences("widget_settings", Context.MODE_PRIVATE)!!
-        //
-        // val themeIndex = sp.getInt("theme", WidgetSettingsActivity.appThemeIndex)
-        // val backgroundColor: Int?
-        // val accentColor: Int?
-        //
-        // when (themeIndex) {
-        //     WidgetSettingsActivity.blueThemeIndex -> {
-        //         backgroundColor = R.colors.BlueTheme_Background
-        //         accentColor = R.colors.BlueTheme_colorAccent
-        //
-        //     }
-        //     WidgetSettingsActivity.darkThemeIndex -> {
-        //         backgroundColor = R.colors.DarkTheme_Background
-        //         accentColor = R.colors.DarkTheme_colorAccent
-        //
-        //     }
-        //     WidgetSettingsActivity.redThemeIndex -> {
-        //         backgroundColor = R.colors.RedTheme_Background
-        //         accentColor = R.colors.RedTheme_colorAccent
-        //
-        //     }
-        //     WidgetSettingsActivity.appThemeIndex -> {
-        //         backgroundColor = MySettings.getThemeColor(context, MySettings.BACKGROUND_COLOR)
-        //         accentColor = MySettings.getThemeColor(context, MySettings.ACCENT_COLOR)
-        //     }
-        //     else -> throw NullPointerException("value backgroundColor is null!")
-        //
-        // }
-        // widget_item_view.setInt(
-        //         R.id.widget_item_background,
-        //         "setBackgroundResource",
-        //         backgroundColor)
-        // widget_item_view.setInt(
-        //         R.id.widget_complete_button,
-        //         "setBackgroundResource",
-        //         backgroundColor)
-        // widget_item_view.setInt(
-        //         R.id.widget_complete_button,
-        //         "setColorFilter",
-        //         ContextCompat.getColor(context, accentColor!!))
-        //
-        //
-    }
-    
-    override fun getViewTypeCount(): Int {
-        return 1
-    }
-    
-    override fun hasStableIds(): Boolean {
-        return true
-    }
-    
+
+    override fun getViewTypeCount(): Int = 1
+
+    override fun hasStableIds(): Boolean = true
+
     override fun onDataSetChanged() {
-        tasks.clear()
+        tasksList = repository.getAll().filter { it.status == TaskItem.MAIN }.toMutableList()
     }
-    
-    override fun onDestroy() {}
-    
-    
+
+    override fun onDestroy() {
+        tasksList.clear()
+    }
+
+    private fun setThemeColors(remoteViews: RemoteViews, isDarkTheme: Boolean) {
+        val backgroundColor: Int
+        val accentColor: Int
+
+        when (isDarkTheme) {
+            true -> {
+                backgroundColor = R.color.DarkTheme_colorBackground
+                accentColor = R.color.DarkTheme_colorAccent
+            }
+
+            false -> {
+                backgroundColor = R.color.BlueTheme_colorBackground
+                accentColor = R.color.BlueTheme_colorAccent
+            }
+        }
+        remoteViews.setInt(
+            R.id.widgetCompleteButton,
+            "setBackgroundResource",
+            backgroundColor
+        )
+        remoteViews.setInt(
+            R.id.widgetCompleteButton,
+            "setColorFilter",
+            ContextCompat.getColor(context, accentColor)
+        )
+    }
 }

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/minItemHeight"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/includeBackground"
+            layout="@layout/item_swipe_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            tools:visibility="visible"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/foreground"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:background="?android:colorBackground"
+            tools:visibility="visible">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/priorityCardView"
+                android:layout_width="@dimen/smallImage"
+                android:layout_height="@dimen/smallImage"
+                android:layout_marginEnd="@dimen/mediumDefaultMargin"
+                android:layout_weight="1"
+                android:visibility="gone"
+                app:cardBackgroundColor="@android:color/white"
+                app:cardCornerRadius="@dimen/smallCorners"
+                app:layout_constraintBottom_toBottomOf="@+id/completeButton"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/completeButton"
+                tools:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/titleLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/bigDefaultMargin"
+                android:layout_marginTop="@dimen/defaultMargin"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:layout_weight="0.5"
+                android:orientation="vertical"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/completeButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/taskTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    tools:text="New item for test!" />
+
+                <TextView
+                    android:id="@+id/timeTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_marginTop="1dp"
+                    android:layout_weight="1"
+                    android:textSize="@dimen/smallText"
+                    tools:text="4/30/24 12:20" />
+
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/completeButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginEnd="@dimen/defaultMargin"
+                android:layout_weight="1"
+                android:clickable="true"
+                android:focusable="true"
+                android:src="@drawable/ic_complete"
+                android:stateListAnimator="@animator/decrease_size_normal_animator"
+                app:layout_constraintBottom_toBottomOf="@+id/titleLayout"
+                app:layout_constraintEnd_toStartOf="@id/priorityCardView"
+                app:layout_constraintTop_toTopOf="@+id/titleLayout" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </FrameLayout>
+</layout>
