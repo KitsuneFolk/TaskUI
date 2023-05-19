@@ -15,7 +15,7 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.FragmentCompletedTasksBinding
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.ui.TasksAdapter
-import com.pandacorp.taskui.presentation.ui.widget.WidgetProvider
+import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.CustomItemTouchHelper
 import com.pandacorp.taskui.presentation.utils.Utils
@@ -23,7 +23,7 @@ import com.pandacorp.taskui.presentation.vm.CompletedTasksViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CompletedTasksFragment : Fragment() {
+class CompletedTasksFragment : Fragment(R.layout.fragment_completed_tasks) {
     companion object {
         const val TAG = "CompletedTasksFragment"
     }
@@ -35,13 +35,14 @@ class CompletedTasksFragment : Fragment() {
 
     private lateinit var tasksAdapter: TasksAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentCompletedTasksBinding.inflate(layoutInflater)
         initViews()
         return binding.root
+    }
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
     }
 
     private fun initViews() {
@@ -133,10 +134,5 @@ class CompletedTasksFragment : Fragment() {
             }, ItemTouchHelper.START or ItemTouchHelper.END
         )
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.completedRecyclerView)
-    }
-
-    override fun onDestroy() {
-        _binding = null
-        super.onDestroy()
     }
 }

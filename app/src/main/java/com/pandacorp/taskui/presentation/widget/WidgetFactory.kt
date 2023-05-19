@@ -1,8 +1,9 @@
-package com.pandacorp.taskui.presentation.ui.widget
+package com.pandacorp.taskui.presentation.widget
 
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
@@ -53,6 +54,7 @@ class WidgetFactory @Inject constructor(
             itemView.setViewVisibility(R.id.widgetTimeTv, View.VISIBLE)
             itemView.setTextViewText(R.id.widgetTimeTv, dateFormatter.format(it))
         }
+        // priority
         taskItem.priority?.let {
             itemView.setViewVisibility(R.id.widgetPriorityImageView, View.VISIBLE)
             when (taskItem.priority) {
@@ -66,8 +68,12 @@ class WidgetFactory @Inject constructor(
         setThemeColors(itemView, sp.getBoolean(Constants.Widget.IS_DARK_THEME, false))
 
         // Handle the complete button click
+        Log.d(TAG, "getViewAt: taskItem = $taskItem")
         val fillInIntent = Intent().apply {
-            putExtra(Constants.Widget.ITEM, taskItem)
+            putExtra(Constants.TaskItem.ID, taskItem.id)
+            putExtra(Constants.TaskItem.TITLE, taskItem.text)
+            putExtra(Constants.TaskItem.TIME, taskItem.time)
+            putExtra(Constants.TaskItem.PRIORITY, taskItem.priority)
         }
         itemView.setOnClickFillInIntent(R.id.widgetCompleteButton, fillInIntent)
 

@@ -8,13 +8,8 @@ import android.view.View
 import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
 import androidx.preference.PreferenceManager
-import com.pandacorp.taskui.presentation.ui.settings.SettingsActivity
 
 abstract class CustomDialog : DialogFragment() {
-    companion object {
-        protected const val TAG = SettingsActivity.TAG
-    }
-    
     protected val sp: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(requireContext())
     }

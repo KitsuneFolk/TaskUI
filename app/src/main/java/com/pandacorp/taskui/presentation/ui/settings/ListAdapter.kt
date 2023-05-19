@@ -15,10 +15,6 @@ import com.pandacorp.taskui.presentation.utils.Constants
 class ListAdapter(
     context: Context, languagesList: MutableList<ListItem>, private val preferenceKey: String
 ) : ArrayAdapter<ListItem>(context, 0, languagesList) {
-    companion object {
-        private const val TAG = SettingsActivity.TAG
-    }
-    
     private var onListItemClickListener: OnListItemClickListener? = null
     
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
@@ -40,7 +36,7 @@ class ListAdapter(
         textView.text = listItem.title
         imageView.setImageDrawable(listItem.drawable)
         // make the imageview rounded if key == theme
-        if (preferenceKey == Constants.PreferencesKeys.themesKey) {
+        if (preferenceKey == Constants.PreferenceKeys.themesKey) {
             cardView.radius = 80f
         }
         return view

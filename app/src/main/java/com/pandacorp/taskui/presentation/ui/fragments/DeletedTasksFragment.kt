@@ -15,7 +15,7 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.FragmentDeletedTasksBinding
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.ui.TasksAdapter
-import com.pandacorp.taskui.presentation.ui.widget.WidgetProvider
+import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.CustomItemTouchHelper
 import com.pandacorp.taskui.presentation.utils.Utils
@@ -23,7 +23,7 @@ import com.pandacorp.taskui.presentation.vm.DeletedTasksViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class DeletedTasksFragment : Fragment() {
+class DeletedTasksFragment : Fragment(R.layout.fragment_deleted_tasks) {
     companion object {
         const val TAG = "DeletedTasksFragment"
     }
@@ -35,14 +35,15 @@ class DeletedTasksFragment : Fragment() {
 
     private lateinit var tasksAdapter: TasksAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentDeletedTasksBinding.inflate(layoutInflater)
         initViews()
         return binding.root
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
     }
 
     private fun initViews() {
@@ -119,11 +120,6 @@ class DeletedTasksFragment : Fragment() {
             }, ItemTouchHelper.START or ItemTouchHelper.END
         )
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.deletedRecyclerView)
-    }
-
-    override fun onDestroy() {
-        _binding = null
-        super.onDestroy()
     }
 
 }

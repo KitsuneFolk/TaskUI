@@ -16,7 +16,8 @@ import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.domain.usecases.UpdateTaskUseCase
 import com.pandacorp.taskui.presentation.ui.MainActivity
 import com.pandacorp.taskui.presentation.utils.Constants
-import com.pandacorp.taskui.presentation.utils.getSerializableExtraSupport
+import com.pandacorp.taskui.presentation.utils.getParcelableExtraSupport
+import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +27,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class NotificationBroadcast : BroadcastReceiver() {
     companion object {
-        private const val TAG = NotificationUtils.TAG
         private const val PERMISSION_REQUEST_CODE = 1001
     }
 
@@ -37,7 +37,7 @@ class NotificationBroadcast : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         notificationManager = NotificationManagerCompat.from(context)
-        val taskItem = intent.getSerializableExtraSupport(Constants.IntentItem, TaskItem::class.java)!!
+        val taskItem = intent.getParcelableExtraSupport(Constants.IntentItem, TaskItem::class.java)!!
 
         when (intent.action) {
             Constants.Notification.ACTION_CREATE -> createNotification(context, taskItem)
@@ -45,15 +45,16 @@ class NotificationBroadcast : BroadcastReceiver() {
             Constants.Notification.ACTION_COMPLETE -> {
                 // remove the notification from the notification panel
                 notificationManager.cancel(taskItem.id.toInt())
-                // Send a broadcast to MainTasksFragment to complete the item in the viewModel
-                val completeTaskIntent = Intent(Constants.Widget.COMPLETE_TASK_ACTION).apply {
-                    putExtra(Constants.IntentItem, taskItem)
-                }
                 taskItem.status = TaskItem.COMPLETED
                 CoroutineScope(Dispatchers.IO).launch {
                     updateTaskUseCase(taskItem)
                 }
+                // Send a broadcast to MainTasksFragment to complete the item in the viewModel
+                val completeTaskIntent = Intent(Constants.Widget.COMPLETE_TASK_ACTION).apply {
+                    putExtra(Constants.IntentItem, taskItem)
+                }
                 context.sendBroadcast(completeTaskIntent)
+                WidgetProvider.update(context)
             }
 
         }

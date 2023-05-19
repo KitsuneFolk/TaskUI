@@ -14,7 +14,7 @@ import com.pandacorp.taskui.databinding.CompletedTaskItemBinding
 import com.pandacorp.taskui.databinding.MainTaskItemBinding
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.notifications.NotificationUtils
-import com.pandacorp.taskui.presentation.ui.widget.WidgetProvider
+import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import java.text.DateFormat
 import java.util.Locale
 
@@ -163,8 +163,6 @@ class TasksAdapter(private val context: Context, val key: Int) :
             else -> throw IllegalArgumentException("Invalid viewHolder: $holder")
         }
     }
-
-    //TODO: Add undo
 
     override fun submitList(list: MutableList<TaskItem>?) {
         super.submitList(list?.let { ArrayList(it) })

@@ -1,14 +1,16 @@
 package com.pandacorp.taskui.domain.models
 
-import java.io.Serializable
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class TaskItem(
     var id: Long = 0,
     var text: String,
     var time: Long? = null,
     var priority: Int? = null,
     var status: Int = MAIN
-): Serializable {
+): Parcelable {
     companion object {
         // Priority
         const val WHITE = 0

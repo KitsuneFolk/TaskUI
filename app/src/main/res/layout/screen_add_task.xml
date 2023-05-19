@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="?android:colorBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <EditText
+                android:id="@+id/setTaskEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/bigMargin"
+                android:layout_marginEnd="@dimen/bigMargin"
+                android:autofillHints="@null"
+                android:hint="@string/enterTheTask"
+                android:imeOptions="flagNoExtractUi"
+                android:inputType="text" />
+
+            <Button
+                android:id="@+id/set_time_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxWidth="320dp"
+                android:layout_marginStart="@dimen/bigMargin"
+                android:layout_marginTop="@dimen/smallMargin"
+                android:layout_marginEnd="@dimen/bigMargin"
+                android:layout_marginBottom="@dimen/smallMargin"
+                android:gravity="center"
+                android:stateListAnimator="@animator/decrease_size_normal_animator"
+                android:text="@string/time" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="@dimen/smallMargin"
+                    android:gravity="center"
+                    android:text="@string/priority"
+                    android:textSize="@dimen/bigText" />
+
+                <RadioGroup
+                    android:id="@+id/set_priority_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/nullRadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:checked="true"
+                        app:buttonTint="@android:color/darker_gray" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/whiteRadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackgroundBorderless"
+                        app:buttonTint="@android:color/white" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/yellowRadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackgroundBorderless"
+                        app:buttonTint="@color/yellow" />
+
+                    <com.google.android.material.radiobutton.MaterialRadioButton
+                        android:id="@+id/redRadioButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="?selectableItemBackgroundBorderless"
+                        app:buttonTint="@color/red" />
+                </RadioGroup>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/OKBtn"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:maxWidth="320dp"
+            android:layout_marginStart="@dimen/bigMargin"
+            android:layout_marginEnd="@dimen/bigMargin"
+            android:layout_marginBottom="@dimen/bigMargin"
+            android:stateListAnimator="@animator/decrease_size_normal_animator"
+            android:text="@string/ok"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

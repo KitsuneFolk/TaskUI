@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/nav_main_screen">
+
+    <swipeable
+        android:id="@+id/nav_main_screen"
+        android:name="com.pandacorp.taskui.presentation.ui.screen.MainScreen"
+        tools:layout="@layout/screen_main" >
+        <action
+            android:id="@+id/action_to_nav_add_task_screen"
+            app:destination="@id/nav_add_task_screen" />
+    </swipeable>
+
+    <swipeable
+        android:id="@+id/nav_settings_screen"
+        android:name="com.pandacorp.taskui.presentation.ui.screen.SettingsScreen"
+        android:label="@string/settings"
+        tools:layout="@layout/screen_settings" />
+
+    <swipeable
+        android:id="@+id/nav_add_task_screen"
+        android:name="com.pandacorp.taskui.presentation.ui.screen.AddTaskScreen"
+        android:label="@string/createTask"
+        tools:layout="@layout/screen_add_task" />
+
+</navigation>

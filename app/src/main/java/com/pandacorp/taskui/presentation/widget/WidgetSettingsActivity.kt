@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.presentation.ui.widget
+package com.pandacorp.taskui.presentation.widget
 
 import android.app.Activity
 import android.content.Context

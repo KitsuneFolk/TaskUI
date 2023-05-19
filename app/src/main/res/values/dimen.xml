@@ -3,21 +3,25 @@
     <dimen name="fabLayoutHeight">90dp</dimen>
     <dimen name="minItemHeight">45dp</dimen>
 
-    <dimen name="defaultMargin">5dp</dimen>
-    <dimen name="mediumDefaultMargin">10dp</dimen>
-    <dimen name="bigDefaultMargin">15dp</dimen>
+    <dimen name="smallMargin">5dp</dimen>
+    <dimen name="mediumMargin">10dp</dimen>
+    <dimen name="bigMargin">15dp</dimen>
     <dimen name="corners_radius">40dp</dimen>
     <dimen name="dialog_minHeight">350dp</dimen>
     <dimen name="dialog_minWidth">300dp</dimen>
 
     <dimen name="navigationViewTopPadding">100dp</dimen>
     <dimen name="smallCorners">5dp</dimen>
-    <dimen name="mediumCorners">15dp</dimen>
+    <dimen name="bigCorners">15dp</dimen>
 
     <dimen name="smallImage">15dp</dimen>
     <dimen name="bigImage">200dp</dimen>
 
     <dimen name="smallText">12sp</dimen>
-    <dimen name="mediumText">18sp</dimen>
-    <dimen name="bigText">20sp</dimen>
+    <dimen name="normalText">14sp</dimen>
+    <dimen name="mediumText">16sp</dimen>
+    <dimen name="bigText">18sp</dimen>
+    <dimen name="hugeText">20sp</dimen>
+
+    <dimen name="stroke">1dp</dimen>
 </resources>

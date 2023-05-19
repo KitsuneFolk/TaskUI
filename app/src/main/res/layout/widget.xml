@@ -7,10 +7,10 @@
     android:layout_height="match_parent"
     android:background="@drawable/rounded_blue_background"
     android:orientation="vertical"
-    android:paddingStart="@dimen/mediumDefaultMargin"
-    android:paddingTop="@dimen/mediumDefaultMargin"
-    android:paddingEnd="@dimen/mediumDefaultMargin"
-    android:paddingBottom="@dimen/mediumDefaultMargin"
+    android:paddingStart="@dimen/mediumMargin"
+    android:paddingTop="@dimen/mediumMargin"
+    android:paddingEnd="@dimen/mediumMargin"
+    android:paddingBottom="@dimen/mediumMargin"
     tools:layout_height="250dp">
 
     <LinearLayout
@@ -54,7 +54,7 @@
             android:id="@+id/widget_listView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginTop="@dimen/defaultMargin"
+            android:layout_marginTop="@dimen/smallMargin"
             android:layout_weight="1"
             android:divider="@android:color/white"
             android:dividerHeight="1dp"
@@ -67,8 +67,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="@dimen/mediumDefaultMargin"
-        android:layout_marginBottom="@dimen/mediumDefaultMargin">
+        android:layout_marginEnd="@dimen/mediumMargin"
+        android:layout_marginBottom="@dimen/mediumMargin">
 
         <ImageButton
             android:id="@+id/widgetAddButton"

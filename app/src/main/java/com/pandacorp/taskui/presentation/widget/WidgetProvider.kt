@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.presentation.ui.widget
+package com.pandacorp.taskui.presentation.widget
 
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
@@ -13,13 +13,12 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.data.repositories.TasksRepositoryImpl
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.ui.MainActivity
-import com.pandacorp.taskui.presentation.ui.SetTaskActivity
 import com.pandacorp.taskui.presentation.utils.Constants
-import com.pandacorp.taskui.presentation.utils.getSerializableExtraSupport
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -32,8 +31,7 @@ class WidgetProvider : AppWidgetProvider() {
                 AppWidgetManager.getInstance(context)
                     .getAppWidgetIds(ComponentName(context, WidgetProvider::class.java))
 
-            val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE)
-            intent.apply {
+            val intent = Intent(AppWidgetManager.ACTION_APPWIDGET_UPDATE).apply {
                 component = ComponentName(context, WidgetProvider::class.java)
                 putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, appWidgetIds)
             }
@@ -57,38 +55,44 @@ class WidgetProvider : AppWidgetProvider() {
         super.onReceive(context, intent)
         when (intent.action) {
             Constants.Widget.COMPLETE_TASK_ACTION -> {
-                val widgetManager = AppWidgetManager.getInstance(context.applicationContext)
                 // Get the task from intent
-                val taskItem =
-                    intent.getSerializableExtraSupport(Constants.Widget.ITEM, TaskItem::class.java)
-                // Complete and Update
-                taskItem!!.let {
-                    taskItem.status = TaskItem.COMPLETED
+                intent.apply {
+                    val time = getLongExtra(Constants.TaskItem.TIME, Long.MIN_VALUE)
+                    val priority = getIntExtra(Constants.TaskItem.PRIORITY, Int.MIN_VALUE)
+                    val taskItem = TaskItem(
+                        getLongExtra(Constants.TaskItem.ID, Long.MIN_VALUE),
+                        getStringExtra(Constants.TaskItem.TITLE)!!,
+                        if (time == Long.MIN_VALUE) null else time,
+                        if (priority == Int.MIN_VALUE) null else priority,
+                        TaskItem.COMPLETED
+                    )
                     CoroutineScope(Dispatchers.IO).launch {
                         repository.update(taskItem)
+                        withContext(Dispatchers.Main) {
+                            val widgetManager = AppWidgetManager.getInstance(context.applicationContext)
+                            widgetManager.notifyAppWidgetViewDataChanged(
+                                widgetManager.getAppWidgetIds(
+                                    ComponentName(
+                                        context.applicationContext.packageName,
+                                        WidgetProvider::class.java.name
+                                    )
+                                ), R.id.widget_listView
+                            )
+                        }
                     }
                     // Send broadcast receiver to complete the item in MainTasksViewModel
                     val updateVmValueIntent = Intent(Constants.Widget.COMPLETE_TASK_ACTION).apply {
-                        putExtra(Constants.IntentItem, it)
+                        putExtra(Constants.IntentItem, taskItem)
                     }
                     context.sendBroadcast(updateVmValueIntent)
-
                 }
-                widgetManager.notifyAppWidgetViewDataChanged(
-                    widgetManager.getAppWidgetIds(
-                        ComponentName(
-                            context.applicationContext.packageName,
-                            WidgetProvider::class.java.name
-                        )
-                    ), R.id.widget_listView
-                )
             }
 
             Constants.Widget.SET_TASK_ACTION -> {
-                val i = Intent(context, SetTaskActivity::class.java).apply {
+                val i = Intent(context, MainActivity::class.java).apply {
                     flags =
                         Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    putExtra(Constants.Widget.IS_FROM_WIDGET, true)
+                    putExtra(Constants.Widget.FRAGMENT_ID, R.id.nav_add_task_screen)
                 }
                 context.startActivity(i)
             }
@@ -114,14 +118,12 @@ class WidgetProvider : AppWidgetProvider() {
     ) {
         val widgetViews = RemoteViews(context.packageName, R.layout.widget)
 
-        val adapterIntent = Intent(context, WidgetService::class.java)
-        adapterIntent.apply {
+        val adapterIntent = Intent(context, WidgetService::class.java).apply {
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
-            data = Uri.parse(adapterIntent.toUri(Intent.URI_INTENT_SCHEME))
+            data = Uri.parse(toUri(Intent.URI_INTENT_SCHEME))
         }
         // On widgetAddButton click complete the task
-        val completeTaskIntent = Intent(context, WidgetProvider::class.java)
-        completeTaskIntent.apply {
+        val completeTaskIntent = Intent(context, WidgetProvider::class.java).apply {
             action = Constants.Widget.COMPLETE_TASK_ACTION
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         }
@@ -129,9 +131,8 @@ class WidgetProvider : AppWidgetProvider() {
             context,
             0,
             completeTaskIntent,
-            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT
         )
-
         // Open MainActivity on widget_textview click .
         val openMainActivityIntent = Intent(context, MainActivity::class.java)
         val openMainActivityPendingIntent = PendingIntent.getActivity(
@@ -147,8 +148,7 @@ class WidgetProvider : AppWidgetProvider() {
             context, 2, openSettingsActivityIntent, PendingIntent.FLAG_IMMUTABLE
         )
         // Open SetTaskActivity on widget_add_fab click
-        val openSetTaskActivityIntent = Intent(context, WidgetProvider::class.java)
-        openSetTaskActivityIntent.apply {
+        val openSetTaskActivityIntent = Intent(context, WidgetProvider::class.java).apply {
             action = Constants.Widget.SET_TASK_ACTION
             putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)
         }
@@ -160,32 +160,20 @@ class WidgetProvider : AppWidgetProvider() {
             PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        widgetViews.setRemoteAdapter(R.id.widget_listView, adapterIntent)
-        widgetViews.setPendingIntentTemplate(
-            R.id.widget_listView,
-            completeTaskPendingIntent
-        )
+        widgetViews.apply {
 
-        widgetViews.setOnClickPendingIntent(
-            R.id.widgetCompleteButton,
-            completeTaskPendingIntent
-        )
-        widgetViews.setOnClickPendingIntent(
-            R.id.widget_textView,
-            openMainActivityPendingIntent
-        )
-        widgetViews.setOnClickPendingIntent(
-            R.id.widget_settings_button,
-            openSettingsActivityPendingIntent
-        )
-        widgetViews.setOnClickPendingIntent(
-            R.id.widgetAddButton,
-            openSetTaskActivityPendingIntent
-        )
+            setRemoteAdapter(R.id.widget_listView, adapterIntent)
+            setPendingIntentTemplate(R.id.widget_listView, completeTaskPendingIntent)
+            setOnClickPendingIntent(R.id.widgetCompleteButton, completeTaskPendingIntent)
 
-        setWidgetStyle(context, widgetViews)
+            setOnClickPendingIntent(R.id.widget_textView, openMainActivityPendingIntent)
+            setOnClickPendingIntent(R.id.widget_settings_button, openSettingsActivityPendingIntent)
+            setOnClickPendingIntent(R.id.widgetAddButton, openSetTaskActivityPendingIntent)
 
-        appWidgetManager.updateAppWidget(appWidgetId, widgetViews)
+            setWidgetStyle(context, this)
+
+            appWidgetManager.updateAppWidget(appWidgetId, this)
+        }
     }
 
     /**

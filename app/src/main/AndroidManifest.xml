@@ -17,12 +17,6 @@
         android:theme="@style/BlueTheme">
 
         <activity
-            android:name=".presentation.ui.SetTaskActivity"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".presentation.ui.settings.SettingsActivity"
-            android:label="@string/createTask" />
-        <activity
             android:name=".presentation.ui.MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
@@ -34,19 +28,18 @@
         </activity>
 
         <activity
-            android:name=".presentation.ui.widget.WidgetSettingsActivity"
+            android:name=".presentation.widget.WidgetSettingsActivity"
             android:exported="false"
             android:label="@string/settings"
             android:theme="@style/BlueTheme_Widget_MaterialAlertDialogStyle" />
 
-
         <service
-            android:name=".presentation.ui.widget.WidgetService"
+            android:name=".presentation.widget.WidgetService"
             android:exported="false"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
 
         <receiver
-            android:name=".presentation.ui.widget.WidgetProvider"
+            android:name=".presentation.widget.WidgetProvider"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />

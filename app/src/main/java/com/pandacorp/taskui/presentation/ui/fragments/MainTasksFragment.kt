@@ -12,8 +12,6 @@ import android.transition.TransitionManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -25,13 +23,14 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.FragmentMainTasksBinding
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.notifications.NotificationUtils
-import com.pandacorp.taskui.presentation.ui.SetTaskActivity
+import com.pandacorp.taskui.presentation.ui.MainActivity
 import com.pandacorp.taskui.presentation.ui.TasksAdapter
-import com.pandacorp.taskui.presentation.ui.widget.WidgetProvider
+import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.CustomItemTouchHelper
 import com.pandacorp.taskui.presentation.utils.Utils
-import com.pandacorp.taskui.presentation.utils.getSerializableExtraSupport
+import com.pandacorp.taskui.presentation.utils.app
+import com.pandacorp.taskui.presentation.utils.getParcelableExtraSupport
 import com.pandacorp.taskui.presentation.vm.MainTasksViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -44,8 +43,10 @@ class MainTasksFragment : Fragment() {
     private var _binding: FragmentMainTasksBinding? = null
     private val binding get() = _binding!!
 
-    val vm: MainTasksViewModel by viewModels()
+    private val vm: MainTasksViewModel by viewModels()
     private lateinit var tasksAdapter: TasksAdapter
+
+    private val fragulaNavController by lazy { (requireActivity() as MainActivity).getFragulaNavController() }
 
     /**
      * Get item from widget to update it in the viewModel
@@ -53,33 +54,42 @@ class MainTasksFragment : Fragment() {
     private val completeTaskReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val taskItem =
-                intent.getSerializableExtraSupport(Constants.IntentItem, TaskItem::class.java)!!
+                intent.getParcelableExtraSupport(Constants.IntentItem, TaskItem::class.java)!!
             vm.completeItemVmOnly(taskItem)
             if (taskItem.time != null)
                 NotificationUtils.cancel(requireContext(), taskItem)
         }
     }
 
-    private var addTaskResultLauncher: ActivityResultLauncher<Intent> = registerForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {
-        it.data?.let { data -> // null if no success
-            val taskItem =
-                data.getSerializableExtraSupport(Constants.IntentItem, TaskItem::class.java)!!
-            vm.addItemVmOnly(taskItem)
-        }
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentMainTasksBinding.inflate(layoutInflater)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = FragmentMainTasksBinding.inflate(inflater, container, false)
         requireContext().registerReceiver(
             completeTaskReceiver,
             IntentFilter(Constants.Widget.COMPLETE_TASK_ACTION)
         )
+        when (arguments?.getString(Constants.Fragment.Action)) {
+            Constants.Fragment.ADD_TASK_FRAGMENT -> {
+                fragulaNavController.navigate(R.id.nav_add_task_screen)
+            }
+        }
         initViews()
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        vm.addItemVmOnly(app.taskItem ?: return)
+        app.taskItem = null
+    }
+
+    override fun onDestroy() {
+        try {
+            requireContext().unregisterReceiver(completeTaskReceiver)
+        } catch (e: IllegalArgumentException) {
+            // Receiver was not registered, ignore the exception
+        }
+        _binding = null
+        super.onDestroy()
     }
 
     private fun initViews() {
@@ -155,8 +165,7 @@ class MainTasksFragment : Fragment() {
         }
         binding.addFab.apply {
             setOnClickListener {
-                val intent = Intent(requireActivity(), SetTaskActivity::class.java)
-                addTaskResultLauncher.launch(intent)
+                fragulaNavController.navigate(R.id.nav_add_task_screen)
             }
             Utils.addDecreaseSizeOnTouch(this)
         }
@@ -253,13 +262,4 @@ class MainTasksFragment : Fragment() {
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.mainRecyclerView)
     }
 
-    override fun onDestroy() {
-        _binding = null
-        try {
-            requireContext().unregisterReceiver(completeTaskReceiver)
-        } catch (e: IllegalArgumentException) {
-            // Receiver was not registered, ignore the exception
-        }
-        super.onDestroy()
-    }
 }

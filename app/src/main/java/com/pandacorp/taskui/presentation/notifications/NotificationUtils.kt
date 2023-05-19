@@ -25,7 +25,7 @@ object NotificationUtils {
         alarmManager.cancel(pendingIntent)
     }
 
-    fun create(context: Context, taskItem: TaskItem, snoozedTime: Long = 0) {
+    fun create(context: Context, taskItem: TaskItem, snoozedTime: Long = -1L) {
         createChannel(context)
 
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -40,11 +40,9 @@ object NotificationUtils {
                 .FLAG_IMMUTABLE
         )
         val clockInfo =
-            if (snoozedTime != 0L) AlarmManager.AlarmClockInfo(
-                System.currentTimeMillis() + snoozedTime,
-                mainActivityPendingIntent
-            )
-            else AlarmManager.AlarmClockInfo(taskItem.time!!, mainActivityPendingIntent)
+            if (snoozedTime == -1L) AlarmManager.AlarmClockInfo(taskItem.time!!, mainActivityPendingIntent)
+            else AlarmManager.AlarmClockInfo(snoozedTime, mainActivityPendingIntent)
+
         alarmManager.setAlarmClock(clockInfo, notificationPendingIntent)
     }
 

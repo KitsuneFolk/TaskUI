@@ -1,7 +1,5 @@
 package com.pandacorp.taskui.presentation.notifications
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -17,7 +15,7 @@ import com.pandacorp.taskui.databinding.DialogSnoozeBinding
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.Utils
-import com.pandacorp.taskui.presentation.utils.getSerializableExtraSupport
+import com.pandacorp.taskui.presentation.utils.getParcelableExtraSupport
 import java.util.Calendar
 import java.util.Locale
 
@@ -58,7 +56,7 @@ class NotificationSnoozeActivity : AppCompatActivity() {
 
     private fun initViews() {
         Log.d(TAG, "initViews: ")
-        val taskItem = intent.getSerializableExtraSupport(Constants.IntentItem, TaskItem::class.java)!!
+        val taskItem = intent.getParcelableExtraSupport(Constants.IntentItem, TaskItem::class.java)!!
         binding.snooze5Min.apply {
             setOnClickListener {
                 val snoozedTime: Long = System.currentTimeMillis() + (5 * 60 * 1000)
@@ -106,8 +104,8 @@ class NotificationSnoozeActivity : AppCompatActivity() {
         binding.snoozeCustom.apply {
             // avoid multi clicks if the dialog is already started
             setOnClickListener {
-                if (supportFragmentManager.findFragmentByTag("DatePickerDialog") != null) return@setOnClickListener
-                datePickerDialog.show(supportFragmentManager, "DatePickerDialog")
+                if (supportFragmentManager.findFragmentByTag("SnoozeDatePickerDialog") != null) return@setOnClickListener
+                datePickerDialog.show(supportFragmentManager, "SnoozeDatePickerDialog")
             }
         }
         binding.snoozeCancel.apply {
@@ -119,7 +117,7 @@ class NotificationSnoozeActivity : AppCompatActivity() {
         datePickerDialog = MaterialDatePicker.Builder.datePicker().build().apply {
             addOnPositiveButtonClickListener { selectedDate ->
                 selectedTime.timeInMillis = selectedDate
-                timePickerDialog.show(supportFragmentManager, "TimePickerDialog")
+                timePickerDialog.show(supportFragmentManager, "SnoozeTimePickerDialog")
             }
         }
 

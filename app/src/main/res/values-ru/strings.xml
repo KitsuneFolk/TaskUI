@@ -11,7 +11,7 @@
     <string name="appearance">Внешний вид</string>
     <string name="language">Язык</string>
     <string name="theme">Тема</string>
-    <string name="version">Версия</string>
+    <string name="version">Версия %1%s</string>
 
 
     <string name="settings_language_default_value">ru</string>

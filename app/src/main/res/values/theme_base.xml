@@ -7,10 +7,20 @@
         <item name="rippleColor">@android:color/white</item>
         <item name="android:statusBarColor">?colorPrimary</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
-        <!--  Needed for Bottom Navigation Menu selected item colors  -->
-        <item name="colorSecondaryContainer">@android:color/white</item>
-        <!--  Needed for Back arrow colors  -->
+        <!--  Needed for the Back arrow color  -->
         <item name="colorControlNormal">@android:color/white</item>
+
+        <!-- The amount of dimming when fragment is being dragged. -->
+        <item name="fgl_scrim_amount">0.6</item>
+        <!-- How much the underneath fragment will be shifted. -->
+        <item name="fgl_parallax_factor">1.15</item>
+        <!-- This overrides the duration of swipe animation using `navController.navigate(...)` and `navController
+        .popBackStack()` methods.-->
+        <item name="fgl_anim_duration">600</item>
+        <!-- This overrides the elevation applied to the fragment view.-->
+        <item name="fgl_elevation">0dp</item>
+
+
         <item name="android:navigationBarColor">?colorPrimary</item>
         <item name="materialButtonStyle">@style/MaterialButtonStyle</item>
         <item name="toolbarStyle">@style/ToolbarStyle</item>
@@ -58,12 +68,14 @@
     <style name="SnackBarStyle" parent="Widget.Material3.Snackbar">
         <item name="backgroundTint">?android:attr/colorPrimary</item>
     </style>
+
     <style name="SnackBarButtonStyle" parent="Widget.Material3.Button.TextButton.Snackbar">
         <item name="backgroundTint">@android:color/transparent</item>
         <item name="android:textColor">?android:textColor</item>
         <item name="strokeColor">?android:textColor</item>
         <item name="strokeWidth">1dp</item>
     </style>
+
     <style name="SnackBarTextStyle" parent="@style/Widget.Material3.Snackbar.TextView">
         <item name="android:textColor">?android:textColor</item>
     </style>
@@ -89,7 +101,8 @@
         <item name="android:textColor">?android:textColor</item>
         <item name="colorPrimary">?attr/colorAccent</item>
     </style>
- <style name="MaterialTimePickerTheme" parent="ThemeOverlay.Material3.MaterialTimePicker">
+
+    <style name="MaterialTimePickerTheme" parent="ThemeOverlay.Material3.MaterialTimePicker">
         <item name="android:textColor">?android:textColor</item>
         <item name="colorPrimary">?attr/colorAccent</item>
     </style>

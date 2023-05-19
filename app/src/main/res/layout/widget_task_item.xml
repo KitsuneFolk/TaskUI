@@ -11,8 +11,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/bigDefaultMargin"
-        android:layout_marginEnd="@dimen/defaultMargin"
+        android:layout_marginStart="@dimen/bigMargin"
+        android:layout_marginEnd="@dimen/smallMargin"
         android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical">
@@ -34,7 +34,7 @@
             android:textSize="12sp"
             android:visibility="gone"
             tools:text="4/30/24 12:20"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
     </LinearLayout>
 
@@ -43,9 +43,9 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="@dimen/defaultMargin"
-        android:stateListAnimator="@animator/decrease_size_normal_animator"
+        android:layout_marginEnd="@dimen/smallMargin"
         android:src="@drawable/ic_widget_complete"
+        android:stateListAnimator="@animator/decrease_size_normal_animator"
         tools:tint="?colorAccent" />
 
     <ImageView
@@ -53,7 +53,7 @@
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:layout_gravity="center_vertical"
-        android:layout_marginEnd="@dimen/defaultMargin"
+        android:layout_marginEnd="@dimen/smallMargin"
         android:src="@color/white"
         android:visibility="gone"
         tools:visibility="visible" />

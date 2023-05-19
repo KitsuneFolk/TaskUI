@@ -26,8 +26,8 @@ class PreferenceHandler(private val context: Context) {
     private var sp: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     
     fun load() {
-        val theme = sp.getString(Constants.PreferencesKeys.themesKey, themeDefault)!!
-        val language = sp.getString(Constants.PreferencesKeys.languagesKey, "")!!
+        val theme = sp.getString(Constants.PreferenceKeys.themesKey, themeDefault)!!
+        val language = sp.getString(Constants.PreferenceKeys.languagesKey, "")!!
         setMyTheme(context, theme)
         setMyLanguage(context, language)
     }

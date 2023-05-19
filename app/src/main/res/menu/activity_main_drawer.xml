@@ -22,7 +22,7 @@
     <item android:title="@string/another">
         <menu>
             <item
-                android:id="@+id/nav_settings"
+                android:id="@+id/nav_settings_screen"
                 android:icon="@drawable/ic_settings_black_24dp"
                 android:title="@string/settings" />
 

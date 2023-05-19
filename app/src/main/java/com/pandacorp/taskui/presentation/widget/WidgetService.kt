@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.presentation.ui.widget
+package com.pandacorp.taskui.presentation.widget
 
 import android.content.Intent
 import android.widget.RemoteViewsService

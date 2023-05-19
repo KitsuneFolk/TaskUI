@@ -2,7 +2,6 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="?background"
     app:startDestination="@+id/nav_main_tasks">
 
     <fragment
@@ -22,11 +21,5 @@
         android:name="com.pandacorp.taskui.presentation.ui.fragments.DeletedTasksFragment"
         android:label="@string/deleted_tasks"
         tools:layout="@layout/fragment_deleted_tasks" />
-
-    <fragment
-        android:id="@+id/nav_settings"
-        android:name="com.pandacorp.taskui.presentation.ui.settings.SettingsActivity$SettingsFragment"
-        android:label="@string/settings"
-        tools:layout="@layout/activity_settings" />
 
 </navigation>
