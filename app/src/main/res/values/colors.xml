@@ -6,7 +6,6 @@
     <color name="BlueTheme_colorAccent">#FF1FF4</color>
     <color name="BlueTheme_colorBackground">#4B68FF</color>
     <color name="BlueTheme_textColorSecondary">#F0DBD8</color>
-    <color name="BlueTheme_selectionColor">#4C5DC1</color>
 
     <!-- DarkTheme -->
     <color name="DarkTheme_colorPrimary">#0A0A0A</color>
@@ -14,7 +13,6 @@
     <color name="DarkTheme_colorAccent">#FFCC80</color>
     <color name="DarkTheme_colorBackground">#141414</color>
     <color name="DarkTheme_textColorSecondary">#DAB1B1</color>
-    <color name="DarkTheme_selectionColor">#DA9135</color>
 
     <!-- RedTheme -->
     <color name="RedTheme_colorPrimary">#C11010</color>
@@ -22,7 +20,6 @@
     <color name="RedTheme_colorAccent">#FCA727</color>
     <color name="RedTheme_colorBackground">#DC3232</color>
     <color name="RedTheme_textColorSecondary">#CCA9A5</color>
-    <color name="RedTheme_selectionColor">#FF4056</color>\
 
     <!-- PurpleTheme -->
     <color name="PurpleTheme_colorPrimary">#8A2BE2</color>
@@ -31,7 +28,6 @@
     <color name="PurpleTheme_colorAccent">#8C9EFF</color>
     <color name="PurpleTheme_colorSecondary">#D3D3D3</color>
     <color name="PurpleTheme_textColorSecondary">#EFB3FF</color>
-    <color name="PurpleTheme_selectionColor">#6D40EA</color>
 
     <!--  Another  -->
     <color name="white">#FFFFFF</color>

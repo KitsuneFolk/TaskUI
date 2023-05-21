@@ -3,7 +3,6 @@ package com.pandacorp.taskui.presentation.notifications
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -21,10 +20,6 @@ import java.util.Locale
 
 
 class NotificationSnoozeActivity : AppCompatActivity() {
-    companion object {
-        private const val TAG = NotificationUtils.TAG
-    }
-
     private var _binding: DialogSnoozeBinding? = null
     private val binding get() = _binding!!
 
@@ -55,7 +50,6 @@ class NotificationSnoozeActivity : AppCompatActivity() {
     }
 
     private fun initViews() {
-        Log.d(TAG, "initViews: ")
         val taskItem = intent.getParcelableExtraSupport(Constants.IntentItem, TaskItem::class.java)!!
         binding.snooze5Min.apply {
             setOnClickListener {
@@ -102,7 +96,7 @@ class NotificationSnoozeActivity : AppCompatActivity() {
             }
         }
         binding.snoozeCustom.apply {
-            // avoid multi clicks if the dialog is already started
+            // Avoid multiple clicks if the dialog is already started
             setOnClickListener {
                 if (supportFragmentManager.findFragmentByTag("SnoozeDatePickerDialog") != null) return@setOnClickListener
                 datePickerDialog.show(supportFragmentManager, "SnoozeDatePickerDialog")
@@ -136,6 +130,11 @@ class NotificationSnoozeActivity : AppCompatActivity() {
                     finish()
                 }
             }
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
     }
 
 }

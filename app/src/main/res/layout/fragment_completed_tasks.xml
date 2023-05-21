@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:colorBackground">
+    android:background="?android:colorBackground"
+    android:id="@+id/root">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/completedRecyclerView"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/completedFabsContainer"
+        app:layout_constraintBottom_toTopOf="@+id/fabsLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,17 +20,17 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/completedFabsContainer"
+        android:id="@+id/fabsLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/fabLayoutHeight"
         android:background="?android:colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/completedRecyclerView"
-        app:layout_constraintStart_toStartOf="@+id/completedRecyclerView">
+        app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+        app:layout_constraintStart_toStartOf="@+id/recyclerView">
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/completedFabDeleteForever"
+            android:id="@+id/deleteForeverFab"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginTop="8dp"
@@ -42,16 +43,16 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/completedDeleteFab"
+            android:id="@+id/deleteFab"
             android:layout_width="56dp"
             android:layout_height="56dp"
 
             android:src="@drawable/ic_delete_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/completedFabDeleteForever"
-            app:layout_constraintEnd_toStartOf="@+id/completedFabDeleteForever"
+            app:layout_constraintBottom_toBottomOf="@+id/deleteForeverFab"
+            app:layout_constraintEnd_toStartOf="@+id/deleteForeverFab"
             app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/completedFabDeleteForever"
+            app:layout_constraintTop_toTopOf="@+id/deleteForeverFab"
             app:layout_constraintVertical_bias="0.5" />
 
         <TextView
@@ -59,18 +60,18 @@
             android:layout_height="wrap_content"
             android:text="@string/delete"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/completedDeleteFab"
-            app:layout_constraintStart_toStartOf="@+id/completedDeleteFab"
-            app:layout_constraintTop_toBottomOf="@+id/completedDeleteFab" />
+            app:layout_constraintEnd_toEndOf="@+id/deleteFab"
+            app:layout_constraintStart_toStartOf="@+id/deleteFab"
+            app:layout_constraintTop_toBottomOf="@+id/deleteFab" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/deleteForever"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/completedFabDeleteForever"
-            app:layout_constraintStart_toStartOf="@+id/completedFabDeleteForever"
-            app:layout_constraintTop_toBottomOf="@+id/completedFabDeleteForever" />
+            app:layout_constraintEnd_toEndOf="@+id/deleteForeverFab"
+            app:layout_constraintStart_toStartOf="@+id/deleteForeverFab"
+            app:layout_constraintTop_toBottomOf="@+id/deleteForeverFab" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

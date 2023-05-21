@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/root"
     android:background="?android:colorBackground">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/deletedRecyclerView"
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/deletedFabsContainer"
+        app:layout_constraintBottom_toTopOf="@+id/fabsLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -19,13 +20,13 @@
     </androidx.recyclerview.widget.RecyclerView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/deletedFabsContainer"
+        android:id="@+id/fabsLayout"
         android:layout_width="match_parent"
         android:layout_height="@dimen/fabLayoutHeight"
         android:background="?android:colorBackground"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/deletedRecyclerView"
-        app:layout_constraintStart_toStartOf="@+id/deletedRecyclerView">
+        app:layout_constraintEnd_toEndOf="@+id/recyclerView"
+        app:layout_constraintStart_toStartOf="@+id/recyclerView">
 
         <TextView
             android:layout_width="wrap_content"

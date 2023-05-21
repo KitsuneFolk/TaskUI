@@ -25,13 +25,13 @@ import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.notifications.NotificationUtils
 import com.pandacorp.taskui.presentation.ui.MainActivity
 import com.pandacorp.taskui.presentation.ui.TasksAdapter
-import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.CustomItemTouchHelper
 import com.pandacorp.taskui.presentation.utils.Utils
 import com.pandacorp.taskui.presentation.utils.app
 import com.pandacorp.taskui.presentation.utils.getParcelableExtraSupport
 import com.pandacorp.taskui.presentation.vm.MainTasksViewModel
+import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -101,7 +101,7 @@ class MainTasksFragment : Fragment() {
                 if (taskItem.time != null)
                     NotificationUtils.cancel(requireContext(), taskItem)
                 val snackBar =
-                    Snackbar.make(binding.fastTypeContainer, R.string.successfully, Snackbar.LENGTH_LONG)
+                    Snackbar.make(binding.fastTypeLayout, R.string.successfully, Snackbar.LENGTH_LONG)
                 snackBar.apply {
                     setAction(R.string.undo) {
                         taskItem.status = TaskItem.MAIN
@@ -110,7 +110,7 @@ class MainTasksFragment : Fragment() {
                             NotificationUtils.create(requireContext(), taskItem)
                         WidgetProvider.update(requireContext())
                     }
-                    anchorView = binding.fastTypeContainer
+                    anchorView = binding.fastTypeLayout
                     show()
                 }
             }
@@ -119,28 +119,32 @@ class MainTasksFragment : Fragment() {
             tasksAdapter.submitList(it)
             if (it.isEmpty()) {
                 // Add a fade animation
-                val transition = Fade()
-                transition.duration = Constants.ANIMATION_DURATION
-                transition.addTarget(binding.mainRecyclerView)
-                transition.addTarget(binding.includeHint.EmptyHintRoot)
-
-                TransitionManager.beginDelayedTransition(binding.mainTasksRoot, transition)
-                binding.mainRecyclerView.visibility = View.GONE
-                binding.includeHint.EmptyHintRoot.visibility = View.VISIBLE
+                val transition = Fade().apply {
+                    duration = Constants.ANIMATION_DURATION
+                    addTarget(binding.recyclerView)
+                    addTarget(binding.includeHint.EmptyHintRoot)
+                }
+                TransitionManager.beginDelayedTransition(binding.root, transition)
+                binding.apply {
+                    recyclerView.visibility = View.GONE
+                    includeHint.EmptyHintRoot.visibility = View.VISIBLE
+                }
             } else {
                 if (binding.includeHint.EmptyHintRoot.visibility != View.VISIBLE) return@observe // skip, user just entered the fragment
-                val transition = Fade()
-                transition.duration = Constants.ANIMATION_DURATION
-                transition.addTarget(binding.mainRecyclerView)
-                transition.addTarget(binding.includeHint.EmptyHintRoot)
-
-                TransitionManager.beginDelayedTransition(binding.mainTasksRoot, transition)
-                binding.mainRecyclerView.visibility = View.VISIBLE
-                binding.includeHint.EmptyHintRoot.visibility = View.GONE
+                val transition = Fade().apply {
+                    duration = Constants.ANIMATION_DURATION
+                    addTarget(binding.recyclerView)
+                    addTarget(binding.includeHint.EmptyHintRoot)
+                }
+                TransitionManager.beginDelayedTransition(binding.root, transition)
+                binding.apply {
+                    recyclerView.visibility = View.VISIBLE
+                    includeHint.EmptyHintRoot.visibility = View.GONE
+                }
             }
         }
 
-        binding.mainRecyclerView.apply {
+        binding.recyclerView.apply {
             val recyclerViewDivider = DividerItemDecoration(
                 requireContext(), DividerItemDecoration.VERTICAL
             )
@@ -169,8 +173,11 @@ class MainTasksFragment : Fragment() {
             }
             Utils.addDecreaseSizeOnTouch(this)
         }
-        binding.mainDeleteFab.apply {
+        binding.deleteFab.apply {
             setOnClickListener {
+                val tasksList = vm.tasksList.value!!.toMutableList()
+                if (tasksList.isEmpty()) return@setOnClickListener
+
                 // Start a handler, if user clicked the snackBar's button, cancel the handler, otherwise cancel all
                 // notifications
                 val handler = Handler(Looper.getMainLooper())
@@ -179,45 +186,43 @@ class MainTasksFragment : Fragment() {
                 }
                 handler.postDelayed(runnable, 6000)
 
-                val tasksList = vm.tasksList.value!!.toMutableList()
                 vm.removeAll()
                 WidgetProvider.update(requireContext())
                 val snackBar =
-                    Snackbar.make(binding.mainFabsContainer, R.string.successfully, Snackbar.LENGTH_LONG)
+                    Snackbar.make(binding.fabsLayout, R.string.successfully, Snackbar.LENGTH_LONG)
                 snackBar.apply {
                     setAction(R.string.undo) {
                         vm.undoRemoveAll(tasksList)
                         WidgetProvider.update(requireContext())
-                        NotificationUtils.cancelAll(requireContext(), tasksList)
+                        handler.removeCallbacks(runnable)
                     }
-                    anchorView = binding.mainFabsContainer
+                    anchorView = binding.fabsLayout
                     show()
                 }
             }
             Utils.addDecreaseSizeOnTouch(this)
         }
-        binding.mainDeleteForeverFab.apply {
+        binding.deleteForeverFab.apply {
             setOnClickListener {
+                val tasksList = vm.tasksList.value!!.toMutableList()
+                if (tasksList.isEmpty()) return@setOnClickListener
                 // Start a handler, if user clicked the snackBar's button, cancel the handler, otherwise cancel all
                 // notifications
                 val handler = Handler(Looper.getMainLooper())
                 val runnable = Runnable {
-                    NotificationUtils.cancelAll(requireContext(), vm.tasksList.value!!)
+                    NotificationUtils.cancelAll(requireContext(), tasksList)
                 }
                 handler.postDelayed(runnable, 6000)
 
-                val tasksList = vm.tasksList.value!!.toMutableList()
                 vm.removeAllForever()
                 WidgetProvider.update(requireContext())
-                val snackBar =
-                    Snackbar.make(binding.mainFabsContainer, R.string.successfully, Snackbar.LENGTH_LONG)
-                snackBar.apply {
+                Snackbar.make(binding.fabsLayout, R.string.successfully, Snackbar.LENGTH_LONG).apply {
                     setAction(R.string.undo) {
                         vm.undoRemoveAllForever(tasksList)
                         WidgetProvider.update(requireContext())
-                        NotificationUtils.cancelAll(requireContext(), tasksList)
+                        handler.removeCallbacks(runnable)
                     }
-                    anchorView = binding.mainFabsContainer
+                    anchorView = binding.fabsLayout
                     show()
                 }
             }
@@ -243,14 +248,14 @@ class MainTasksFragment : Fragment() {
                         if (taskItem.time != null)
                             NotificationUtils.cancel(requireContext(), taskItem)
                         val snackBar =
-                            Snackbar.make(binding.fastTypeContainer, R.string.successfully, Snackbar.LENGTH_LONG)
+                            Snackbar.make(binding.fastTypeLayout, R.string.successfully, Snackbar.LENGTH_LONG)
                         snackBar.apply {
                             setAction(R.string.undo) {
                                 taskItem.status = TaskItem.MAIN
                                 vm.restoreItem(position, taskItem)
                                 WidgetProvider.update(requireContext())
                             }
-                            anchorView = binding.fastTypeContainer
+                            anchorView = binding.fastTypeLayout
                             show()
                         }
                     }
@@ -259,7 +264,7 @@ class MainTasksFragment : Fragment() {
                 override fun onSwipedEnd(viewHolder: RecyclerView.ViewHolder, direction: Int, key: Constants.ITHKey) {}
             }, ItemTouchHelper.START
         )
-        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.mainRecyclerView)
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.recyclerView)
     }
 
 }

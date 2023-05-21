@@ -13,10 +13,6 @@ import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.Utils
 
 class WidgetSettingsActivity : Activity() {
-    companion object {
-        const val TAG = WidgetFactory.TAG
-    }
-
     private val sp: SharedPreferences by lazy {
         getSharedPreferences(Constants.Widget.WIDGET_SETTINGS, Context.MODE_PRIVATE)
     }
@@ -55,32 +51,34 @@ class WidgetSettingsActivity : Activity() {
     }
 
     private fun initViews() {
-        binding.showAddButtonSwitch.apply {
-            isChecked = sp.getBoolean(Constants.Widget.IS_FAB_VISIBLE, true)
-        }
-        binding.showDarkThemeSwitch.apply {
-            isChecked = sp.getBoolean(Constants.Widget.IS_DARK_THEME, false)
-        }
-        binding.widgetSettingsOk.apply {
-            setOnClickListener {
-                edit.apply {
-                    putBoolean(
-                        Constants.Widget.IS_FAB_VISIBLE,
-                        binding.showAddButtonSwitch.isChecked
-                    )
-                    putBoolean(
-                        Constants.Widget.IS_DARK_THEME,
-                        binding.showDarkThemeSwitch.isChecked
-                    )
-                    commit()
-                }
-                WidgetProvider.update(this@WidgetSettingsActivity)
-                finish()
+        binding.apply {
+            showAddButtonSwitch.apply {
+                isChecked = sp.getBoolean(Constants.Widget.IS_FAB_VISIBLE, true)
             }
-        }
-        binding.widgetSettingsCancel.apply {
-            setOnClickListener {
-                finish()
+            showDarkThemeSwitch.apply {
+                isChecked = sp.getBoolean(Constants.Widget.IS_DARK_THEME, false)
+            }
+            widgetSettingsOk.apply {
+                setOnClickListener {
+                    edit.apply {
+                        putBoolean(
+                            Constants.Widget.IS_FAB_VISIBLE,
+                            showAddButtonSwitch.isChecked
+                        )
+                        putBoolean(
+                            Constants.Widget.IS_DARK_THEME,
+                            showDarkThemeSwitch.isChecked
+                        )
+                        commit()
+                    }
+                    WidgetProvider.update(this@WidgetSettingsActivity)
+                    finish()
+                }
+            }
+            widgetSettingsCancel.apply {
+                setOnClickListener {
+                    finish()
+                }
             }
         }
     }

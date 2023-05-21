@@ -5,7 +5,6 @@
         <item name="colorPrimary">@color/BlueTheme_colorPrimary</item>
         <item name="colorPrimaryDark">@color/BlueTheme_colorPrimaryDark</item>
         <item name="colorAccent">@color/BlueTheme_colorAccent</item>
-        <item name="selectionColor">@color/BlueTheme_selectionColor</item>
         <item name="android:textColorSecondary">@color/BlueTheme_textColorSecondary</item>
     </style>
 
@@ -14,7 +13,6 @@
         <item name="colorPrimary">@color/DarkTheme_colorPrimary</item>
         <item name="colorPrimaryDark">@color/DarkTheme_colorPrimaryDark</item>
         <item name="colorAccent">@color/DarkTheme_colorAccent</item>
-        <item name="selectionColor">#ECB571</item>
         <item name="android:textColorSecondary">@color/DarkTheme_textColorSecondary</item>
     </style>
 
@@ -23,7 +21,6 @@
         <item name="colorPrimary">@color/RedTheme_colorPrimary</item>
         <item name="colorPrimaryDark">@color/RedTheme_colorPrimaryDark</item>
         <item name="colorAccent">@color/RedTheme_colorAccent</item>
-        <item name="selectionColor">@color/RedTheme_selectionColor</item>
         <item name="android:textColorSecondary">@color/RedTheme_textColorSecondary</item>
 
     </style>
@@ -33,7 +30,6 @@
         <item name="colorPrimary">@color/PurpleTheme_colorPrimary</item>
         <item name="colorPrimaryDark">@color/PurpleTheme_colorPrimaryDark</item>
         <item name="colorAccent">@color/PurpleTheme_colorAccent</item>
-        <item name="selectionColor">@color/PurpleTheme_selectionColor</item>
         <item name="android:textColorSecondary">@color/PurpleTheme_textColorSecondary</item>
 
     </style>

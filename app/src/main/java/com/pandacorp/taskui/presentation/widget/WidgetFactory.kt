@@ -3,7 +3,6 @@ package com.pandacorp.taskui.presentation.widget
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.util.Log
 import android.view.View
 import android.widget.RemoteViews
 import android.widget.RemoteViewsService
@@ -22,10 +21,6 @@ class WidgetFactory @Inject constructor(
     private val repository: TasksRepositoryImpl
 ) : RemoteViewsService.RemoteViewsFactory {
 
-    companion object {
-        const val TAG = "widget"
-    }
-
     private val dateFormatter = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.getDefault())
 
     private val sp: SharedPreferences by lazy {
@@ -43,39 +38,40 @@ class WidgetFactory @Inject constructor(
 
     override fun getViewAt(position: Int): RemoteViews {
         val taskItem = tasksList[position]
-        val itemView = RemoteViews(context.packageName, R.layout.widget_task_item)
+        val itemView = RemoteViews(context.packageName, R.layout.widget_task_item).apply {
 
-        // Reset values
-        itemView.setViewVisibility(R.id.widgetTimeTv, View.GONE)
-        itemView.setViewVisibility(R.id.widgetPriorityImageView, View.GONE)
+            // Reset values
+            setViewVisibility(R.id.widgetTimeTv, View.GONE)
+            setViewVisibility(R.id.widgetPriorityImageView, View.GONE)
 
-        itemView.setTextViewText(R.id.widgetTaskTitle, taskItem.text)
-        taskItem.time?.let {
-            itemView.setViewVisibility(R.id.widgetTimeTv, View.VISIBLE)
-            itemView.setTextViewText(R.id.widgetTimeTv, dateFormatter.format(it))
-        }
-        // priority
-        taskItem.priority?.let {
-            itemView.setViewVisibility(R.id.widgetPriorityImageView, View.VISIBLE)
-            when (taskItem.priority) {
-                TaskItem.WHITE -> itemView.setImageViewResource(R.id.widgetPriorityImageView, R.color.white)
-                TaskItem.YELLOW -> itemView.setImageViewResource(R.id.widgetPriorityImageView, R.color.yellow)
-                TaskItem.RED -> itemView.setImageViewResource(R.id.widgetPriorityImageView, R.color.red)
-                else -> itemView.setViewVisibility(R.id.widgetPriorityImageView, View.GONE)
+            setTextViewText(R.id.widgetTaskTitle, taskItem.text)
+            taskItem.time?.let {
+                setViewVisibility(R.id.widgetTimeTv, View.VISIBLE)
+                setTextViewText(R.id.widgetTimeTv, dateFormatter.format(it))
             }
-        }
+            // Set the priority
+            taskItem.priority?.let {
+                setViewVisibility(R.id.widgetPriorityImageView, View.VISIBLE)
+                when (taskItem.priority) {
+                    TaskItem.WHITE -> setImageViewResource(R.id.widgetPriorityImageView, R.color.white)
+                    TaskItem.YELLOW -> setImageViewResource(R.id.widgetPriorityImageView, R.color.yellow)
+                    TaskItem.RED -> setImageViewResource(R.id.widgetPriorityImageView, R.color.red)
+                    else -> setViewVisibility(R.id.widgetPriorityImageView, View.GONE)
+                }
+            }
 
-        setThemeColors(itemView, sp.getBoolean(Constants.Widget.IS_DARK_THEME, false))
+            // Handle the complete button click
+            val fillInIntent = Intent().apply {
+                putExtra(Constants.TaskItem.ID, taskItem.id)
+                putExtra(Constants.TaskItem.TITLE, taskItem.text)
+                putExtra(Constants.TaskItem.TIME, taskItem.time)
+                putExtra(Constants.TaskItem.PRIORITY, taskItem.priority)
+            }
+            setOnClickFillInIntent(R.id.widgetCompleteButton, fillInIntent)
 
-        // Handle the complete button click
-        Log.d(TAG, "getViewAt: taskItem = $taskItem")
-        val fillInIntent = Intent().apply {
-            putExtra(Constants.TaskItem.ID, taskItem.id)
-            putExtra(Constants.TaskItem.TITLE, taskItem.text)
-            putExtra(Constants.TaskItem.TIME, taskItem.time)
-            putExtra(Constants.TaskItem.PRIORITY, taskItem.priority)
+            setThemeColors(this, sp.getBoolean(Constants.Widget.IS_DARK_THEME, false))
+
         }
-        itemView.setOnClickFillInIntent(R.id.widgetCompleteButton, fillInIntent)
 
         return itemView
     }
@@ -107,15 +103,17 @@ class WidgetFactory @Inject constructor(
                 accentColor = R.color.BlueTheme_colorAccent
             }
         }
-        remoteViews.setInt(
-            R.id.widgetCompleteButton,
-            "setBackgroundResource",
-            backgroundColor
-        )
-        remoteViews.setInt(
-            R.id.widgetCompleteButton,
-            "setColorFilter",
-            ContextCompat.getColor(context, accentColor)
-        )
+        remoteViews.apply {
+            setInt(
+                R.id.widgetCompleteButton,
+                "setBackgroundResource",
+                backgroundColor
+            )
+            setInt(
+                R.id.widgetCompleteButton,
+                "setColorFilter",
+                ContextCompat.getColor(context, accentColor)
+            )
+        }
     }
 }

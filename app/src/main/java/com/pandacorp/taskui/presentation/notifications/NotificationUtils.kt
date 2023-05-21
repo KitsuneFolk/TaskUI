@@ -67,9 +67,9 @@ object NotificationUtils {
         create(context, taskItem, snoozedTime)
     }
 
-    fun cancelAll(context: Context, list: List<TaskItem>) {
+    fun cancelAll(context: Context, taskItemList: List<TaskItem>) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        list.forEach {
+        taskItemList.forEach {
             val intent = Intent(context, NotificationBroadcast::class.java)
             val pendingIntent = PendingIntent.getBroadcast(
                 context, it.id.toInt(), intent, PendingIntent

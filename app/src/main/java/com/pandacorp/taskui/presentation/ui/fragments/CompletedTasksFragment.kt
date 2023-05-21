@@ -15,19 +15,15 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.FragmentCompletedTasksBinding
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.ui.TasksAdapter
-import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.CustomItemTouchHelper
 import com.pandacorp.taskui.presentation.utils.Utils
 import com.pandacorp.taskui.presentation.vm.CompletedTasksViewModel
+import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CompletedTasksFragment : Fragment(R.layout.fragment_completed_tasks) {
-    companion object {
-        const val TAG = "CompletedTasksFragment"
-    }
-
+class CompletedTasksFragment : Fragment() {
     private var _binding: FragmentCompletedTasksBinding? = null
     private val binding get() = _binding!!
 
@@ -40,6 +36,7 @@ class CompletedTasksFragment : Fragment(R.layout.fragment_completed_tasks) {
         initViews()
         return binding.root
     }
+
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
@@ -52,41 +49,41 @@ class CompletedTasksFragment : Fragment(R.layout.fragment_completed_tasks) {
             tasksAdapter.submitList(it)
         }
 
-        binding.completedDeleteFab.apply {
+        binding.deleteFab.apply {
             setOnClickListener {
                 val tasksList = vm.tasksList.value!!.toMutableList()
+                if (tasksList.isEmpty()) return@setOnClickListener
                 vm.removeAll()
                 WidgetProvider.update(requireContext())
-                val snackBar =
-                    Snackbar.make(binding.completedFabsContainer, R.string.successfully, Snackbar.LENGTH_LONG)
-                snackBar.apply {
+                Snackbar.make(binding.fabsLayout, R.string.successfully, Snackbar.LENGTH_LONG).apply {
                     setAction(R.string.undo) {
                         vm.undoRemoveAll(tasksList)
                         WidgetProvider.update(requireContext())
                     }
-                    anchorView = binding.completedFabsContainer
+                    anchorView = binding.fabsLayout
                     show()
                 }
             }
             Utils.addDecreaseSizeOnTouch(this)
         }
-        binding.completedFabDeleteForever.apply {
+        binding.deleteForeverFab.apply {
             setOnClickListener {
                 val tasksList = vm.tasksList.value!!.toMutableList()
+                if (tasksList.isEmpty()) return@setOnClickListener
                 vm.removeAllForever()
                 val snackBar =
-                    Snackbar.make(binding.completedFabsContainer, R.string.successfully, Snackbar.LENGTH_LONG)
+                    Snackbar.make(binding.fabsLayout, R.string.successfully, Snackbar.LENGTH_LONG)
                 snackBar.apply {
                     setAction(R.string.undo) {
                         vm.undoRemoveAllForever(tasksList)
                     }
-                    anchorView = binding.completedFabsContainer
+                    anchorView = binding.fabsLayout
                     show()
                 }
             }
             Utils.addDecreaseSizeOnTouch(this)
         }
-        binding.completedRecyclerView.apply {
+        binding.recyclerView.apply {
             val recyclerViewDivider = DividerItemDecoration(
                 requireContext(), DividerItemDecoration.VERTICAL
             )
@@ -111,14 +108,14 @@ class CompletedTasksFragment : Fragment(R.layout.fragment_completed_tasks) {
                         vm.removeItem(taskItem)
                         WidgetProvider.update(requireContext())
                         val snackBar =
-                            Snackbar.make(binding.completedFabsContainer, R.string.successfully, Snackbar.LENGTH_LONG)
+                            Snackbar.make(binding.fabsLayout, R.string.successfully, Snackbar.LENGTH_LONG)
                         snackBar.apply {
                             setAction(R.string.undo) {
                                 taskItem.status = TaskItem.COMPLETED
                                 vm.restoreItem(position, taskItem)
                                 WidgetProvider.update(requireContext())
                             }
-                            anchorView = binding.completedFabsContainer
+                            anchorView = binding.fabsLayout
                             show()
                         }
                     }
@@ -133,6 +130,6 @@ class CompletedTasksFragment : Fragment(R.layout.fragment_completed_tasks) {
                 }
             }, ItemTouchHelper.START or ItemTouchHelper.END
         )
-        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.completedRecyclerView)
+        ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.recyclerView)
     }
 }

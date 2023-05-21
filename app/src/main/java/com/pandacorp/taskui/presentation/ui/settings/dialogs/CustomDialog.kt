@@ -13,12 +13,13 @@ abstract class CustomDialog : DialogFragment() {
     protected val sp: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(requireContext())
     }
-    
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         retainInstance = true
-        requireDialog().window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // remove default background so that dialog can be rounded
-        requireDialog().window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND) // remove shadow
+        requireDialog().window?.apply {
+            setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT)) // remove default background so that dialog can be rounded
+            clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND) // remove shadow
+        }
         super.onViewCreated(view, savedInstanceState)
-        
     }
 }

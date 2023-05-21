@@ -10,7 +10,6 @@ import com.pandacorp.taskui.domain.usecases.GetTasksUseCase
 import com.pandacorp.taskui.domain.usecases.RemoveTasksUseCase
 import com.pandacorp.taskui.domain.usecases.UpdateTaskUseCase
 import com.pandacorp.taskui.domain.usecases.UpdateTasksUseCase
-import com.pandacorp.taskui.presentation.ui.fragments.CompletedTasksFragment
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,10 +26,6 @@ class CompletedTasksViewModel @Inject constructor(
     private val addItemsUseCase: AddTasksUseCase,
 ) :
     ViewModel() {
-    companion object {
-        private const val TAG = CompletedTasksFragment.TAG
-    }
-
     private val _tasksList = MutableLiveData<MutableList<TaskItem>>().apply {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {

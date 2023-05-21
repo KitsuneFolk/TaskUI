@@ -4,8 +4,7 @@ sealed class Constants {
     object PreferenceKeys {
         const val languagesKey = "Languages"
         const val themesKey = "Themes"
-        const val versionKey = "Version"
-        
+
         const val preferenceBundleKey = "preferenceBundleKey"
     }
     
@@ -21,7 +20,6 @@ sealed class Constants {
     }
     object Widget {
         const val WIDGET_SETTINGS = "widget_settings"
-        const val ITEM = "ITEM"
         const val COMPLETE_TASK_ACTION = "com.pandacorp.taskui.COMPLETE_TASK_ACTION"
         const val SET_TASK_ACTION = "com.pandacorp.taskui.SET_TASK_ACTION"
         const val IS_FAB_VISIBLE = "fab_visible"
@@ -48,8 +46,6 @@ sealed class Constants {
     companion object {
         // Key for intent to put and get a serializable item
         const val IntentItem = "IntentItem"
-        // Key for intent to put and get an item's position
-        const val IntentItemPosition = "IntentItemPosition"
 
         const val ANIMATION_DURATION = 500L
 

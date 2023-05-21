@@ -20,7 +20,6 @@
         <!-- This overrides the elevation applied to the fragment view.-->
         <item name="fgl_elevation">0dp</item>
 
-
         <item name="android:navigationBarColor">?colorPrimary</item>
         <item name="materialButtonStyle">@style/MaterialButtonStyle</item>
         <item name="toolbarStyle">@style/ToolbarStyle</item>
@@ -34,6 +33,8 @@
         <item name="materialCalendarTheme">@style/MaterialCalendarTheme</item>
         <item name="materialTimePickerTheme">@style/MaterialTimePickerTheme</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimation</item>
+
+        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="WindowAnimation" parent="@android:style/Animation.Activity">

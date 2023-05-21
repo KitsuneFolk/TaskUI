@@ -53,61 +53,59 @@ class TasksAdapter(private val context: Context, val key: Int) :
         ViewHolder(binding.root) {
         fun bind(taskItem: TaskItem) {
             // Reset the properties for the proper recycling
-            binding.timeTv.visibility = View.GONE
-            binding.priorityCardView.visibility = View.VISIBLE
+            binding.apply {
+                timeTv.visibility = View.GONE
+                priorityCardView.visibility = View.VISIBLE
+                taskTitle.text = taskItem.text
+                taskItem.time?.let {
+                    timeTv.visibility = View.VISIBLE
+                    timeTv.text = dateFormatter.format(it)
+                }
+                when (taskItem.priority) {
+                    TaskItem.WHITE -> priorityCardView.setCardBackgroundColor(whiteColor)
+                    TaskItem.YELLOW -> priorityCardView.setCardBackgroundColor(yellowColor)
+                    TaskItem.RED -> priorityCardView.setCardBackgroundColor(redColor)
+                    null -> priorityCardView.visibility = View.GONE
+                }
+                completeButton.setOnClickListener {
+                    when (key) {
+                        TaskItem.MAIN -> {
+                            NotificationUtils.cancel(context, taskItem)
+                            taskAdapterListener?.onCompleteButtonClicked(adapterPosition, taskItem)
+                            WidgetProvider.update(context)
+                        }
 
-            binding.taskTitle.text = taskItem.text
-            // Split the time string into time and date components
-            taskItem.time?.let {
-                binding.timeTv.visibility = View.VISIBLE
-                binding.timeTv.text = dateFormatter.format(it)
-            }
-
-            when (taskItem.priority) {
-                TaskItem.WHITE -> binding.priorityCardView.setCardBackgroundColor(whiteColor)
-                TaskItem.YELLOW -> binding.priorityCardView.setCardBackgroundColor(yellowColor)
-                TaskItem.RED -> binding.priorityCardView.setCardBackgroundColor(redColor)
-                null -> binding.priorityCardView.visibility = View.GONE
-            }
-
-            binding.completeButton.setOnClickListener {
-                when (key) {
-                    TaskItem.MAIN -> {
-                        NotificationUtils.cancel(context, taskItem)
-                        taskAdapterListener?.onCompleteButtonClicked(adapterPosition, taskItem)
-                        WidgetProvider.update(context)
-                    }
-
-                    TaskItem.DELETED -> {
-                        taskAdapterListener?.onCompleteButtonClicked(
-                            adapterPosition,
-                            taskItem
-                        )
+                        TaskItem.DELETED -> {
+                            taskAdapterListener?.onCompleteButtonClicked(
+                                adapterPosition,
+                                taskItem
+                            )
+                        }
                     }
                 }
             }
         }
     }
 
-    inner class CompletedTaskViewHolder(val binding: CompletedTaskItemBinding) :
-        ViewHolder(binding.root) {
+    inner class CompletedTaskViewHolder(val binding: CompletedTaskItemBinding) : ViewHolder(binding.root) {
         fun bind(taskItem: TaskItem) {
-            // Reset the properties for proper recycling
-            binding.timeTv.visibility = View.GONE
-            binding.priorityCardView.visibility = View.VISIBLE
-
-            binding.taskTitle.text = taskItem.text
-
-            taskItem.time?.let {
-                binding.timeTv.visibility = View.VISIBLE
-                binding.timeTv.text = dateFormatter.format(it)
+            binding.apply {
+                // Reset the properties for proper recycling
+                timeTv.visibility = View.GONE
+                priorityCardView.visibility = View.VISIBLE
+                taskTitle.text = taskItem.text
+                taskItem.time?.let {
+                    timeTv.visibility = View.VISIBLE
+                    timeTv.text = dateFormatter.format(it)
+                }
+                when (taskItem.priority) {
+                    TaskItem.WHITE -> priorityCardView.setCardBackgroundColor(whiteColor)
+                    TaskItem.YELLOW -> priorityCardView.setCardBackgroundColor(yellowColor)
+                    TaskItem.RED -> priorityCardView.setCardBackgroundColor(redColor)
+                    null -> priorityCardView.visibility = View.GONE
+                }
             }
-            when (taskItem.priority) {
-                TaskItem.WHITE -> binding.priorityCardView.setCardBackgroundColor(whiteColor)
-                TaskItem.YELLOW -> binding.priorityCardView.setCardBackgroundColor(yellowColor)
-                TaskItem.RED -> binding.priorityCardView.setCardBackgroundColor(redColor)
-                null -> binding.priorityCardView.visibility = View.GONE
-            }
+
         }
     }
 

@@ -6,8 +6,6 @@ import com.pandacorp.taskui.R
 
 class Utils {
     companion object {
-        const val TAG = "CustomUtils"
-
         //This function is needed for coroutines logs work on Xiaomi devices.
         fun setupExceptionHandler() {
             Thread.setDefaultUncaughtExceptionHandler { _, throwable ->

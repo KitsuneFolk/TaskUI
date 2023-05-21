@@ -27,7 +27,6 @@ class CustomItemTouchHelper(
     }
 
     companion object {
-        private const val TAG = Utils.TAG
         private const val CORNERS_RADIUS = 15f
     }
 

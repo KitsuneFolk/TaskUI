@@ -1,7 +1,6 @@
 package com.pandacorp.taskui.presentation.ui.screen
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,11 +15,10 @@ import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.domain.usecases.AddTaskUseCase
 import com.pandacorp.taskui.presentation.notifications.NotificationUtils
 import com.pandacorp.taskui.presentation.ui.MainActivity
-import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import com.pandacorp.taskui.presentation.utils.Constants
-import com.pandacorp.taskui.presentation.utils.Utils
 import com.pandacorp.taskui.presentation.utils.app
 import com.pandacorp.taskui.presentation.utils.supportActionBar
+import com.pandacorp.taskui.presentation.widget.WidgetProvider
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +29,7 @@ import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AddTaskScreen : Fragment(R.layout.screen_add_task) {
+class AddTaskScreen : Fragment() {
     private var _binding: ScreenAddTaskBinding? = null
     private val binding get() = _binding!!
 
@@ -123,8 +121,6 @@ class AddTaskScreen : Fragment(R.layout.screen_add_task) {
     }
 
     private fun setTask() {
-        Log.d(Utils.TAG, "setTask: ")
-
         val text = binding.setTaskEditText.text.toString()
         val priority = when (binding.setPriorityRadioGroup.checkedRadioButtonId) {
             R.id.nullRadioButton -> null

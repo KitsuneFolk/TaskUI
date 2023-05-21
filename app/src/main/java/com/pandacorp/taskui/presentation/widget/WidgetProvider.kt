@@ -24,8 +24,6 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class WidgetProvider : AppWidgetProvider() {
     companion object {
-        const val TAG = WidgetFactory.TAG
-
         fun update(context: Context) {
             val appWidgetIds =
                 AppWidgetManager.getInstance(context)

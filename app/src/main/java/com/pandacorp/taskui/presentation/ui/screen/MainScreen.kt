@@ -16,9 +16,12 @@ class MainScreen : Fragment() {
     private var _binding: ScreenMainBinding? = null
     private val binding get() = _binding!!
 
+    private val navHostFragment by lazy {
+        childFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+    }
+
     private val navController by lazy {
-        val nestedNavHostFragment = childFragmentManager.findFragmentById(R.id.nav_host_fragment) as? NavHostFragment
-        nestedNavHostFragment!!.navController
+        navHostFragment.navController
     }
 
     fun navigateFragment(id: Int, options: Bundle = bundleOf()) {
@@ -44,6 +47,7 @@ class MainScreen : Fragment() {
         _binding = ScreenMainBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()

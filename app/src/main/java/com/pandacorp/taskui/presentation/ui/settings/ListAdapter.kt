@@ -16,39 +16,36 @@ class ListAdapter(
     context: Context, languagesList: MutableList<ListItem>, private val preferenceKey: String
 ) : ArrayAdapter<ListItem>(context, 0, languagesList) {
     private var onListItemClickListener: OnListItemClickListener? = null
-    
+
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)
-        }
+        if (view == null) view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)!!
         val listItem = getItem(position)!!
-        
-        val layout = view!!.findViewById<ConstraintLayout>(R.id.ListItemLayout)
-        val textView = view.findViewById<TextView>(R.id.ListItemTextView)
-        val cardView = view.findViewById<CardView>(R.id.ListItemCardView)
-        val imageView = view.findViewById<ImageView>(R.id.ListItemImageView)
-        
-        layout.setOnClickListener { v ->
-            onListItemClickListener?.onClick(v, listItem, position)
-        }
-        
-        textView.text = listItem.title
-        imageView.setImageDrawable(listItem.drawable)
-        // make the imageview rounded if key == theme
-        if (preferenceKey == Constants.PreferenceKeys.themesKey) {
-            cardView.radius = 80f
+        view.apply {
+            findViewById<ImageView>(R.id.ListItemImageView).apply {
+                setImageDrawable(listItem.drawable)
+            }
+            findViewById<ConstraintLayout>(R.id.ListItemLayout).apply {
+                setOnClickListener {
+                    onListItemClickListener?.onClick(listItem)
+                }
+            }
+            findViewById<TextView>(R.id.ListItemTextView).apply {
+                text = listItem.title
+            }
+            findViewById<CardView>(R.id.ListItemCardView).apply {
+                if (preferenceKey == Constants.PreferenceKeys.themesKey) radius = 80f
+            }
         }
         return view
     }
-    
+
     fun setOnClickListener(onListItemClickListener: OnListItemClickListener) {
         this.onListItemClickListener = onListItemClickListener
     }
-    
-    
+
     fun interface OnListItemClickListener {
-        fun onClick(view: View, listItem: ListItem, position: Int)
+        fun onClick(listItem: ListItem)
     }
 }
     

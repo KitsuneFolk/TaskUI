@@ -28,9 +28,6 @@ class DeletedTasksViewModel @Inject constructor(
     private val addItemUseCase: AddTaskUseCase,
     private val addItemsUseCase: AddTasksUseCase
 ) : ViewModel() {
-    companion object {
-        private const val TAG = DeletedTasksFragment.TAG
-    }
 
     private val _tasksList = MutableLiveData<MutableList<TaskItem>>().apply {
         viewModelScope.launch {

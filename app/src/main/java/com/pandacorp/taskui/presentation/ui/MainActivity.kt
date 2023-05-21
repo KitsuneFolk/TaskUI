@@ -3,7 +3,6 @@ package com.pandacorp.taskui.presentation.ui
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.os.bundleOf
@@ -20,6 +19,7 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.ActivityMainBinding
 import com.pandacorp.taskui.presentation.di.app.App
 import com.pandacorp.taskui.presentation.ui.screen.MainScreen
+import com.pandacorp.taskui.presentation.ui.screen.SettingsScreen
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.PreferenceHandler
 import com.pandacorp.taskui.presentation.utils.Utils
@@ -31,7 +31,6 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     companion object {
@@ -41,6 +40,7 @@ class MainActivity : AppCompatActivity() {
     private val app by lazy { application as App }
 
     private var mainScreen: MainScreen? = null
+    private var settingsScreen: SettingsScreen? = null
 
     private lateinit var fragulaNavController: NavController
     private lateinit var swipeController: SwipeController
@@ -48,14 +48,9 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Utils.setupExceptionHandler()
-        PreferenceHandler(this).load()
-        _binding = ActivityMainBinding.inflate(layoutInflater)
-        setSupportActionBar(binding.appBarMainToolbarInclude.toolbar)
-        setContentView(binding.root)
+    fun getFragulaNavController(): NavController = fragulaNavController
 
+    private fun initViews() {
         binding.appBarMainToolbarInclude.toolbar.applySystemWindowInsetsPadding(applyTop = true)
 
         binding.fragulaNavHostFragment.getFragment<NavHostFragment>().also {
@@ -64,73 +59,75 @@ class MainActivity : AppCompatActivity() {
             val swipeBackFragment = it.childFragmentManager.fragments.first()
             swipeBackFragment.childFragmentManager.registerFragmentLifecycleCallbacks(
                 object : FragmentManager.FragmentLifecycleCallbacks() {
-                override fun onFragmentCreated(fm: FragmentManager, fragment: Fragment, savedInstanceState: Bundle?) {
-                    if (fragment is MainScreen) {
-                        mainScreen = fragment
+                    override fun onFragmentCreated(fm: FragmentManager, fragment: Fragment, savedInstanceState: Bundle?) {
+                        if (fragment is MainScreen) {
+                            mainScreen = fragment
 
-                        // Check if the activity is launched from the widget
-                        intent.apply {
-                            getIntExtra(Constants.Widget.FRAGMENT_ID, -1).apply {
-                                if (this == R.id.nav_add_task_screen) {
-                                    putExtra(Constants.Widget.FRAGMENT_ID, -1)
-                                    CoroutineScope(Dispatchers.IO).launch {
-                                        withContext(Dispatchers.Main) {
-                                            val options = bundleOf(
-                                                Pair(
-                                                    Constants.Fragment.Action,
-                                                    Constants.Fragment.ADD_TASK_FRAGMENT
+                            // Check if the activity is launched from the widget
+                            intent.apply {
+                                getIntExtra(Constants.Widget.FRAGMENT_ID, -1).apply {
+                                    if (this == R.id.nav_add_task_screen) {
+                                        putExtra(Constants.Widget.FRAGMENT_ID, -1)
+                                        CoroutineScope(Dispatchers.IO).launch {
+                                            withContext(Dispatchers.Main) {
+                                                val options = bundleOf(
+                                                    Pair(
+                                                        Constants.Fragment.Action,
+                                                        Constants.Fragment.ADD_TASK_FRAGMENT
+                                                    )
                                                 )
-                                            )
-                                            mainScreen!!.navigateFragment(R.id.nav_main_tasks, options)
+                                                mainScreen!!.navigateFragment(R.id.nav_main_tasks, options)
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
+                        if (fragment is SettingsScreen) settingsScreen = fragment
                     }
-                }
-            }, false)
+                }, false
+            )
         }
-        initViews()
-    }
 
-    private fun initViews() {
-        binding.navView.setCheckedItem(app.selectedNavigationItemId)
-        binding.navView.setNavigationItemSelectedListener {
-            // Uncheck selectedNavigationItemId in App and set the previous one
-            app.selectedNavigationItemId = it.itemId
-            lifecycleScope.launch {
-                delay(200) // add delay
-                binding.drawerLayout.closeDrawer(GravityCompat.START)
-                delay(265) // add delay
-                when (it.itemId) {
-                    R.id.nav_main_tasks -> mainScreen?.navigateFragment(it.itemId)
-                    R.id.nav_completed_tasks -> mainScreen?.navigateFragment(it.itemId)
-                    R.id.nav_deleted_tasks -> mainScreen?.navigateFragment(it.itemId)
+        binding.navView.apply {
+            setCheckedItem(app.selectedNavigationItemId)
+            setNavigationItemSelectedListener {
+                // Uncheck selectedNavigationItemId in App and set the previous one
+                app.selectedNavigationItemId = it.itemId
+                lifecycleScope.launch {
+                    delay(200) // add delay
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    delay(265) // add delay
+                    when (it.itemId) {
+                        R.id.nav_main_tasks -> mainScreen?.navigateFragment(it.itemId)
+                        R.id.nav_completed_tasks -> mainScreen?.navigateFragment(it.itemId)
+                        R.id.nav_deleted_tasks -> mainScreen?.navigateFragment(it.itemId)
 
-                    R.id.nav_settings_screen -> {
-                        fragulaNavController.navigate(R.id.nav_settings_screen)
-                        // Deselect selectedNavigationItemId in App and set the previous one
-                        app.selectedNavigationItemId =
-                            binding.navView.checkedItem?.itemId ?: R.id.nav_main_tasks
+                        R.id.nav_settings_screen -> {
+                            fragulaNavController.navigate(R.id.nav_settings_screen)
+                            // Deselect selectedNavigationItemId in App and set the previous one
+                            app.selectedNavigationItemId =
+                                binding.navView.checkedItem?.itemId ?: R.id.nav_main_tasks
 
-                    }
-
-                    R.id.nav_share -> {
-                        val sendIntent = Intent().apply {
-                            action = Intent.ACTION_SEND
-                            putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.shareText))
-                            type = "text/plain"
                         }
-                        startActivity(Intent.createChooser(sendIntent, getString(R.string.menu_share)))
-                        // Deselect selectedNavigationItemId in App and set the previous one
-                        app.selectedNavigationItemId =
-                            binding.navView.checkedItem?.itemId ?: R.id.nav_main_tasks
+
+                        R.id.nav_share -> {
+                            val sendIntent = Intent().apply {
+                                action = Intent.ACTION_SEND
+                                putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.shareText))
+                                type = "text/plain"
+                            }
+                            startActivity(Intent.createChooser(sendIntent, getString(R.string.menu_share)))
+                            // Deselect selectedNavigationItemId in App and set the previous one
+                            app.selectedNavigationItemId =
+                                binding.navView.checkedItem?.itemId ?: R.id.nav_main_tasks
+                        }
                     }
                 }
+                true
             }
-            true
         }
+
 
         // Animate arrow icon
         DrawerArrowDrawable(this@MainActivity).also { arrow ->
@@ -145,7 +142,6 @@ class MainActivity : AppCompatActivity() {
             }
             swipeController.addOnSwipeListener { position, positionOffset, _ ->
                 arrow.progress = if (position > 0) 1f else positionOffset
-                Log.d(TAG, "position: $position, positionOffset: $positionOffset, arrow.progress = ${arrow.progress}")
                 if (position > 0) {
                     binding.drawerLayout.setDrawerLockMode(
                         DrawerLayout.LOCK_MODE_LOCKED_CLOSED,
@@ -161,6 +157,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        Utils.setupExceptionHandler()
+        PreferenceHandler.load(this)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
+        setSupportActionBar(binding.appBarMainToolbarInclude.toolbar)
+        setContentView(binding.root)
+
+        initViews()
+    }
+
     override fun onSupportNavigateUp(): Boolean {
         return fragulaNavController.navigateUp() || super.onSupportNavigateUp()
     }
@@ -170,7 +177,4 @@ class MainActivity : AppCompatActivity() {
         mainScreen = null
         super.onDestroy()
     }
-
-    fun getFragulaNavController(): NavController = fragulaNavController
-
 }
