@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.presentation.ui
+package com.pandacorp.taskui.presentation.ui.activities
 
 import android.content.Intent
 import android.graphics.Color
@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.os.bundleOf
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -158,6 +159,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Handle the splash screen transition.
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         Utils.setupExceptionHandler()
         PreferenceHandler.load(this)

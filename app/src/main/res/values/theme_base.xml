@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="SplashTheme" parent ="Theme.SplashScreen">
+        <item name="android:windowSplashScreenBackground" tools:targetApi="s">#405bdf</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash_icon</item>
+        <item name="windowSplashScreenAnimationDuration">200</item>
+    </style>
     <style name="BaseTheme" parent="Theme.Material3.Dark.NoActionBar">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textColorHint">@android:color/white</item>
@@ -33,8 +38,6 @@
         <item name="materialCalendarTheme">@style/MaterialCalendarTheme</item>
         <item name="materialTimePickerTheme">@style/MaterialTimePickerTheme</item>
         <item name="android:windowAnimationStyle">@style/WindowAnimation</item>
-
-        <item name="android:windowDisablePreview">true</item>
     </style>
 
     <style name="WindowAnimation" parent="@android:style/Animation.Activity">

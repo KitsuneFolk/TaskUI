@@ -9,7 +9,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationManagerCompat
 import com.pandacorp.taskui.domain.models.TaskItem
-import com.pandacorp.taskui.presentation.ui.MainActivity
+import com.pandacorp.taskui.presentation.ui.activities.MainActivity
 import com.pandacorp.taskui.presentation.utils.Constants
 
 object NotificationUtils {

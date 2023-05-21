@@ -23,7 +23,7 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.FragmentMainTasksBinding
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.notifications.NotificationUtils
-import com.pandacorp.taskui.presentation.ui.MainActivity
+import com.pandacorp.taskui.presentation.ui.activities.MainActivity
 import com.pandacorp.taskui.presentation.ui.TasksAdapter
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.CustomItemTouchHelper

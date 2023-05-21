@@ -64,6 +64,7 @@ dependencies {
     implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'com.wdullaer:materialdatetimepicker:3.6.0'
     implementation 'com.fragula2:fragula-core:2.7'
+    implementation 'androidx.core:core-splashscreen:1.0.1'
 
     // Room
     def roomVersion = "2.5.1"
