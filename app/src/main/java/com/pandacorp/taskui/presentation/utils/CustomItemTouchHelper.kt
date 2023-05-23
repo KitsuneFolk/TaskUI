@@ -248,7 +248,8 @@ class CustomItemTouchHelper(
             } else if (dX > 0) {
                 viewHolder.binding.includeBackground.endItemBackground.visibility = View.GONE
                 viewHolder.binding.includeBackground.startItemBackground.visibility = View.VISIBLE
-            } else { /* skip */ }
+            } else { /* skip */
+            }
 
         is TasksAdapter.CompletedTaskViewHolder ->
             if (dX < 0) {
@@ -257,7 +258,8 @@ class CustomItemTouchHelper(
             } else if (dX > 0) {
                 viewHolder.binding.includeBackground.endItemBackground.visibility = View.GONE
                 viewHolder.binding.includeBackground.startItemBackground.visibility = View.VISIBLE
-            } else { /* skip */ }
+            } else { /* skip */
+            }
 
         else -> throw IllegalArgumentException("Invalid viewHolder: $viewHolder")
     }

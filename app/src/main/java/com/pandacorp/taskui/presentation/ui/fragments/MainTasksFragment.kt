@@ -23,8 +23,8 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.FragmentMainTasksBinding
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.notifications.NotificationUtils
-import com.pandacorp.taskui.presentation.ui.activities.MainActivity
 import com.pandacorp.taskui.presentation.ui.TasksAdapter
+import com.pandacorp.taskui.presentation.ui.activities.MainActivity
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.CustomItemTouchHelper
 import com.pandacorp.taskui.presentation.utils.Utils
@@ -68,8 +68,8 @@ class MainTasksFragment : Fragment() {
             IntentFilter(Constants.Widget.COMPLETE_TASK_ACTION)
         )
         when (arguments?.getString(Constants.Fragment.Action)) {
-            Constants.Fragment.ADD_TASK_FRAGMENT -> {
-                fragulaNavController.navigate(R.id.nav_add_task_screen)
+            Constants.Fragment.ADD_TASK -> {
+                fragulaNavController.navigate(R.id.nav_add_task_screen, arguments)
             }
         }
         initViews()

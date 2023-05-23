@@ -3,6 +3,7 @@ package com.pandacorp.taskui.presentation.ui.activities
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.os.bundleOf
@@ -20,28 +21,18 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.ActivityMainBinding
 import com.pandacorp.taskui.presentation.di.app.App
 import com.pandacorp.taskui.presentation.ui.screen.MainScreen
-import com.pandacorp.taskui.presentation.ui.screen.SettingsScreen
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.PreferenceHandler
 import com.pandacorp.taskui.presentation.utils.Utils
-import com.pandacorp.taskui.presentation.utils.applySystemWindowInsetsPadding
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    companion object {
-        const val TAG = "MainActivity"
-    }
-
     private val app by lazy { application as App }
-
-    private var mainScreen: MainScreen? = null
-    private var settingsScreen: SettingsScreen? = null
 
     private lateinit var fragulaNavController: NavController
     private lateinit var swipeController: SwipeController
@@ -49,42 +40,57 @@ class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
 
+    private var mainScreen: MainScreen? = null
+
     fun getFragulaNavController(): NavController = fragulaNavController
 
     private fun initViews() {
-        binding.appBarMainToolbarInclude.toolbar.applySystemWindowInsetsPadding(applyTop = true)
-
         binding.fragulaNavHostFragment.getFragment<NavHostFragment>().also {
             swipeController = it.findSwipeController()
             fragulaNavController = it.navController
             val swipeBackFragment = it.childFragmentManager.fragments.first()
             swipeBackFragment.childFragmentManager.registerFragmentLifecycleCallbacks(
                 object : FragmentManager.FragmentLifecycleCallbacks() {
+                    /**
+                     * Find screens here, the method is called even if the activity got rotated
+                     */
+                    override fun onFragmentViewCreated(
+                        fm: FragmentManager,
+                        f: Fragment,
+                        v: View,
+                        savedInstanceState: Bundle?
+                    ) {
+                        super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+                        if (f is MainScreen) {
+                            mainScreen = f
+                        }
+                    }
+
+                    /**
+                     *  This method is called only once for the Activity(even on rotation doesn't trigger it),
+                     *  so perform the intent checks here
+                     */
                     override fun onFragmentCreated(fm: FragmentManager, fragment: Fragment, savedInstanceState: Bundle?) {
                         if (fragment is MainScreen) {
                             mainScreen = fragment
-
                             // Check if the activity is launched from the widget
                             intent.apply {
-                                getIntExtra(Constants.Widget.FRAGMENT_ID, -1).apply {
-                                    if (this == R.id.nav_add_task_screen) {
-                                        putExtra(Constants.Widget.FRAGMENT_ID, -1)
-                                        CoroutineScope(Dispatchers.IO).launch {
-                                            withContext(Dispatchers.Main) {
-                                                val options = bundleOf(
-                                                    Pair(
-                                                        Constants.Fragment.Action,
-                                                        Constants.Fragment.ADD_TASK_FRAGMENT
-                                                    )
-                                                )
-                                                mainScreen!!.navigateFragment(R.id.nav_main_tasks, options)
-                                            }
-                                        }
+                                when (action) {
+                                    Constants.Fragment.ADD_TASK -> {
+                                        onNewIntent(this)
+                                    }
+
+                                    Intent.ACTION_SEND -> {
+                                        /* android doesn't call onNewIntent if activity is just created,
+                                        so we have to call it manually */
+                                        onNewIntent(this)
                                     }
                                 }
+                                action = null
+                                data = null
+                                flags = 0
                             }
                         }
-                        if (fragment is SettingsScreen) settingsScreen = fragment
                     }
                 }, false
             )
@@ -98,11 +104,11 @@ class MainActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     delay(200) // add delay
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
-                    delay(265) // add delay
+                    delay(300) // add delay
                     when (it.itemId) {
-                        R.id.nav_main_tasks -> mainScreen?.navigateFragment(it.itemId)
-                        R.id.nav_completed_tasks -> mainScreen?.navigateFragment(it.itemId)
-                        R.id.nav_deleted_tasks -> mainScreen?.navigateFragment(it.itemId)
+                        R.id.nav_main_tasks -> mainScreen!!.navigateFragment(it.itemId)
+                        R.id.nav_completed_tasks -> mainScreen!!.navigateFragment(it.itemId)
+                        R.id.nav_deleted_tasks -> mainScreen!!.navigateFragment(it.itemId)
 
                         R.id.nav_settings_screen -> {
                             fragulaNavController.navigate(R.id.nav_settings_screen)
@@ -128,7 +134,6 @@ class MainActivity : AppCompatActivity() {
                 true
             }
         }
-
 
         // Animate arrow icon
         DrawerArrowDrawable(this@MainActivity).also { arrow ->
@@ -158,9 +163,45 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        intent?.apply {
+            when (action) {
+                Intent.ACTION_SEND -> {
+                    val options = bundleOf(
+                        Pair(
+                            Constants.Fragment.Action,
+                            Constants.Fragment.ADD_TASK
+                        ),
+                        Pair(
+                            Constants.TaskItem.TITLE,
+                            getStringExtra(Intent.EXTRA_TEXT)
+                        )
+                    )
+                    // The Main coroutine fixes a bug when navHostFragment is null in MainScreen
+                    CoroutineScope(Dispatchers.Main).launch {
+                        mainScreen!!.navigateFragment(R.id.nav_main_tasks, options)
+                    }
+                }
+
+                Constants.Fragment.ADD_TASK -> {
+                    val options = bundleOf(
+                        Pair(
+                            Constants.Fragment.Action,
+                            Constants.Fragment.ADD_TASK
+                        )
+                    )
+                    // The Main coroutine fixes a bug when navHostFragment is null in MainScreen
+                    CoroutineScope(Dispatchers.Main).launch {
+                        mainScreen!!.navigateFragment(R.id.nav_main_tasks, options)
+                    }
+                }
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Handle the splash screen transition.
-        val splashScreen = installSplashScreen()
+        installSplashScreen() // Handle the splash screen transition.
         super.onCreate(savedInstanceState)
         Utils.setupExceptionHandler()
         PreferenceHandler.load(this)

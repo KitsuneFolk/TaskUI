@@ -10,13 +10,13 @@ data class TaskItem(
     var time: Long? = null,
     var priority: Int? = null,
     var status: Int = MAIN
-): Parcelable {
+) : Parcelable {
     companion object {
         // Priority
         const val WHITE = 0
         const val YELLOW = 1
         const val RED = 2
-        
+
         // Status
         const val MAIN = 0
         const val COMPLETED = 1

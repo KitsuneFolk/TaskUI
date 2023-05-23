@@ -65,7 +65,7 @@ class MainTasksViewModel @Inject constructor(
     fun removeItem(taskItem: TaskItem) {
         taskItem.status = TaskItem.DELETED
         _tasksList.value?.apply {
-            remove(find { it.id == taskItem.id } )
+            remove(find { it.id == taskItem.id })
             _tasksList.postValue(this)
         }
         CoroutineScope(Dispatchers.IO).launch {
@@ -74,7 +74,8 @@ class MainTasksViewModel @Inject constructor(
     }
 
     fun removeAll() {
-        val currentTasksList = _tasksList.value?.map { taskItem -> taskItem.copy(status = TaskItem.DELETED) }?.toMutableList()
+        val currentTasksList =
+            _tasksList.value?.map { taskItem -> taskItem.copy(status = TaskItem.DELETED) }?.toMutableList()
         CoroutineScope(Dispatchers.IO).launch {
             currentTasksList?.let {
                 updateItemsUseCase(it)
@@ -144,6 +145,7 @@ class MainTasksViewModel @Inject constructor(
             updateItemsUseCase(tasksList)
         }
     }
+
     fun undoRemoveAllForever(tasksList: MutableList<TaskItem>) {
         _tasksList.value?.addAll(tasksList)
         _tasksList.postValue(_tasksList.value)

@@ -5,44 +5,14 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Parcelable
-import android.view.View
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.updatePadding
 import androidx.fragment.app.Fragment
 import com.pandacorp.taskui.presentation.di.app.App
 
 val Fragment.supportActionBar: ActionBar?
     get() = (activity as? AppCompatActivity)?.supportActionBar
 
-fun View.applySystemWindowInsetsPadding(
-    applyLeft: Boolean = false,
-    applyTop: Boolean = false,
-    applyRight: Boolean = false,
-    applyBottom: Boolean = false,
-) {
-    ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
-        val statusBarType = WindowInsetsCompat.Type.statusBars()
-        val navigationBarType = WindowInsetsCompat.Type.navigationBars()
-        val systemWindowInsets = insets.getInsets(statusBarType or navigationBarType)
-
-        val leftInset = if (applyLeft) systemWindowInsets.left else view.paddingLeft
-        val topInset = if (applyTop) systemWindowInsets.top else view.paddingTop
-        val rightInset = if (applyRight) systemWindowInsets.right else view.paddingRight
-        val bottomInset = if (applyBottom) systemWindowInsets.bottom else view.paddingBottom
-
-        view.updatePadding(
-            left = leftInset,
-            top = topInset,
-            right = rightInset,
-            bottom = bottomInset,
-        )
-
-        insets
-    }
-}
 /**
  * A compatibility wrapper around Intent's `getParcelableExtra()` method that allows
  * developers to get a Parcelable extra from an Intent object regardless of the version of
@@ -74,4 +44,5 @@ fun PackageManager.getPackageInfoCompat(packageName: String, flags: Int = 0): Pa
     } else {
         @Suppress("DEPRECATION") getPackageInfo(packageName, flags)
     }
-val Fragment.app get () = (requireActivity().application as App)
+
+val Fragment.app get() = (requireActivity().application as App)

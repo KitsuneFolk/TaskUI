@@ -44,29 +44,6 @@ class AddTaskScreen : Fragment() {
     private lateinit var timePickerDialog: MaterialTimePicker
     private lateinit var datePickerDialog: MaterialDatePicker<*>
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = ScreenAddTaskBinding.inflate(layoutInflater)
-        initViews(savedInstanceState)
-        return binding.root
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putLong(Constants.TaskItem.TIME, selectedTime?.timeInMillis ?: 0L)
-        outState.putString(Constants.TaskItem.TITLE, binding.setTaskEditText.text.toString())
-        outState.putString(Constants.TaskItem.PRIORITY, binding.setPriorityRadioGroup.checkedRadioButtonId.toString())
-    }
-
-    override fun onResume() {
-        super.onResume()
-        supportActionBar?.setTitle(R.string.createTask)
-    }
-
-    override fun onDestroy() {
-        _binding = null
-        super.onDestroy()
-    }
-
     private fun initViews(savedInstanceState: Bundle?) {
         // Restore selected values on device rotation
 
@@ -139,5 +116,33 @@ class AddTaskScreen : Fragment() {
             app.taskItem = taskItem
             fragulaNavController.popBackStack()
         }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = ScreenAddTaskBinding.inflate(layoutInflater)
+        val title = arguments?.getString(Constants.TaskItem.TITLE)
+        if (title != null) {
+            binding.setTaskEditText.setText(title)
+            arguments?.clear()
+        }
+        initViews(savedInstanceState)
+        return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putLong(Constants.TaskItem.TIME, selectedTime?.timeInMillis ?: 0L)
+        outState.putString(Constants.TaskItem.TITLE, binding.setTaskEditText.text.toString())
+        outState.putString(Constants.TaskItem.PRIORITY, binding.setPriorityRadioGroup.checkedRadioButtonId.toString())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        supportActionBar?.setTitle(R.string.createTask)
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
     }
 }

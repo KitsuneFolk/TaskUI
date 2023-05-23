@@ -24,7 +24,7 @@ class MainScreen : Fragment() {
         navHostFragment.navController
     }
 
-    fun navigateFragment(id: Int, options: Bundle = bundleOf()) {
+    fun navigateFragment(id: Int, options: Bundle? = bundleOf()) {
         navController.navigate(id, options)
         setTitle()
     }
@@ -40,7 +40,7 @@ class MainScreen : Fragment() {
     }
 
     private fun initViews() {
-        navigateFragment(app.selectedNavigationItemId)
+        navigateFragment(app.selectedNavigationItemId, arguments)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

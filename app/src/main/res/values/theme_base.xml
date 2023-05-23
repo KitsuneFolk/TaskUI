@@ -61,7 +61,6 @@
     </style>
 
     <style name="MaterialAlertDialogStyle" parent="Theme.Material3.Dark.Dialog">
-        <!--  Disable Full window mode  -->
         <item name="android:colorBackground">?android:colorBackground</item>
         <item name="textColorAlertDialogListItem">?android:attr/textColor</item>
         <item name="color">?android:colorBackground</item>

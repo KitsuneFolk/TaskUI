@@ -15,18 +15,24 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/SplashTheme">
-
         <activity
             android:name=".presentation.ui.activities.MainActivity"
             android:exported="true"
+            android:launchMode="singleInstance"
             android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".presentation.widget.WidgetSettingsActivity"
             android:exported="false"
@@ -49,7 +55,6 @@
                 android:name="android.appwidget.provider"
                 android:resource="@xml/widget_metadata" />
         </receiver>
-
         <receiver android:name=".presentation.notifications.NotificationBroadcast" />
 
         <activity
@@ -58,4 +63,5 @@
             android:label=""
             android:theme="@style/DarkTheme_Widget_MaterialAlertDialogStyle" />
     </application>
+
 </manifest>

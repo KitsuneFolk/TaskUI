@@ -11,7 +11,6 @@ import com.pandacorp.taskui.domain.usecases.GetTasksUseCase
 import com.pandacorp.taskui.domain.usecases.RemoveTaskUseCase
 import com.pandacorp.taskui.domain.usecases.RemoveTasksUseCase
 import com.pandacorp.taskui.domain.usecases.UpdateTaskUseCase
-import com.pandacorp.taskui.presentation.ui.fragments.DeletedTasksFragment
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -82,17 +81,6 @@ class DeletedTasksViewModel @Inject constructor(
             remove(find { it.id == taskItem.id })
             _tasksList.postValue(this)
         }
-        CoroutineScope(Dispatchers.IO).launch {
-            updateItemUseCase(taskItem)
-        }
-    }
-
-    /**
-     * Add item to the livedata and update in Room
-     */
-    fun undo(position: Int, taskItem: TaskItem) {
-        _tasksList.value?.add(position, taskItem)
-        _tasksList.postValue(_tasksList.value)
         CoroutineScope(Dispatchers.IO).launch {
             updateItemUseCase(taskItem)
         }

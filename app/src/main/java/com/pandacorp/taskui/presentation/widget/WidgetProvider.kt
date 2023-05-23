@@ -89,8 +89,8 @@ class WidgetProvider : AppWidgetProvider() {
             Constants.Widget.SET_TASK_ACTION -> {
                 val i = Intent(context, MainActivity::class.java).apply {
                     flags =
-                        Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
-                    putExtra(Constants.Widget.FRAGMENT_ID, R.id.nav_add_task_screen)
+                        Intent.FLAG_ACTIVITY_NEW_TASK
+                    action = Constants.Fragment.ADD_TASK
                 }
                 context.startActivity(i)
             }

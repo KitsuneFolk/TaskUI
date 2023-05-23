@@ -8,6 +8,7 @@ import dagger.hilt.android.HiltAndroidApp
 @HiltAndroidApp
 class App : Application() {
     var selectedNavigationItemId = R.id.nav_main_tasks
+
     // A TaskItem object to pass from AddTaskScreen back to MainTasksFragment
-    var taskItem: TaskItem ?= null
+    var taskItem: TaskItem? = null
 }
