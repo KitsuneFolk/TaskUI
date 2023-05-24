@@ -40,7 +40,7 @@ class MainScreen : Fragment() {
     }
 
     private fun initViews() {
-        navigateFragment(app.selectedNavigationItemId, arguments)
+        navigateFragment(app.selectedNavigationItemId)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

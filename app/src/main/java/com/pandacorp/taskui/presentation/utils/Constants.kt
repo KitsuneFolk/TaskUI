@@ -43,8 +43,7 @@ sealed class Constants {
 
     object Fragment {
         const val Action = "Action"
-        const val ADD_TASK = "ADD_TASK"
-
+        const val ADD_TASK = "com.pandacorp.taskui.ADD_TASK"
     }
 
     companion object {

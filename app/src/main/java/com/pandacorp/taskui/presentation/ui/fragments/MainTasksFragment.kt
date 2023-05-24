@@ -10,6 +10,7 @@ import android.os.Looper
 import android.transition.Fade
 import android.transition.TransitionManager
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -18,6 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.fragula2.navigation.SwipeBackFragment
 import com.google.android.material.snackbar.Snackbar
 import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.FragmentMainTasksBinding
@@ -67,11 +69,6 @@ class MainTasksFragment : Fragment() {
             completeTaskReceiver,
             IntentFilter(Constants.Widget.COMPLETE_TASK_ACTION)
         )
-        when (arguments?.getString(Constants.Fragment.Action)) {
-            Constants.Fragment.ADD_TASK -> {
-                fragulaNavController.navigate(R.id.nav_add_task_screen, arguments)
-            }
-        }
         initViews()
         return binding.root
     }
@@ -154,6 +151,22 @@ class MainTasksFragment : Fragment() {
             adapter = tasksAdapter
             enableSwipe()
             registerForContextMenu(this)
+        }
+
+        binding.fastTypeEditText.apply {
+            val swipeBackFragment = requireParentFragment().requireParentFragment().requireParentFragment() as SwipeBackFragment
+            setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> swipeBackFragment.setScrollingEnabled(false)
+                    MotionEvent.ACTION_UP -> {
+                        v.performClick()
+                        swipeBackFragment.setScrollingEnabled(true)
+                    }
+
+                    MotionEvent.ACTION_CANCEL -> swipeBackFragment.setScrollingEnabled(true)
+                }
+                return@setOnTouchListener false
+            }
         }
 
         binding.fastTypeButton.apply {

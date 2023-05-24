@@ -2,10 +2,12 @@ package com.pandacorp.taskui.presentation.ui.screen
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.fragula2.navigation.SwipeBackFragment
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
@@ -45,8 +47,7 @@ class AddTaskScreen : Fragment() {
     private lateinit var datePickerDialog: MaterialDatePicker<*>
 
     private fun initViews(savedInstanceState: Bundle?) {
-        // Restore selected values on device rotation
-
+        // Restore the selected values on device rotation
         savedInstanceState?.apply {
             val time = getLong(Constants.TaskItem.TIME, 0L)
             if (time != 0L) {
@@ -58,11 +59,30 @@ class AddTaskScreen : Fragment() {
             binding.setPriorityRadioGroup.check(getInt(Constants.TaskItem.PRIORITY, 0))
 
             // Close the opened dialogs due to callbacks lose after device rotation.
-            val dialog = requireActivity().supportFragmentManager.findFragmentByTag("DatePickerDialog")
-            val dialog2 = requireActivity().supportFragmentManager.findFragmentByTag("TimePickerDialog")
-            if (dialog != null) requireActivity().supportFragmentManager.beginTransaction().remove(dialog).commit()
-            if (dialog2 != null) requireActivity().supportFragmentManager.beginTransaction().remove(dialog2).commit()
+            requireActivity().supportFragmentManager.apply {
+                val d1 = findFragmentByTag("DatePickerDialog")
+                val d2 = findFragmentByTag("TimePickerDialog")
+                if (d1 != null) beginTransaction().remove(d1).commit()
+                if (d2 != null) beginTransaction().remove(d2).commit()
+            }
         }
+
+        binding.setTaskEditText.apply {
+            val swipeBackFragment = requireParentFragment() as SwipeBackFragment
+            setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> swipeBackFragment.setScrollingEnabled(false)
+                    MotionEvent.ACTION_UP -> {
+                        v.performClick()
+                        swipeBackFragment.setScrollingEnabled(true)
+                    }
+
+                    MotionEvent.ACTION_CANCEL -> swipeBackFragment.setScrollingEnabled(true)
+                }
+                return@setOnTouchListener false
+            }
+        }
+
         datePickerDialog = MaterialDatePicker.Builder.datePicker().build().apply {
             addOnPositiveButtonClickListener { selectedDate ->
                 selectedDateCalendar.timeInMillis = selectedDate

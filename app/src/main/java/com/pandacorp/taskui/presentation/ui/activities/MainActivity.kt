@@ -25,8 +25,6 @@ import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.PreferenceHandler
 import com.pandacorp.taskui.presentation.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -45,10 +43,10 @@ class MainActivity : AppCompatActivity() {
     fun getFragulaNavController(): NavController = fragulaNavController
 
     private fun initViews() {
-        binding.fragulaNavHostFragment.getFragment<NavHostFragment>().also {
-            swipeController = it.findSwipeController()
-            fragulaNavController = it.navController
-            val swipeBackFragment = it.childFragmentManager.fragments.first()
+        binding.fragulaNavHostFragment.getFragment<NavHostFragment>().apply {
+            swipeController = findSwipeController()
+            fragulaNavController = navController
+            val swipeBackFragment = childFragmentManager.fragments.first()
             swipeBackFragment.childFragmentManager.registerFragmentLifecycleCallbacks(
                 object : FragmentManager.FragmentLifecycleCallbacks() {
                     /**
@@ -77,12 +75,14 @@ class MainActivity : AppCompatActivity() {
                             intent.apply {
                                 when (action) {
                                     Constants.Fragment.ADD_TASK -> {
+                                        /* android doesn't call onNewIntent if an activity is just created,
+                                        so we have to call it manually */
                                         onNewIntent(this)
                                     }
 
                                     Intent.ACTION_SEND -> {
-                                        /* android doesn't call onNewIntent if activity is just created,
-                                        so we have to call it manually */
+                                        /* android doesn't call onNewIntent if an activity is just created,
+                                         so we have to call it manually */
                                         onNewIntent(this)
                                     }
                                 }
@@ -164,7 +164,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
         intent?.apply {
             when (action) {
                 Intent.ACTION_SEND -> {
@@ -178,10 +177,7 @@ class MainActivity : AppCompatActivity() {
                             getStringExtra(Intent.EXTRA_TEXT)
                         )
                     )
-                    // The Main coroutine fixes a bug when navHostFragment is null in MainScreen
-                    CoroutineScope(Dispatchers.Main).launch {
-                        mainScreen!!.navigateFragment(R.id.nav_main_tasks, options)
-                    }
+                    fragulaNavController.navigate(R.id.nav_add_task_screen, options)
                 }
 
                 Constants.Fragment.ADD_TASK -> {
@@ -191,13 +187,11 @@ class MainActivity : AppCompatActivity() {
                             Constants.Fragment.ADD_TASK
                         )
                     )
-                    // The Main coroutine fixes a bug when navHostFragment is null in MainScreen
-                    CoroutineScope(Dispatchers.Main).launch {
-                        mainScreen!!.navigateFragment(R.id.nav_main_tasks, options)
-                    }
+                    fragulaNavController.navigate(R.id.nav_add_task_screen, options)
                 }
             }
         }
+        super.onNewIntent(intent)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
