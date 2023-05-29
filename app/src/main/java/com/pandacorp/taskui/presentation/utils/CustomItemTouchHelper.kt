@@ -9,7 +9,7 @@ import android.util.TypedValue
 import android.view.View
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import com.pandacorp.taskui.presentation.ui.TasksAdapter
+import com.pandacorp.taskui.presentation.ui.adapter.TasksAdapter
 
 class CustomItemTouchHelper(
     context: Context,

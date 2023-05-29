@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.presentation.ui
+package com.pandacorp.taskui.presentation.ui.adapter
 
 import android.content.Context
 import android.graphics.Color

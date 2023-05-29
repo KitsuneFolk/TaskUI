@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat
 import com.pandacorp.taskui.R
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.domain.usecases.UpdateTaskUseCase
-import com.pandacorp.taskui.presentation.ui.activities.MainActivity
+import com.pandacorp.taskui.presentation.ui.activity.MainActivity
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.getParcelableExtraSupport
 import com.pandacorp.taskui.presentation.widget.WidgetProvider

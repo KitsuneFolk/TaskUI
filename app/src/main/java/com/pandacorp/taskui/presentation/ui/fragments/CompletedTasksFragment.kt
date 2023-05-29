@@ -14,7 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.FragmentCompletedTasksBinding
 import com.pandacorp.taskui.domain.models.TaskItem
-import com.pandacorp.taskui.presentation.ui.TasksAdapter
+import com.pandacorp.taskui.presentation.ui.adapter.TasksAdapter
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.CustomItemTouchHelper
 import com.pandacorp.taskui.presentation.utils.Utils

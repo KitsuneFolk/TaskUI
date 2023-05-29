@@ -16,7 +16,7 @@ import com.pandacorp.taskui.databinding.ScreenAddTaskBinding
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.domain.usecases.AddTaskUseCase
 import com.pandacorp.taskui.presentation.notifications.NotificationUtils
-import com.pandacorp.taskui.presentation.ui.activities.MainActivity
+import com.pandacorp.taskui.presentation.ui.activity.MainActivity
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.app
 import com.pandacorp.taskui.presentation.utils.supportActionBar

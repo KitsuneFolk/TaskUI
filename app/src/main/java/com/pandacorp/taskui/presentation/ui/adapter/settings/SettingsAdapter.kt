@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.presentation.ui.settings
+package com.pandacorp.taskui.presentation.ui.adapter.settings
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -12,20 +12,20 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.pandacorp.taskui.R
 import com.pandacorp.taskui.presentation.utils.Constants
 
-class ListAdapter(
-    context: Context, languagesList: MutableList<ListItem>, private val preferenceKey: String
-) : ArrayAdapter<ListItem>(context, 0, languagesList) {
+class SettingsAdapter(
+    context: Context, languagesList: MutableList<SettingsItem>, private val preferenceKey: String
+) : ArrayAdapter<SettingsItem>(context, 0, languagesList) {
     private var onListItemClickListener: OnListItemClickListener? = null
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView
-        if (view == null) view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false)!!
+        if (view == null) view = LayoutInflater.from(context).inflate(R.layout.item_settings, parent, false)!!
         val listItem = getItem(position)!!
         view.apply {
             findViewById<ImageView>(R.id.ListItemImageView).apply {
                 setImageDrawable(listItem.drawable)
             }
-            findViewById<ConstraintLayout>(R.id.ListItemLayout).apply {
+            findViewById<ConstraintLayout>(R.id.layout).apply {
                 setOnClickListener {
                     onListItemClickListener?.onClick(listItem)
                 }
@@ -45,7 +45,7 @@ class ListAdapter(
     }
 
     fun interface OnListItemClickListener {
-        fun onClick(listItem: ListItem)
+        fun onClick(settingsItem: SettingsItem)
     }
 }
     

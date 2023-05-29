@@ -1,4 +1,4 @@
-package com.pandacorp.taskui.presentation.ui.activities
+package com.pandacorp.taskui.presentation.ui.activity
 
 import android.content.Intent
 import android.graphics.Color
@@ -137,10 +137,10 @@ class MainActivity : AppCompatActivity() {
 
         // Animate arrow icon
         DrawerArrowDrawable(this@MainActivity).also { arrow ->
-            binding.appBarMainToolbarInclude.toolbar.navigationIcon = arrow.apply {
+            binding.toolbar.navigationIcon = arrow.apply {
                 color = Color.WHITE
             }
-            binding.appBarMainToolbarInclude.toolbar.setNavigationOnClickListener {
+            binding.toolbar.setNavigationOnClickListener {
                 when (arrow.progress) {
                     0f -> binding.drawerLayout.openDrawer(GravityCompat.START)
                     1f -> fragulaNavController.popBackStack()
@@ -197,7 +197,7 @@ class MainActivity : AppCompatActivity() {
         Utils.setupExceptionHandler()
         PreferenceHandler.load(this)
         _binding = ActivityMainBinding.inflate(layoutInflater)
-        setSupportActionBar(binding.appBarMainToolbarInclude.toolbar)
+        setSupportActionBar(binding.toolbar)
         setContentView(binding.root)
 
         initViews()

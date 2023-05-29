@@ -12,7 +12,7 @@ import android.widget.RemoteViews
 import com.pandacorp.taskui.R
 import com.pandacorp.taskui.data.repositories.TasksRepositoryImpl
 import com.pandacorp.taskui.domain.models.TaskItem
-import com.pandacorp.taskui.presentation.ui.activities.MainActivity
+import com.pandacorp.taskui.presentation.ui.activity.MainActivity
 import com.pandacorp.taskui.presentation.utils.Constants
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope

@@ -11,8 +11,8 @@ import androidx.fragment.app.Fragment
 import androidx.preference.PreferenceManager
 import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.ScreenSettingsBinding
-import com.pandacorp.taskui.presentation.ui.settings.dialogs.DialogListView
 import com.pandacorp.taskui.presentation.utils.Constants
+import com.pandacorp.taskui.presentation.utils.dialog.DialogListView
 import com.pandacorp.taskui.presentation.utils.getPackageInfoCompat
 import com.pandacorp.taskui.presentation.utils.supportActionBar
 
@@ -22,6 +22,13 @@ class SettingsScreen : Fragment() {
 
     private val sp: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(requireContext())
+    }
+
+    private val languageDialog by lazy {
+        DialogListView(requireActivity(), Constants.PreferenceKeys.languagesKey)
+    }
+    private val themeDialog by lazy {
+        DialogListView(requireActivity(), Constants.PreferenceKeys.themesKey)
     }
 
     private fun initViews() {
@@ -36,21 +43,19 @@ class SettingsScreen : Fragment() {
             e.printStackTrace()
         }
         binding.themeLayout.apply {
-            val themeDialog = DialogListView.newInstance(Constants.PreferenceKeys.themesKey)
             setOnClickListener {
                 if (parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.themesKey) != null
                     || parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.languagesKey) != null
                 ) return@setOnClickListener
-                themeDialog.show(parentFragmentManager, Constants.PreferenceKeys.themesKey)
+                themeDialog.show()
             }
         }
         binding.languageLayout.apply {
-            val languageDialog = DialogListView.newInstance(Constants.PreferenceKeys.languagesKey)
             setOnClickListener {
                 if (parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.themesKey) != null
                     || parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.languagesKey) != null
                 ) return@setOnClickListener
-                languageDialog.show(parentFragmentManager, Constants.PreferenceKeys.languagesKey)
+                languageDialog.show()
             }
         }
         binding.themeTextView.apply {
@@ -97,6 +102,25 @@ class SettingsScreen : Fragment() {
         _binding = ScreenSettingsBinding.inflate(layoutInflater)
         initViews()
         return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val dialogKey =
+            if (themeDialog.isShowing) Constants.PreferenceKeys.themesKey
+            else if (languageDialog.isShowing) Constants.PreferenceKeys.languagesKey
+            else null
+
+        outState.apply {
+            putString(Constants.PreferenceKeys.preferenceBundleKey, dialogKey)
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val dialogKey = savedInstanceState?.getString(Constants.PreferenceKeys.preferenceBundleKey, null) ?: return
+        if (dialogKey == Constants.PreferenceKeys.themesKey) themeDialog.show()
+        else if (dialogKey == Constants.PreferenceKeys.languagesKey) languageDialog.show()
     }
 
     override fun onResume() {
