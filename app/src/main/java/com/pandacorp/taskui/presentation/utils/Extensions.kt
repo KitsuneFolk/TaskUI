@@ -13,6 +13,8 @@ import com.pandacorp.taskui.presentation.di.app.App
 val Fragment.supportActionBar: ActionBar?
     get() = (activity as? AppCompatActivity)?.supportActionBar
 
+val Fragment.app get() = (requireActivity().application as App)
+
 /**
  * A compatibility wrapper around Intent's `getParcelableExtra()` method that allows
  * developers to get a Parcelable extra from an Intent object regardless of the version of
@@ -44,5 +46,3 @@ fun PackageManager.getPackageInfoCompat(packageName: String, flags: Int = 0): Pa
     } else {
         @Suppress("DEPRECATION") getPackageInfo(packageName, flags)
     }
-
-val Fragment.app get() = (requireActivity().application as App)

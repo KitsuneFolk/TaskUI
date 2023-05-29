@@ -25,6 +25,8 @@ import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.PreferenceHandler
 import com.pandacorp.taskui.presentation.utils.Utils
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -59,9 +61,7 @@ class MainActivity : AppCompatActivity() {
                         savedInstanceState: Bundle?
                     ) {
                         super.onFragmentViewCreated(fm, f, v, savedInstanceState)
-                        if (f is MainScreen) {
-                            mainScreen = f
-                        }
+                        if (f is MainScreen) mainScreen = f
                     }
 
                     /**
@@ -75,13 +75,13 @@ class MainActivity : AppCompatActivity() {
                             intent.apply {
                                 when (action) {
                                     Constants.Fragment.ADD_TASK -> {
-                                        /* android doesn't call onNewIntent if an activity is just created,
+                                        /* Android doesn't call onNewIntent if an activity is just created,
                                         so we have to call it manually */
                                         onNewIntent(this)
                                     }
 
                                     Intent.ACTION_SEND -> {
-                                        /* android doesn't call onNewIntent if an activity is just created,
+                                        /* Android doesn't call onNewIntent if an activity is just created,
                                          so we have to call it manually */
                                         onNewIntent(this)
                                     }
@@ -168,26 +168,23 @@ class MainActivity : AppCompatActivity() {
             when (action) {
                 Intent.ACTION_SEND -> {
                     val options = bundleOf(
-                        Pair(
-                            Constants.Fragment.Action,
-                            Constants.Fragment.ADD_TASK
-                        ),
-                        Pair(
-                            Constants.TaskItem.TITLE,
-                            getStringExtra(Intent.EXTRA_TEXT)
-                        )
+                        Pair(Constants.Fragment.Action, Constants.Fragment.ADD_TASK),
+                        Pair(Constants.TaskItem.TITLE, getStringExtra(Intent.EXTRA_TEXT))
                     )
-                    fragulaNavController.navigate(R.id.nav_add_task_screen, options)
+                    // The coroutine is needed to not encounter IllegalStateException: FragmentManager is already executing transactions
+                    CoroutineScope(Dispatchers.Main).launch {
+                        fragulaNavController.navigate(R.id.nav_add_task_screen, options)
+                    }
                 }
 
                 Constants.Fragment.ADD_TASK -> {
                     val options = bundleOf(
-                        Pair(
-                            Constants.Fragment.Action,
-                            Constants.Fragment.ADD_TASK
-                        )
+                        Pair(Constants.Fragment.Action, Constants.Fragment.ADD_TASK)
                     )
-                    fragulaNavController.navigate(R.id.nav_add_task_screen, options)
+                    // The coroutine is needed to not encounter IllegalStateException: FragmentManager is already executing transactions
+                    CoroutineScope(Dispatchers.Main).launch {
+                        fragulaNavController.navigate(R.id.nav_add_task_screen, options)
+                    }
                 }
             }
         }
