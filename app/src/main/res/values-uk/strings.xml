@@ -41,7 +41,7 @@
     <string name="cancel">Скасувати</string>
     <string name="successfully">Успiшно</string>
 
-    <string name="emptyRecyclerView">Порожньо. Додайте елемент за допомогою кнопки</string>
+    <string name="emptyRecyclerView">Порожньо. Додайте задачу за допомогою кнопки</string>
 
     <!--    Notification    -->
     <string name="snooze">Вiдкласти</string>

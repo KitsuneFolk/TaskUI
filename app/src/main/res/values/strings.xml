@@ -42,7 +42,7 @@
     <string name="cancel">Cancel</string>
     <string name="successfully">Successfully</string>
 
-    <string name="emptyRecyclerView">Empty. Add an item using the button</string>
+    <string name="emptyRecyclerView">Empty. Add a task using the button</string>
 
     <!--    Notification    -->
     <string name="snooze">Snooze</string>

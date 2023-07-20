@@ -41,7 +41,7 @@
     <string name="cancel">Отменить</string>
     <string name="successfully">Успешно</string>
 
-    <string name="emptyRecyclerView">Пусто. Добавьте элемент с помощью кнопки</string>
+    <string name="emptyRecyclerView">Пусто. Добавьте задачу с помощью кнопки</string>
 
     <!--    Notification    -->
     <string name="snooze">Отложить</string>
