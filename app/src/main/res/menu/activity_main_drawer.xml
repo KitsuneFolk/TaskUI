@@ -25,12 +25,6 @@
                 android:id="@+id/nav_settings_screen"
                 android:icon="@drawable/ic_settings_black_24dp"
                 android:title="@string/settings" />
-
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_share"
-                android:title="@string/menu_share" />
-
         </menu>
     </item>
 

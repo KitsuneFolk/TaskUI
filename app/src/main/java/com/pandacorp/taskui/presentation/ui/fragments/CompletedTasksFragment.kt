@@ -103,7 +103,7 @@ class CompletedTasksFragment : Fragment() {
             object : CustomItemTouchHelper.OnTouchListener {
                 override fun onSwipedStart(viewHolder: RecyclerView.ViewHolder, direction: Int, key: Constants.ITHKey) {
                     if (key == Constants.ITHKey.COMPLETED) {
-                        val position = viewHolder.adapterPosition
+                        val position = viewHolder.bindingAdapterPosition
                         val taskItem = vm.tasksList.value!![position]
                         vm.removeItem(taskItem)
                         WidgetProvider.update(requireContext())
@@ -123,7 +123,7 @@ class CompletedTasksFragment : Fragment() {
 
                 override fun onSwipedEnd(viewHolder: RecyclerView.ViewHolder, direction: Int, key: Constants.ITHKey) {
                     if (key == Constants.ITHKey.COMPLETED) {
-                        val position = viewHolder.adapterPosition
+                        val position = viewHolder.bindingAdapterPosition
                         val taskItem = vm.tasksList.value!![position]
                         vm.moveItemToMain(taskItem)
                     }

@@ -77,7 +77,7 @@ class DeletedTasksFragment : Fragment() {
             requireContext(), Constants.ITHKey.DELETED, object : CustomItemTouchHelper.OnTouchListener {
                 override fun onSwipedStart(viewHolder: RecyclerView.ViewHolder, direction: Int, key: Constants.ITHKey) {
                     if (key == Constants.ITHKey.DELETED) {
-                        val position = viewHolder.adapterPosition
+                        val position = viewHolder.bindingAdapterPosition
                         val taskItem = vm.tasksList.value!![position]
                         vm.removeItem(taskItem)
                         val snackBar = Snackbar.make(binding.fabsLayout, R.string.successfully, Snackbar.LENGTH_LONG)
@@ -94,7 +94,7 @@ class DeletedTasksFragment : Fragment() {
 
                 override fun onSwipedEnd(viewHolder: RecyclerView.ViewHolder, direction: Int, key: Constants.ITHKey) {
                     if (key == Constants.ITHKey.DELETED) {
-                        val position = viewHolder.adapterPosition
+                        val position = viewHolder.bindingAdapterPosition
                         val taskItem = vm.tasksList.value!![position]
                         vm.moveItemToMain(taskItem)
                     }

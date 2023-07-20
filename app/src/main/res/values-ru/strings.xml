@@ -5,20 +5,15 @@
     <string name="completed_tasks">Выполненные задачи</string>
     <string name="deleted_tasks">Удалённые задачи</string>
     <string name="settings">Настройки</string>
-    <string name="menu_share">Поделиться</string>
 
     <!-- Preference Titles -->
     <string name="appearance">Внешний вид</string>
     <string name="language">Язык</string>
     <string name="theme">Тема</string>
-    <string name="version">Версия %1%s</string>
-
+    <string name="version">Версия %1$s</string>
 
     <string name="settings_language_default_value">ru</string>
 
-    <!--  Share views  -->
-    <string name="shareThanks">Спасибо что поделились нашим приложением!</string>
-    <string name="shareText">Приложение TaskUI это ваш помощник с вашими заданиями, вы можете скачать его по этой ссылке. Спасибо! :) </string>
     <string name="another">Другое</string>
 
     <!--  show_layout  -->

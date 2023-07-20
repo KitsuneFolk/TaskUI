@@ -19,7 +19,6 @@ import com.fragula2.animation.SwipeController
 import com.fragula2.utils.findSwipeController
 import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.ActivityMainBinding
-import com.pandacorp.taskui.presentation.di.app.App
 import com.pandacorp.taskui.presentation.ui.screen.MainScreen
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.PreferenceHandler
@@ -32,8 +31,6 @@ import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
-    private val app by lazy { application as App }
-
     private lateinit var fragulaNavController: NavController
     private lateinit var swipeController: SwipeController
 
@@ -97,10 +94,9 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.navView.apply {
-            setCheckedItem(app.selectedNavigationItemId)
+            setCheckedItem(checkedItem?.itemId ?: R.id.nav_main_tasks)
             setNavigationItemSelectedListener {
                 // Uncheck selectedNavigationItemId in App and set the previous one
-                app.selectedNavigationItemId = it.itemId
                 lifecycleScope.launch {
                     delay(200) // add delay
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
@@ -112,22 +108,6 @@ class MainActivity : AppCompatActivity() {
 
                         R.id.nav_settings_screen -> {
                             fragulaNavController.navigate(R.id.nav_settings_screen)
-                            // Deselect selectedNavigationItemId in App and set the previous one
-                            app.selectedNavigationItemId =
-                                binding.navView.checkedItem?.itemId ?: R.id.nav_main_tasks
-
-                        }
-
-                        R.id.nav_share -> {
-                            val sendIntent = Intent().apply {
-                                action = Intent.ACTION_SEND
-                                putExtra(Intent.EXTRA_TEXT, resources.getString(R.string.shareText))
-                                type = "text/plain"
-                            }
-                            startActivity(Intent.createChooser(sendIntent, getString(R.string.menu_share)))
-                            // Deselect selectedNavigationItemId in App and set the previous one
-                            app.selectedNavigationItemId =
-                                binding.navView.checkedItem?.itemId ?: R.id.nav_main_tasks
                         }
                     }
                 }
@@ -193,9 +173,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen() // Handle the splash screen transition.
+        PreferenceHandler.setLanguage(this)
         super.onCreate(savedInstanceState)
         Utils.setupExceptionHandler()
-        PreferenceHandler.load(this)
+        PreferenceHandler.setTheme(this)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setSupportActionBar(binding.toolbar)
         setContentView(binding.root)

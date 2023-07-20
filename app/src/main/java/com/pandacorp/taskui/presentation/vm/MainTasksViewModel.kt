@@ -11,7 +11,6 @@ import com.pandacorp.taskui.domain.usecases.GetTasksUseCase
 import com.pandacorp.taskui.domain.usecases.RemoveTasksUseCase
 import com.pandacorp.taskui.domain.usecases.UpdateTaskUseCase
 import com.pandacorp.taskui.domain.usecases.UpdateTasksUseCase
-import com.pandacorp.taskui.presentation.ui.fragments.MainTasksFragment
 import com.pandacorp.taskui.presentation.utils.Constants
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -30,10 +29,6 @@ class MainTasksViewModel @Inject constructor(
     private val updateItemsUseCase: UpdateTasksUseCase
 ) :
     ViewModel() {
-    companion object {
-        private const val TAG = MainTasksFragment.TAG
-    }
-
     private val _tasksList = MutableLiveData<MutableList<TaskItem>>().apply {
         viewModelScope.launch {
             withContext(Dispatchers.IO) {

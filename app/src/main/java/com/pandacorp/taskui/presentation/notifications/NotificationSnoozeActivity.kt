@@ -18,7 +18,6 @@ import com.pandacorp.taskui.presentation.utils.getParcelableExtraSupport
 import java.util.Calendar
 import java.util.Locale
 
-
 class NotificationSnoozeActivity : AppCompatActivity() {
     private var _binding: DialogSnoozeBinding? = null
     private val binding get() = _binding!!

@@ -32,6 +32,10 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AddTaskScreen : Fragment() {
+    companion object {
+        private const val DATE_DIALOG_TAG = "DatePickerDialog"
+        private const val TIME_DIALOG_TAG= "TimePickerDialog"
+    }
     private var _binding: ScreenAddTaskBinding? = null
     private val binding get() = _binding!!
 
@@ -45,98 +49,6 @@ class AddTaskScreen : Fragment() {
     private var selectedTime: Calendar? = null
     private lateinit var timePickerDialog: MaterialTimePicker
     private lateinit var datePickerDialog: MaterialDatePicker<*>
-
-    private fun initViews(savedInstanceState: Bundle?) {
-        // Restore the selected values on device rotation
-        savedInstanceState?.apply {
-            val time = getLong(Constants.TaskItem.TIME, 0L)
-            if (time != 0L) {
-                selectedDateCalendar.timeInMillis = time
-                selectedTime!!.timeInMillis = time
-                binding.setTimeBtn.text = dateFormatter.format(selectedTime!!.time)
-            }
-            binding.setTaskEditText.setText(getString(Constants.TaskItem.TITLE, null))
-            binding.setPriorityRadioGroup.check(getInt(Constants.TaskItem.PRIORITY, 0))
-
-            // Close the opened dialogs due to callbacks lose after device rotation.
-            requireActivity().supportFragmentManager.apply {
-                val d1 = findFragmentByTag("DatePickerDialog")
-                val d2 = findFragmentByTag("TimePickerDialog")
-                if (d1 != null) beginTransaction().remove(d1).commit()
-                if (d2 != null) beginTransaction().remove(d2).commit()
-            }
-        }
-
-        binding.setTaskEditText.apply {
-            val swipeBackFragment = requireParentFragment() as SwipeBackFragment
-            setOnTouchListener { v, event ->
-                when (event.action) {
-                    MotionEvent.ACTION_DOWN -> swipeBackFragment.setScrollingEnabled(false)
-                    MotionEvent.ACTION_UP -> {
-                        v.performClick()
-                        swipeBackFragment.setScrollingEnabled(true)
-                    }
-
-                    MotionEvent.ACTION_CANCEL -> swipeBackFragment.setScrollingEnabled(true)
-                }
-                return@setOnTouchListener false
-            }
-        }
-
-        datePickerDialog = MaterialDatePicker.Builder.datePicker().build().apply {
-            addOnPositiveButtonClickListener { selectedDate ->
-                selectedDateCalendar.timeInMillis = selectedDate
-                timePickerDialog.show(requireActivity().supportFragmentManager, "TimePickerDialog")
-            }
-        }
-
-        timePickerDialog = MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H)
-            .setHour(Calendar.getInstance(Locale.getDefault())[Calendar.HOUR_OF_DAY])
-            .setMinute(Calendar.getInstance(Locale.getDefault())[Calendar.MINUTE]).build().apply {
-                addOnPositiveButtonClickListener {
-                    selectedDateCalendar[Calendar.HOUR_OF_DAY] = timePickerDialog.hour
-                    selectedDateCalendar[Calendar.MINUTE] = timePickerDialog.minute
-                    selectedDateCalendar[Calendar.SECOND] = 0
-
-                    selectedTime = Calendar.getInstance(Locale.getDefault())
-                    selectedTime!!.timeInMillis = selectedDateCalendar.timeInMillis
-
-                    binding.setTimeBtn.text = dateFormatter.format(selectedTime!!.time)
-                }
-            }
-        binding.OKBtn.setOnClickListener {
-            if (binding.setTaskEditText.text.isNotEmpty()) {
-                setTask()
-                WidgetProvider.update(requireActivity())
-            }
-        }
-        binding.setTimeBtn.setOnClickListener {
-            if (requireActivity().supportFragmentManager.findFragmentByTag("DatePickerDialog") != null)
-                return@setOnClickListener // avoid multi clicks if the dialog is already started
-            datePickerDialog.show(requireActivity().supportFragmentManager, "DatePickerDialog")
-        }
-    }
-
-    private fun setTask() {
-        val text = binding.setTaskEditText.text.toString()
-        val priority = when (binding.setPriorityRadioGroup.checkedRadioButtonId) {
-            R.id.nullRadioButton -> null
-            R.id.whiteRadioButton -> TaskItem.WHITE
-            R.id.yellowRadioButton -> TaskItem.YELLOW
-            R.id.redRadioButton -> TaskItem.RED
-            else -> throw IllegalStateException("Unexpected value: ${binding.setPriorityRadioGroup.checkedRadioButtonId}")
-        }
-        lifecycleScope.launch {
-            val taskItem = TaskItem(text = text, time = selectedTime?.timeInMillis, priority = priority)
-            taskItem.id = withContext(Dispatchers.IO) {
-                addTaskUseCase(taskItem)
-            }
-            if (taskItem.time != null) NotificationUtils.create(requireContext(), taskItem)
-            WidgetProvider.update(requireContext())
-            app.taskItem = taskItem
-            fragulaNavController.popBackStack()
-        }
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = ScreenAddTaskBinding.inflate(layoutInflater)
@@ -164,5 +76,97 @@ class AddTaskScreen : Fragment() {
     override fun onDestroy() {
         _binding = null
         super.onDestroy()
+    }
+
+    private fun initViews(savedInstanceState: Bundle?) {
+        // Restore the selected values on device rotation
+        savedInstanceState?.apply {
+            val time = getLong(Constants.TaskItem.TIME, 0L)
+            if (time != 0L) {
+                selectedDateCalendar.timeInMillis = time
+                selectedTime!!.timeInMillis = time
+                binding.setTimeBtn.text = dateFormatter.format(selectedTime!!.time)
+            }
+            binding.setTaskEditText.setText(getString(Constants.TaskItem.TITLE, null))
+            binding.setPriorityRadioGroup.check(getInt(Constants.TaskItem.PRIORITY, 0))
+
+            // Close the opened dialogs due to callbacks lose after device rotation.
+            requireActivity().supportFragmentManager.apply {
+                val d1 = findFragmentByTag(DATE_DIALOG_TAG)
+                val d2 = findFragmentByTag(TIME_DIALOG_TAG)
+                if (d1 != null) beginTransaction().remove(d1).commit()
+                if (d2 != null) beginTransaction().remove(d2).commit()
+            }
+        }
+
+        binding.setTaskEditText.apply {
+            val swipeBackFragment = requireParentFragment() as SwipeBackFragment
+            setOnTouchListener { v, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> swipeBackFragment.setScrollingEnabled(false)
+                    MotionEvent.ACTION_UP -> {
+                        v.performClick()
+                        swipeBackFragment.setScrollingEnabled(true)
+                    }
+
+                    MotionEvent.ACTION_CANCEL -> swipeBackFragment.setScrollingEnabled(true)
+                }
+                return@setOnTouchListener false
+            }
+        }
+
+        datePickerDialog = MaterialDatePicker.Builder.datePicker().build().apply {
+            addOnPositiveButtonClickListener { selectedDate ->
+                selectedDateCalendar.timeInMillis = selectedDate
+                timePickerDialog.show(requireActivity().supportFragmentManager, TIME_DIALOG_TAG)
+            }
+        }
+
+        timePickerDialog = MaterialTimePicker.Builder().setTimeFormat(TimeFormat.CLOCK_24H)
+            .setHour(Calendar.getInstance(Locale.getDefault())[Calendar.HOUR_OF_DAY])
+            .setMinute(Calendar.getInstance(Locale.getDefault())[Calendar.MINUTE]).build().apply {
+                addOnPositiveButtonClickListener {
+                    selectedDateCalendar[Calendar.HOUR_OF_DAY] = timePickerDialog.hour
+                    selectedDateCalendar[Calendar.MINUTE] = timePickerDialog.minute
+                    selectedDateCalendar[Calendar.SECOND] = 0
+
+                    selectedTime = Calendar.getInstance(Locale.getDefault())
+                    selectedTime!!.timeInMillis = selectedDateCalendar.timeInMillis
+
+                    binding.setTimeBtn.text = dateFormatter.format(selectedTime!!.time)
+                }
+            }
+        binding.OKBtn.setOnClickListener {
+            if (binding.setTaskEditText.text.isNotEmpty()) {
+                setTask()
+                WidgetProvider.update(requireActivity())
+            }
+        }
+        binding.setTimeBtn.setOnClickListener {
+            if (requireActivity().supportFragmentManager.findFragmentByTag(DATE_DIALOG_TAG) != null)
+                return@setOnClickListener // avoid multi clicks if the dialog is already started
+            datePickerDialog.show(requireActivity().supportFragmentManager, DATE_DIALOG_TAG)
+        }
+    }
+
+    private fun setTask() {
+        val text = binding.setTaskEditText.text.toString()
+        val priority = when (binding.setPriorityRadioGroup.checkedRadioButtonId) {
+            R.id.nullRadioButton -> null
+            R.id.whiteRadioButton -> TaskItem.WHITE
+            R.id.yellowRadioButton -> TaskItem.YELLOW
+            R.id.redRadioButton -> TaskItem.RED
+            else -> throw IllegalStateException("Unexpected value: ${binding.setPriorityRadioGroup.checkedRadioButtonId}")
+        }
+        lifecycleScope.launch {
+            val taskItem = TaskItem(text = text, time = selectedTime?.timeInMillis, priority = priority)
+            taskItem.id = withContext(Dispatchers.IO) {
+                addTaskUseCase(taskItem)
+            }
+            if (taskItem.time != null) NotificationUtils.create(requireContext(), taskItem)
+            WidgetProvider.update(requireContext())
+            app.taskItem = taskItem
+            fragulaNavController.popBackStack()
+        }
     }
 }

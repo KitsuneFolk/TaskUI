@@ -5,7 +5,6 @@
     <string name="completed_tasks">Виконанi задачi</string>
     <string name="deleted_tasks">Видаленi задачi</string>
     <string name="settings">Налаштування</string>
-    <string name="menu_share">Поширити</string>
 
     <!-- Preference Titles -->
     <string name="appearance">Зовнiшний вигляд</string>
@@ -15,9 +14,6 @@
 
     <string name="settings_language_default_value">uk</string>
 
-    <!--  Share views  -->
-    <string name="shareThanks">Дякую що поширили наш додаток!</string>
-    <string name="shareText">Додаток TaskUI це ваш помiчник iз вашими завданнями, ви можете завантажити його за цим посиланням. Дякую! :) </string>
     <string name="another">Iнше</string>
 
     <!--  show_layout  -->

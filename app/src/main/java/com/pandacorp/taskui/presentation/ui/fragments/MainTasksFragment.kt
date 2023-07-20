@@ -25,8 +25,8 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.databinding.FragmentMainTasksBinding
 import com.pandacorp.taskui.domain.models.TaskItem
 import com.pandacorp.taskui.presentation.notifications.NotificationUtils
-import com.pandacorp.taskui.presentation.ui.adapter.TasksAdapter
 import com.pandacorp.taskui.presentation.ui.activity.MainActivity
+import com.pandacorp.taskui.presentation.ui.adapter.TasksAdapter
 import com.pandacorp.taskui.presentation.utils.Constants
 import com.pandacorp.taskui.presentation.utils.CustomItemTouchHelper
 import com.pandacorp.taskui.presentation.utils.Utils
@@ -38,10 +38,6 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainTasksFragment : Fragment() {
-    companion object {
-        const val TAG = "MainTasksFragment"
-    }
-
     private var _binding: FragmentMainTasksBinding? = null
     private val binding get() = _binding!!
 
@@ -254,7 +250,7 @@ class MainTasksFragment : Fragment() {
                     key: Constants.ITHKey
                 ) {
                     if (key == Constants.ITHKey.MAIN) {
-                        val position = viewHolder.adapterPosition
+                        val position = viewHolder.bindingAdapterPosition
                         val taskItem = vm.tasksList.value!![position]
                         vm.removeItem(taskItem)
                         WidgetProvider.update(requireContext())

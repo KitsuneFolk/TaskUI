@@ -7,7 +7,6 @@
         <item name="materialButtonStyle">@style/MaterialButtonStyle</item>
         <item name="materialCalendarTheme">@style/MaterialCalendarTheme</item>
         <item name="materialTimePickerTheme">@style/MaterialTimePickerTheme</item>
-        <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
     </style>
 
     <style name="BlueTheme_Widget_MaterialAlertDialogStyle" parent="Widget_BaseTheme">

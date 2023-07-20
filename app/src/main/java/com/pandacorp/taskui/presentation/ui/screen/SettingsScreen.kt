@@ -31,6 +31,41 @@ class SettingsScreen : Fragment() {
         DialogListView(requireActivity(), Constants.PreferenceKeys.themesKey)
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        _binding = ScreenSettingsBinding.inflate(layoutInflater)
+        initViews()
+        return binding.root
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val dialogKey =
+            if (themeDialog.isShowing) Constants.PreferenceKeys.themesKey
+            else if (languageDialog.isShowing) Constants.PreferenceKeys.languagesKey
+            else null
+
+        outState.apply {
+            putString(Constants.PreferenceKeys.preferenceBundleKey, dialogKey)
+        }
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        val dialogKey = savedInstanceState?.getString(Constants.PreferenceKeys.preferenceBundleKey, null) ?: return
+        if (dialogKey == Constants.PreferenceKeys.themesKey) themeDialog.show()
+        else if (dialogKey == Constants.PreferenceKeys.languagesKey) languageDialog.show()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        supportActionBar?.setTitle(R.string.settings)
+    }
+
+    override fun onDestroy() {
+        _binding = null
+        super.onDestroy()
+    }
+
     private fun initViews() {
         // Retrieve the version from build.gradle and assign it to the TextView
         try {
@@ -96,41 +131,5 @@ class SettingsScreen : Fragment() {
         } else {
             ""
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        _binding = ScreenSettingsBinding.inflate(layoutInflater)
-        initViews()
-        return binding.root
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        val dialogKey =
-            if (themeDialog.isShowing) Constants.PreferenceKeys.themesKey
-            else if (languageDialog.isShowing) Constants.PreferenceKeys.languagesKey
-            else null
-
-        outState.apply {
-            putString(Constants.PreferenceKeys.preferenceBundleKey, dialogKey)
-        }
-    }
-
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        val dialogKey = savedInstanceState?.getString(Constants.PreferenceKeys.preferenceBundleKey, null) ?: return
-        if (dialogKey == Constants.PreferenceKeys.themesKey) themeDialog.show()
-        else if (dialogKey == Constants.PreferenceKeys.languagesKey) languageDialog.show()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        supportActionBar?.setTitle(R.string.settings)
-    }
-
-
-    override fun onDestroy() {
-        _binding = null
-        super.onDestroy()
     }
 }

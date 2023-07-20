@@ -13,8 +13,6 @@ import com.pandacorp.taskui.presentation.ui.activity.MainActivity
 import com.pandacorp.taskui.presentation.utils.Constants
 
 object NotificationUtils {
-    const val TAG = "Notifications"
-
     fun cancel(context: Context, taskItem: TaskItem) {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, NotificationBroadcast::class.java)

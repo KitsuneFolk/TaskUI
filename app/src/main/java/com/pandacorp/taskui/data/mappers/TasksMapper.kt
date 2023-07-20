@@ -22,5 +22,4 @@ class TasksMapper @Inject constructor() {
                 taskItem.priority,
                 taskItem.status)
     }
-
 }

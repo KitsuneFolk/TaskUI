@@ -20,9 +20,6 @@ import java.util.Locale
 
 class TasksAdapter(private val context: Context, val key: Int) :
     ListAdapter<TaskItem, ViewHolder>(TaskDiffCallback()) {
-    companion object {
-        const val TAG = "TasksAdapter"
-    }
 
     interface TaskAdapterListener {
         fun onCompleteButtonClicked(position: Int, taskItem: TaskItem)
@@ -71,13 +68,13 @@ class TasksAdapter(private val context: Context, val key: Int) :
                     when (key) {
                         TaskItem.MAIN -> {
                             NotificationUtils.cancel(context, taskItem)
-                            taskAdapterListener?.onCompleteButtonClicked(adapterPosition, taskItem)
+                            taskAdapterListener?.onCompleteButtonClicked(bindingAdapterPosition, taskItem)
                             WidgetProvider.update(context)
                         }
 
                         TaskItem.DELETED -> {
                             taskAdapterListener?.onCompleteButtonClicked(
-                                adapterPosition,
+                                bindingAdapterPosition,
                                 taskItem
                             )
                         }
