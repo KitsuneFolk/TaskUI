@@ -1,5 +1,6 @@
 package com.pandacorp.taskui.presentation.ui.activity
 
+import SplashScreen.Companion.installSplashScreen
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -7,7 +8,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.graphics.drawable.DrawerArrowDrawable
 import androidx.core.os.bundleOf
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
