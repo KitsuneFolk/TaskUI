@@ -34,7 +34,7 @@ import javax.inject.Inject
 class AddTaskScreen : Fragment() {
     companion object {
         private const val DATE_DIALOG_TAG = "DatePickerDialog"
-        private const val TIME_DIALOG_TAG= "TimePickerDialog"
+        private const val TIME_DIALOG_TAG = "TimePickerDialog"
     }
     private var _binding: ScreenAddTaskBinding? = null
     private val binding get() = _binding!!
@@ -143,8 +143,9 @@ class AddTaskScreen : Fragment() {
             }
         }
         binding.setTimeBtn.setOnClickListener {
-            if (requireActivity().supportFragmentManager.findFragmentByTag(DATE_DIALOG_TAG) != null)
+            if (requireActivity().supportFragmentManager.findFragmentByTag(DATE_DIALOG_TAG) != null) {
                 return@setOnClickListener // avoid multi clicks if the dialog is already started
+            }
             datePickerDialog.show(requireActivity().supportFragmentManager, DATE_DIALOG_TAG)
         }
     }

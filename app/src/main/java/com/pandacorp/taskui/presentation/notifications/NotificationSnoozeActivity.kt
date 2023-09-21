@@ -82,7 +82,9 @@ class NotificationSnoozeActivity : AppCompatActivity() {
             setOnClickListener {
                 val snoozedTime: Long = System.currentTimeMillis() + (8 * 60 * 60 * 1000)
                 NotificationUtils.snoozeNotification(
-                    this@NotificationSnoozeActivity, taskItem, snoozedTime
+                    this@NotificationSnoozeActivity,
+                    taskItem,
+                    snoozedTime,
                 )
                 finish()
             }
@@ -124,7 +126,7 @@ class NotificationSnoozeActivity : AppCompatActivity() {
                     NotificationUtils.snoozeNotification(
                         this@NotificationSnoozeActivity,
                         taskItem,
-                        selectedTime.timeInMillis
+                        selectedTime.timeInMillis,
                     )
                     finish()
                 }
@@ -135,5 +137,4 @@ class NotificationSnoozeActivity : AppCompatActivity() {
         _binding = null
         super.onDestroy()
     }
-
 }

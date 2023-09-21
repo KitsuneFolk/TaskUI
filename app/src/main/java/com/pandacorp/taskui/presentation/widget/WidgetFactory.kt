@@ -39,7 +39,6 @@ class WidgetFactory @Inject constructor(
     override fun getViewAt(position: Int): RemoteViews {
         val taskItem = tasksList[position]
         val itemView = RemoteViews(context.packageName, R.layout.widget_task_item).apply {
-
             // Reset values
             setViewVisibility(R.id.widgetTimeTv, View.GONE)
             setViewVisibility(R.id.widgetPriorityImageView, View.GONE)
@@ -70,7 +69,6 @@ class WidgetFactory @Inject constructor(
             setOnClickFillInIntent(R.id.widgetCompleteButton, fillInIntent)
 
             setThemeColors(this, sp.getBoolean(Constants.Widget.IS_DARK_THEME, false))
-
         }
 
         return itemView
@@ -107,12 +105,12 @@ class WidgetFactory @Inject constructor(
             setInt(
                 R.id.widgetCompleteButton,
                 "setBackgroundResource",
-                backgroundColor
+                backgroundColor,
             )
             setInt(
                 R.id.widgetCompleteButton,
                 "setColorFilter",
-                ContextCompat.getColor(context, accentColor)
+                ContextCompat.getColor(context, accentColor),
             )
         }
     }

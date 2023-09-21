@@ -89,7 +89,8 @@ class MainActivity : AppCompatActivity() {
                             }
                         }
                     }
-                }, false
+                },
+                false,
             )
         }
 
@@ -149,7 +150,7 @@ class MainActivity : AppCompatActivity() {
                 Intent.ACTION_SEND -> {
                     val options = bundleOf(
                         Pair(Constants.Fragment.Action, Constants.Fragment.ADD_TASK),
-                        Pair(Constants.TaskItem.TITLE, getStringExtra(Intent.EXTRA_TEXT))
+                        Pair(Constants.TaskItem.TITLE, getStringExtra(Intent.EXTRA_TEXT)),
                     )
                     // The coroutine is needed to not encounter IllegalStateException: FragmentManager is already executing transactions
                     CoroutineScope(Dispatchers.Main).launch {
@@ -159,7 +160,7 @@ class MainActivity : AppCompatActivity() {
 
                 Constants.Fragment.ADD_TASK -> {
                     val options = bundleOf(
-                        Pair(Constants.Fragment.Action, Constants.Fragment.ADD_TASK)
+                        Pair(Constants.Fragment.Action, Constants.Fragment.ADD_TASK),
                     )
                     // The coroutine is needed to not encounter IllegalStateException: FragmentManager is already executing transactions
                     CoroutineScope(Dispatchers.Main).launch {

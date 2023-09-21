@@ -54,8 +54,9 @@ class MainTasksFragment : Fragment() {
             val taskItem =
                 intent.getParcelableExtraSupport(Constants.IntentItem, TaskItem::class.java)!!
             vm.completeItemVmOnly(taskItem)
-            if (taskItem.time != null)
+            if (taskItem.time != null) {
                 NotificationUtils.cancel(requireContext(), taskItem)
+            }
         }
     }
 
@@ -63,7 +64,7 @@ class MainTasksFragment : Fragment() {
         _binding = FragmentMainTasksBinding.inflate(inflater, container, false)
         requireContext().registerReceiver(
             completeTaskReceiver,
-            IntentFilter(Constants.Widget.COMPLETE_TASK_ACTION)
+            IntentFilter(Constants.Widget.COMPLETE_TASK_ACTION),
         )
         initViews()
         return binding.root
@@ -91,16 +92,18 @@ class MainTasksFragment : Fragment() {
             override fun onCompleteButtonClicked(position: Int, taskItem: TaskItem) {
                 vm.completeItem(taskItem)
                 WidgetProvider.update(requireContext())
-                if (taskItem.time != null)
+                if (taskItem.time != null) {
                     NotificationUtils.cancel(requireContext(), taskItem)
+                }
                 val snackBar =
                     Snackbar.make(binding.fastTypeLayout, R.string.successfully, Snackbar.LENGTH_LONG)
                 snackBar.apply {
                     setAction(R.string.undo) {
                         taskItem.status = TaskItem.MAIN
                         vm.restoreItem(position, taskItem)
-                        if (taskItem.time != null)
+                        if (taskItem.time != null) {
                             NotificationUtils.create(requireContext(), taskItem)
+                        }
                         WidgetProvider.update(requireContext())
                     }
                     anchorView = binding.fastTypeLayout
@@ -139,7 +142,8 @@ class MainTasksFragment : Fragment() {
 
         binding.recyclerView.apply {
             val recyclerViewDivider = DividerItemDecoration(
-                requireContext(), DividerItemDecoration.VERTICAL
+                requireContext(),
+                DividerItemDecoration.VERTICAL,
             )
             addItemDecoration(recyclerViewDivider)
             setHasFixedSize(true)
@@ -254,8 +258,9 @@ class MainTasksFragment : Fragment() {
                         val taskItem = vm.tasksList.value!![position]
                         vm.removeItem(taskItem)
                         WidgetProvider.update(requireContext())
-                        if (taskItem.time != null)
+                        if (taskItem.time != null) {
                             NotificationUtils.cancel(requireContext(), taskItem)
+                        }
                         val snackBar =
                             Snackbar.make(binding.fastTypeLayout, R.string.successfully, Snackbar.LENGTH_LONG)
                         snackBar.apply {
@@ -271,9 +276,9 @@ class MainTasksFragment : Fragment() {
                 }
 
                 override fun onSwipedEnd(viewHolder: RecyclerView.ViewHolder, direction: Int, key: Constants.ITHKey) {}
-            }, ItemTouchHelper.START
+            },
+            ItemTouchHelper.START,
         )
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.recyclerView)
     }
-
 }

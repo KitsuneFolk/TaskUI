@@ -38,7 +38,6 @@ sealed class Constants {
         const val PRIORITY = "PRIORITY"
         const val TITLE = "TITLE"
         const val TIME = "TIME"
-
     }
 
     object Fragment {

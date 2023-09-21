@@ -13,7 +13,9 @@ import com.pandacorp.taskui.R
 import com.pandacorp.taskui.presentation.utils.Constants
 
 class SettingsAdapter(
-    context: Context, languagesList: MutableList<SettingsItem>, private val preferenceKey: String
+    context: Context,
+    languagesList: MutableList<SettingsItem>,
+    private val preferenceKey: String
 ) : ArrayAdapter<SettingsItem>(context, 0, languagesList) {
     private var onListItemClickListener: OnListItemClickListener? = null
 
@@ -48,4 +50,3 @@ class SettingsAdapter(
         fun onClick(settingsItem: SettingsItem)
     }
 }
-    

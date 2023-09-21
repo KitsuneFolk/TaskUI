@@ -63,11 +63,11 @@ class WidgetSettingsActivity : Activity() {
                     edit.apply {
                         putBoolean(
                             Constants.Widget.IS_FAB_VISIBLE,
-                            showAddButtonSwitch.isChecked
+                            showAddButtonSwitch.isChecked,
                         )
                         putBoolean(
                             Constants.Widget.IS_DARK_THEME,
-                            showDarkThemeSwitch.isChecked
+                            showDarkThemeSwitch.isChecked,
                         )
                         commit()
                     }

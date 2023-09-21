@@ -41,7 +41,9 @@ class WidgetProvider : AppWidgetProvider() {
     lateinit var repository: TasksRepositoryImpl
 
     override fun onUpdate(
-        context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetIds: IntArray
     ) {
         super.onUpdate(context, appWidgetManager, appWidgetIds)
         for (appWidgetId in appWidgetIds) {
@@ -62,7 +64,7 @@ class WidgetProvider : AppWidgetProvider() {
                         getStringExtra(Constants.TaskItem.TITLE)!!,
                         if (time == Long.MIN_VALUE) null else time,
                         if (priority == Int.MIN_VALUE) null else priority,
-                        TaskItem.COMPLETED
+                        TaskItem.COMPLETED,
                     )
                     CoroutineScope(Dispatchers.IO).launch {
                         repository.update(taskItem)
@@ -72,9 +74,10 @@ class WidgetProvider : AppWidgetProvider() {
                                 widgetManager.getAppWidgetIds(
                                     ComponentName(
                                         context.applicationContext.packageName,
-                                        WidgetProvider::class.java.name
-                                    )
-                                ), R.id.widget_listView
+                                        WidgetProvider::class.java.name,
+                                    ),
+                                ),
+                                R.id.widget_listView,
                             )
                         }
                     }
@@ -100,7 +103,7 @@ class WidgetProvider : AppWidgetProvider() {
                 val cn = ComponentName(context, WidgetProvider::class.java)
                 widgetManager.notifyAppWidgetViewDataChanged(
                     widgetManager.getAppWidgetIds(cn),
-                    R.id.widget_listView
+                    R.id.widget_listView,
                 )
                 val appWidgetIds = widgetManager.getAppWidgetIds(cn)
                 val widgetViews = RemoteViews(context.packageName, R.layout.widget)
@@ -112,7 +115,9 @@ class WidgetProvider : AppWidgetProvider() {
     }
 
     private fun updateWidget(
-        context: Context, appWidgetManager: AppWidgetManager, appWidgetId: Int
+        context: Context,
+        appWidgetManager: AppWidgetManager,
+        appWidgetId: Int
     ) {
         val widgetViews = RemoteViews(context.packageName, R.layout.widget)
 
@@ -129,12 +134,15 @@ class WidgetProvider : AppWidgetProvider() {
             context,
             0,
             completeTaskIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_UPDATE_CURRENT,
         )
         // Open MainActivity on widget_textview click .
         val openMainActivityIntent = Intent(context, MainActivity::class.java)
         val openMainActivityPendingIntent = PendingIntent.getActivity(
-            context, 1, openMainActivityIntent, PendingIntent.FLAG_IMMUTABLE
+            context,
+            1,
+            openMainActivityIntent,
+            PendingIntent.FLAG_IMMUTABLE,
         )
 
         // Open WidgetSettingsActivity on widget_settings_button click.
@@ -143,7 +151,10 @@ class WidgetProvider : AppWidgetProvider() {
             addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         val openSettingsActivityPendingIntent = PendingIntent.getActivity(
-            context, 2, openSettingsActivityIntent, PendingIntent.FLAG_IMMUTABLE
+            context,
+            2,
+            openSettingsActivityIntent,
+            PendingIntent.FLAG_IMMUTABLE,
         )
         // Open SetTaskActivity on widget_add_fab click
         val openSetTaskActivityIntent = Intent(context, WidgetProvider::class.java).apply {
@@ -155,11 +166,10 @@ class WidgetProvider : AppWidgetProvider() {
             context,
             3,
             openSetTaskActivityIntent,
-            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_MUTABLE or PendingIntent.FLAG_UPDATE_CURRENT,
         )
 
         widgetViews.apply {
-
             setRemoteAdapter(R.id.widget_listView, adapterIntent)
             setPendingIntentTemplate(R.id.widget_listView, completeTaskPendingIntent)
             setOnClickPendingIntent(R.id.widgetCompleteButton, completeTaskPendingIntent)
@@ -208,8 +218,11 @@ class WidgetProvider : AppWidgetProvider() {
             setInt(R.id.widgetAddButton, "setBackgroundResource", addButtonDrawableResId)
 
             val fabVisibility =
-                if (sp.getBoolean(Constants.Widget.IS_FAB_VISIBLE, true)) View.VISIBLE
-                else View.GONE
+                if (sp.getBoolean(Constants.Widget.IS_FAB_VISIBLE, true)) {
+                    View.VISIBLE
+                } else {
+                    View.GONE
+                }
             setViewVisibility(R.id.widgetAddButton, fabVisibility)
         }
     }

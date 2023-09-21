@@ -95,7 +95,6 @@ class MainTasksViewModel @Inject constructor(
         }
     }
 
-
     fun completeItem(taskItem: TaskItem) {
         taskItem.status = TaskItem.COMPLETED
         _tasksList.value?.apply {

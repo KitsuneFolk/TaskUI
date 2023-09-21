@@ -61,7 +61,7 @@ class DeletedTasksFragment : Fragment() {
             }
             recyclerView.apply {
                 addItemDecoration(
-                    DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL)
+                    DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL),
                 )
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context)
@@ -74,7 +74,9 @@ class DeletedTasksFragment : Fragment() {
 
     private fun enableSwipe() {
         val itemTouchHelperCallback = CustomItemTouchHelper(
-            requireContext(), Constants.ITHKey.DELETED, object : CustomItemTouchHelper.OnTouchListener {
+            requireContext(),
+            Constants.ITHKey.DELETED,
+            object : CustomItemTouchHelper.OnTouchListener {
                 override fun onSwipedStart(viewHolder: RecyclerView.ViewHolder, direction: Int, key: Constants.ITHKey) {
                     if (key == Constants.ITHKey.DELETED) {
                         val position = viewHolder.bindingAdapterPosition
@@ -99,7 +101,8 @@ class DeletedTasksFragment : Fragment() {
                         vm.moveItemToMain(taskItem)
                     }
                 }
-            }, ItemTouchHelper.START or ItemTouchHelper.END
+            },
+            ItemTouchHelper.START or ItemTouchHelper.END,
         )
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.recyclerView)
     }

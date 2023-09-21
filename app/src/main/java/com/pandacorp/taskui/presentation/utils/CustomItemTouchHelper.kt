@@ -54,9 +54,13 @@ class CustomItemTouchHelper(
     }
 
     override fun onChildDraw(
-        c: Canvas, recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
-        actionState: Int, isCurrentlyActive: Boolean
+        c: Canvas,
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        dX: Float,
+        dY: Float,
+        actionState: Int,
+        isCurrentlyActive: Boolean
     ) {
         val foregroundView = getForegroundView(viewHolder)
 
@@ -64,8 +68,13 @@ class CustomItemTouchHelper(
         setCorners(dX, isCurrentlyActive, foregroundView)
 
         getDefaultUIUtil().onDraw(
-            c, recyclerView, foregroundView, dX, dY,
-            actionState, isCurrentlyActive
+            c,
+            recyclerView,
+            foregroundView,
+            dX,
+            dY,
+            actionState,
+            isCurrentlyActive,
         )
     }
 
@@ -77,15 +86,24 @@ class CustomItemTouchHelper(
     }
 
     override fun onChildDrawOver(
-        c: Canvas, recyclerView: RecyclerView,
-        viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float,
-        actionState: Int, isCurrentlyActive: Boolean
+        c: Canvas,
+        recyclerView: RecyclerView,
+        viewHolder: RecyclerView.ViewHolder,
+        dX: Float,
+        dY: Float,
+        actionState: Int,
+        isCurrentlyActive: Boolean
     ) {
         val foregroundView = getForegroundView(viewHolder)
 
         getDefaultUIUtil().onDraw(
-            c, recyclerView, foregroundView, dX, dY,
-            actionState, isCurrentlyActive
+            c,
+            recyclerView,
+            foregroundView,
+            dX,
+            dY,
+            actionState,
+            isCurrentlyActive,
         )
     }
 
@@ -124,11 +142,11 @@ class CustomItemTouchHelper(
                             CORNERS_RADIUS,
                             CORNERS_RADIUS,
                             0f,
-                            0f
+                            0f,
                         ),
                         null,
-                        null
-                    )
+                        null,
+                    ),
                 )
                 shapeDrawable.paint.color = backgroundColor
                 foregroundView.background = shapeDrawable
@@ -139,7 +157,7 @@ class CustomItemTouchHelper(
                         shapeDrawable.shape = RoundRectShape(
                             floatArrayOf(0f, 0f, value, value, value, value, 0f, 0f),
                             null,
-                            null
+                            null,
                         )
                         shapeDrawable.paint.color = backgroundColor
                         foregroundView.background = shapeDrawable
@@ -163,11 +181,11 @@ class CustomItemTouchHelper(
                             0f,
                             0f,
                             CORNERS_RADIUS,
-                            CORNERS_RADIUS
+                            CORNERS_RADIUS,
                         ),
                         null,
-                        null
-                    )
+                        null,
+                    ),
                 )
                 shapeDrawable.paint.color = backgroundColor
                 foregroundView.background = shapeDrawable
@@ -178,7 +196,7 @@ class CustomItemTouchHelper(
                         shapeDrawable.shape = RoundRectShape(
                             floatArrayOf(value, value, 0f, 0f, 0f, 0f, value, value),
                             null,
-                            null
+                            null,
                         )
                         shapeDrawable.paint.color = backgroundColor
                         foregroundView.background = shapeDrawable
@@ -199,11 +217,11 @@ class CustomItemTouchHelper(
                             CORNERS_RADIUS,
                             CORNERS_RADIUS,
                             0f,
-                            0f
+                            0f,
                         ),
                         null,
-                        null
-                    )
+                        null,
+                    ),
                 )
                 shapeDrawable.paint.color = backgroundColor
                 foregroundView.background = shapeDrawable
@@ -221,14 +239,13 @@ class CustomItemTouchHelper(
                         shapeDrawable.shape = RoundRectShape(
                             values,
                             null,
-                            null
+                            null,
                         )
                         foregroundView.background = shapeDrawable
                     }
                 }.start()
             }
         }
-
     }
 
     private fun getForegroundView(viewHolder: RecyclerView.ViewHolder) = when (viewHolder) {
@@ -248,7 +265,8 @@ class CustomItemTouchHelper(
             } else if (dX > 0) {
                 viewHolder.binding.includeBackground.endItemBackground.visibility = View.GONE
                 viewHolder.binding.includeBackground.startItemBackground.visibility = View.VISIBLE
-            } else { /* skip */
+            } else {
+                /* skip */
             }
 
         is TasksAdapter.CompletedTaskViewHolder ->
@@ -258,7 +276,8 @@ class CustomItemTouchHelper(
             } else if (dX > 0) {
                 viewHolder.binding.includeBackground.endItemBackground.visibility = View.GONE
                 viewHolder.binding.includeBackground.startItemBackground.visibility = View.VISIBLE
-            } else { /* skip */
+            } else {
+                /* skip */
             }
 
         else -> throw IllegalArgumentException("Invalid viewHolder: $viewHolder")

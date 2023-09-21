@@ -17,8 +17,11 @@ object NotificationUtils {
         val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val intent = Intent(context, NotificationBroadcast::class.java)
         val pendingIntent = PendingIntent.getBroadcast(
-            context, taskItem.id.toInt(), intent, PendingIntent
-                .FLAG_IMMUTABLE
+            context,
+            taskItem.id.toInt(),
+            intent,
+            PendingIntent
+                .FLAG_IMMUTABLE,
         )
         alarmManager.cancel(pendingIntent)
     }
@@ -34,12 +37,18 @@ object NotificationUtils {
         val notificationPendingIntent =
             PendingIntent.getBroadcast(context, taskItem.id.toInt(), createIntent, PendingIntent.FLAG_IMMUTABLE)
         val mainActivityPendingIntent = PendingIntent.getActivity(
-            context, taskItem.id.toInt(), Intent(context, MainActivity::class.java), PendingIntent
-                .FLAG_IMMUTABLE
+            context,
+            taskItem.id.toInt(),
+            Intent(context, MainActivity::class.java),
+            PendingIntent
+                .FLAG_IMMUTABLE,
         )
         val clockInfo =
-            if (snoozedTime == -1L) AlarmManager.AlarmClockInfo(taskItem.time!!, mainActivityPendingIntent)
-            else AlarmManager.AlarmClockInfo(snoozedTime, mainActivityPendingIntent)
+            if (snoozedTime == -1L) {
+                AlarmManager.AlarmClockInfo(taskItem.time!!, mainActivityPendingIntent)
+            } else {
+                AlarmManager.AlarmClockInfo(snoozedTime, mainActivityPendingIntent)
+            }
 
         alarmManager.setAlarmClock(clockInfo, notificationPendingIntent)
     }
@@ -48,8 +57,9 @@ object NotificationUtils {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val importance = NotificationManager.IMPORTANCE_HIGH
             val channel = NotificationChannel(
-                Constants.Notification.CHANNEL_KEY, "Tasks Notification Channel",
-                importance
+                Constants.Notification.CHANNEL_KEY,
+                "Tasks Notification Channel",
+                importance,
             ).apply {
                 description = "Notification for Tasks"
             }
@@ -70,8 +80,11 @@ object NotificationUtils {
         taskItemList.forEach {
             val intent = Intent(context, NotificationBroadcast::class.java)
             val pendingIntent = PendingIntent.getBroadcast(
-                context, it.id.toInt(), intent, PendingIntent
-                    .FLAG_IMMUTABLE
+                context,
+                it.id.toInt(),
+                intent,
+                PendingIntent
+                    .FLAG_IMMUTABLE,
             )
             alarmManager.cancel(pendingIntent)
         }

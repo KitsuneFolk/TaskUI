@@ -56,7 +56,6 @@ class NotificationBroadcast : BroadcastReceiver() {
                 context.sendBroadcast(completeTaskIntent)
                 WidgetProvider.update(context)
             }
-
         }
     }
 
@@ -66,7 +65,10 @@ class NotificationBroadcast : BroadcastReceiver() {
             flags = Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
         val tapPendingIntent: PendingIntent = PendingIntent.getActivity(
-            context, 0, tapResultIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            context,
+            0,
+            tapResultIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
 
         val priority = when (taskItem.priority) {
@@ -82,7 +84,10 @@ class NotificationBroadcast : BroadcastReceiver() {
             action = Constants.Notification.ACTION_COMPLETE
         }
         val completePendingIntent: PendingIntent = PendingIntent.getBroadcast(
-            context, 0, completeIntent, PendingIntent.FLAG_UPDATE_CURRENT
+            context,
+            0,
+            completeIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT,
         )
 
         val snoozeIntent = Intent(context, NotificationSnoozeActivity::class.java).apply {
@@ -90,7 +95,10 @@ class NotificationBroadcast : BroadcastReceiver() {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         val snoozePendingIntent = PendingIntent.getActivity(
-            context, 1, snoozeIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            context,
+            1,
+            snoozeIntent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
         )
 
         val notification = NotificationCompat.Builder(context, Constants.Notification.CHANNEL_KEY)
@@ -100,11 +108,14 @@ class NotificationBroadcast : BroadcastReceiver() {
             .setPriority(priority)
             .setContentIntent(tapPendingIntent)
             .addAction(
-                0, context.resources.getString(R.string.complete), completePendingIntent
+                0,
+                context.resources.getString(R.string.complete),
+                completePendingIntent,
             )
             .addAction(
-                0, context.resources.getString(R.string.snooze),
-                snoozePendingIntent
+                0,
+                context.resources.getString(R.string.snooze),
+                snoozePendingIntent,
             )
             .build()
 
@@ -116,7 +127,7 @@ class NotificationBroadcast : BroadcastReceiver() {
                 ActivityCompat.requestPermissions(
                     context as Activity,
                     arrayOf(android.Manifest.permission.POST_NOTIFICATIONS),
-                    PERMISSION_REQUEST_CODE
+                    PERMISSION_REQUEST_CODE,
                 )
             }
         } else {

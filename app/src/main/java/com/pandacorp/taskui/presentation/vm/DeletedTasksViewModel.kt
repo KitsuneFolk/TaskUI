@@ -47,7 +47,6 @@ class DeletedTasksViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             removeItemUseCase(taskItem)
         }
-
     }
 
     fun removeAllForever() {
@@ -72,7 +71,6 @@ class DeletedTasksViewModel @Inject constructor(
         CoroutineScope(Dispatchers.IO).launch {
             updateItemUseCase(taskItem)
         }
-
     }
 
     fun moveItemToMain(taskItem: TaskItem) {

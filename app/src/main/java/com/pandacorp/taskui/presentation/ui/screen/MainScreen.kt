@@ -26,7 +26,6 @@ class MainScreen : Fragment(R.layout.screen_main) {
         setTitle()
     }
 
-
     private fun setTitle() {
         val stringId = when (navController.currentDestination?.id) {
             R.id.nav_main_tasks -> R.string.main_tasks

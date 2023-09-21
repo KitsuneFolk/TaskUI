@@ -6,7 +6,7 @@ import com.pandacorp.taskui.R
 
 class Utils {
     companion object {
-        //This function is needed for coroutines logs work on Xiaomi devices.
+        // This function is needed for coroutines logs work on Xiaomi devices.
         fun setupExceptionHandler() {
             Thread.setDefaultUncaughtExceptionHandler { _, throwable ->
                 throw (throwable)

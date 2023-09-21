@@ -25,8 +25,13 @@ val Fragment.app get() = (requireActivity().application as App)
  * @return The Parcelable extra with the specified name and class, or null if it does not exist.
  */
 inline fun <reified T : Parcelable> Intent.getParcelableExtraSupport(name: String, clazz: Class<T>): T? {
-    val extra = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) getParcelableExtra(name, clazz)
-    else @Suppress("DEPRECATION") getParcelableExtra(name) as? T
+    val extra = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getParcelableExtra(name, clazz)
+    } else {
+        @Suppress("DEPRECATION")
+        getParcelableExtra(name)
+            as? T
+    }
     if (extra is T) return extra
     return null
 }
@@ -44,5 +49,6 @@ fun PackageManager.getPackageInfoCompat(packageName: String, flags: Int = 0): Pa
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(flags.toLong()))
     } else {
-        @Suppress("DEPRECATION") getPackageInfo(packageName, flags)
+        @Suppress("DEPRECATION")
+        getPackageInfo(packageName, flags)
     }

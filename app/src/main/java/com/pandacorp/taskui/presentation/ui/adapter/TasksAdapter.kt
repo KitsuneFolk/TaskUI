@@ -75,7 +75,7 @@ class TasksAdapter(private val context: Context, val key: Int) :
                         TaskItem.DELETED -> {
                             taskAdapterListener?.onCompleteButtonClicked(
                                 bindingAdapterPosition,
-                                taskItem
+                                taskItem,
                             )
                         }
                     }
@@ -102,7 +102,6 @@ class TasksAdapter(private val context: Context, val key: Int) :
                     null -> priorityCardView.visibility = View.GONE
                 }
             }
-
         }
     }
 
@@ -113,8 +112,8 @@ class TasksAdapter(private val context: Context, val key: Int) :
                     binding = MainTaskItemBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
-                        false
-                    )
+                        false,
+                    ),
                 )
             }
 
@@ -123,8 +122,8 @@ class TasksAdapter(private val context: Context, val key: Int) :
                     binding = CompletedTaskItemBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
-                        false
-                    )
+                        false,
+                    ),
                 )
             }
 
@@ -133,14 +132,13 @@ class TasksAdapter(private val context: Context, val key: Int) :
                     binding = MainTaskItemBinding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
-                        false
-                    )
+                        false,
+                    ),
                 )
             }
 
             else -> throw IllegalArgumentException("Invalid key: $key")
         }
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -162,5 +160,4 @@ class TasksAdapter(private val context: Context, val key: Int) :
     override fun submitList(list: MutableList<TaskItem>?) {
         super.submitList(list?.let { ArrayList(it) })
     }
-
 }

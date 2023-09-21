@@ -7,7 +7,6 @@ import androidx.core.os.LocaleListCompat
 import androidx.preference.PreferenceManager
 import com.pandacorp.taskui.R
 
-
 object PreferenceHandler {
     private const val themeFollowSystem = "follow_system"
     private const val themeBlue = "blue"
@@ -27,8 +26,11 @@ object PreferenceHandler {
     ) {
         when (theme) {
             themeFollowSystem -> {
-                if (isDeviceDarkMode(context)) context.setTheme(R.style.DarkTheme)
-                else context.setTheme(R.style.BlueTheme)
+                if (isDeviceDarkMode(context)) {
+                    context.setTheme(R.style.DarkTheme)
+                } else {
+                    context.setTheme(R.style.BlueTheme)
+                }
             }
             themeBlue -> context.setTheme(R.style.BlueTheme)
             themeDark -> context.setTheme(R.style.DarkTheme)
@@ -42,7 +44,7 @@ object PreferenceHandler {
         language: String = PreferenceManager.getDefaultSharedPreferences(context)
             .getString(
                 Constants.PreferenceKeys.languagesKey,
-                context.resources.getString(R.string.settings_language_default_value)
+                context.resources.getString(R.string.settings_language_default_value),
             )!!
     ) {
         AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(language))

@@ -40,9 +40,13 @@ class SettingsScreen : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         val dialogKey =
-            if (themeDialog.isShowing) Constants.PreferenceKeys.themesKey
-            else if (languageDialog.isShowing) Constants.PreferenceKeys.languagesKey
-            else null
+            if (themeDialog.isShowing) {
+                Constants.PreferenceKeys.themesKey
+            } else if (languageDialog.isShowing) {
+                Constants.PreferenceKeys.languagesKey
+            } else {
+                null
+            }
 
         outState.apply {
             putString(Constants.PreferenceKeys.preferenceBundleKey, dialogKey)
@@ -52,8 +56,9 @@ class SettingsScreen : Fragment() {
     override fun onViewStateRestored(savedInstanceState: Bundle?) {
         super.onViewStateRestored(savedInstanceState)
         val dialogKey = savedInstanceState?.getString(Constants.PreferenceKeys.preferenceBundleKey, null) ?: return
-        if (dialogKey == Constants.PreferenceKeys.themesKey) themeDialog.show()
-        else if (dialogKey == Constants.PreferenceKeys.languagesKey) languageDialog.show()
+        if (dialogKey == Constants.PreferenceKeys.themesKey) {
+            themeDialog.show()
+        } else if (dialogKey == Constants.PreferenceKeys.languagesKey) languageDialog.show()
     }
 
     override fun onResume() {
@@ -79,31 +84,35 @@ class SettingsScreen : Fragment() {
         }
         binding.themeLayout.apply {
             setOnClickListener {
-                if (parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.themesKey) != null
-                    || parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.languagesKey) != null
-                ) return@setOnClickListener
+                if (parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.themesKey) != null ||
+                    parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.languagesKey) != null
+                ) {
+                    return@setOnClickListener
+                }
                 themeDialog.show()
             }
         }
         binding.languageLayout.apply {
             setOnClickListener {
-                if (parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.themesKey) != null
-                    || parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.languagesKey) != null
-                ) return@setOnClickListener
+                if (parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.themesKey) != null ||
+                    parentFragmentManager.findFragmentByTag(Constants.PreferenceKeys.languagesKey) != null
+                ) {
+                    return@setOnClickListener
+                }
                 languageDialog.show()
             }
         }
         binding.themeTextView.apply {
             val themeKey = sp.getString(
                 Constants.PreferenceKeys.themesKey,
-                requireContext().resources.getString(R.string.settings_theme_default_value)
+                requireContext().resources.getString(R.string.settings_theme_default_value),
             )!!
             text = getThemeFromKey(themeKey)
         }
         binding.languageTextView.apply {
             val languageKey = sp.getString(
                 Constants.PreferenceKeys.languagesKey,
-                requireContext().resources.getString(R.string.settings_language_default_value)
+                requireContext().resources.getString(R.string.settings_language_default_value),
             )!!
             text = getLanguageFromKey(languageKey)
         }

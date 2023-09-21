@@ -85,7 +85,8 @@ class CompletedTasksFragment : Fragment() {
         }
         binding.recyclerView.apply {
             val recyclerViewDivider = DividerItemDecoration(
-                requireContext(), DividerItemDecoration.VERTICAL
+                requireContext(),
+                DividerItemDecoration.VERTICAL,
             )
             addItemDecoration(recyclerViewDivider)
             setHasFixedSize(true)
@@ -128,7 +129,8 @@ class CompletedTasksFragment : Fragment() {
                         vm.moveItemToMain(taskItem)
                     }
                 }
-            }, ItemTouchHelper.START or ItemTouchHelper.END
+            },
+            ItemTouchHelper.START or ItemTouchHelper.END,
         )
         ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(binding.recyclerView)
     }

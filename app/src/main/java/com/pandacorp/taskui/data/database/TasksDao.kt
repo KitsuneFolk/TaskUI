@@ -7,7 +7,7 @@ import com.pandacorp.taskui.data.models.TaskDataItem
 interface TasksDao {
     @Query("SELECT * FROM taskDataItem ORDER BY id DESC")
     fun getAll(): MutableList<TaskDataItem>
-    
+
     @Insert
     fun insert(item: TaskDataItem): Long
 
@@ -22,11 +22,10 @@ interface TasksDao {
 
     @Query("DELETE FROM taskDataItem")
     fun removeAll()
-    
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun update(item: TaskDataItem)
-    
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     fun updateList(list: List<TaskDataItem>)
 }
-    

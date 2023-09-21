@@ -5,10 +5,10 @@ import androidx.room.RoomDatabase
 import com.pandacorp.taskui.data.models.TaskDataItem
 
 @Database(
-        entities = [TaskDataItem::class],
-        version = 1,
-        exportSchema = false)
+    entities = [TaskDataItem::class],
+    version = 1,
+    exportSchema = false,
+)
 abstract class Database : RoomDatabase() {
     abstract fun tasksDao(): TasksDao
-    
 }
