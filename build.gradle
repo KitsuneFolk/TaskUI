@@ -1,7 +1,5 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
-
 buildscript {
-    ext.sdk = 33
     ext.daggerVersion = '2.47'
 
     repositories {
@@ -9,14 +7,18 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.0.2'
+        classpath 'com.android.tools.build:gradle:8.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.10"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$daggerVersion"
     }
 }
 
+plugins {
+    id 'com.google.devtools.ksp' version '1.8.10-1.0.9' apply false
+}
+
 allprojects {
-    tasks.whenTaskAdded { task ->
+    tasks.configureEach { task ->
         if (task.name.toLowerCase().contains("lint")) {
             task.enabled = false
         }
@@ -27,6 +29,6 @@ allprojects {
     }
 }
 
-task clean(type: Delete) {
+tasks.register('clean', Delete) {
     delete rootProject.buildDir
 }
