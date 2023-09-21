@@ -25,10 +25,18 @@ class SettingsScreen : Fragment() {
     }
 
     private val languageDialog by lazy {
-        DialogListView(requireActivity(), Constants.PreferenceKeys.languagesKey)
+        DialogListView(requireActivity(), Constants.PreferenceKeys.languagesKey).apply {
+            onValueAppliedListener = {
+                requireActivity().recreate()
+            }
+        }
     }
     private val themeDialog by lazy {
-        DialogListView(requireActivity(), Constants.PreferenceKeys.themesKey)
+        DialogListView(requireActivity(), Constants.PreferenceKeys.themesKey).apply {
+            onValueAppliedListener = {
+                requireActivity().recreate()
+            }
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {

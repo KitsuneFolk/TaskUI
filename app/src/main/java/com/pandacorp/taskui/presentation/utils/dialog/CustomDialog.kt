@@ -10,10 +10,12 @@ import android.view.WindowManager
 import androidx.annotation.CallSuper
 import androidx.preference.PreferenceManager
 
-abstract class CustomDialog(private val context: Context) : Dialog(context) {
+abstract class CustomDialog(context: Context) : Dialog(context) {
     protected val sp: SharedPreferences by lazy {
         PreferenceManager.getDefaultSharedPreferences(context)
     }
+
+    var onValueAppliedListener: (value: String) -> Unit = {}
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {

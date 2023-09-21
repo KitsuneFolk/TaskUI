@@ -13,6 +13,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -62,9 +63,11 @@ class MainTasksFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         _binding = FragmentMainTasksBinding.inflate(inflater, container, false)
-        requireContext().registerReceiver(
+        ContextCompat.registerReceiver(
+            requireContext(),
             completeTaskReceiver,
             IntentFilter(Constants.Widget.COMPLETE_TASK_ACTION),
+            ContextCompat.RECEIVER_NOT_EXPORTED,
         )
         initViews()
         return binding.root
